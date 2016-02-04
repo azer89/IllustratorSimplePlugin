@@ -1,10 +1,16 @@
 
+/**
+ * Reza Adhitya Saputra
+ * radhitya@uwaterloo.ca
+ */
+
 #include "IllustratorSDK.h"
 
 // Xcode
 #if defined(__GNUC__)
 #pragma GCC visibility push(default)
 #endif
+
 
 // Plug-in entry point
 extern "C" ASAPI ASErr PluginMain(char* caller, char* selector, void* message);
@@ -14,9 +20,10 @@ extern "C" ASAPI ASErr PluginMain(char* caller, char* selector, void* message);
 #pragma GCC visibility pop
 #endif
 
+
 extern "C"
 {
-	AIUnicodeStringSuite* mysAIUnicodeString = NULL; // error
+	AIUnicodeStringSuite* sAIUnicodeString = NULL; // error
 	SPBlocksSuite* sSPBlocks = NULL;
 }
 
@@ -30,7 +37,7 @@ extern "C" ASAPI ASErr PluginMain(char* caller, char* selector, void* message)
 		AIUserSuite *sAIuser = nil;
 
 		error = sSPBasic->AcquireSuite(kAIUserSuite, kAIUserSuiteVersion, (const void**) &sAIuser);
-		error = sSPBasic->AcquireSuite(kAIUnicodeStringSuite, kAIUnicodeStringVersion, (const void**) &mysAIUnicodeString);
+		error = sSPBasic->AcquireSuite(kAIUnicodeStringSuite, kAIUnicodeStringVersion, (const void**) &sAIUnicodeString);
 		error = sSPBasic->AcquireSuite(kSPBlocksSuite, kSPBlocksSuiteVersion, (const void**) &sSPBlocks);
 
 		if (sSPBasic->IsEqual(selector, kSPInterfaceStartupSelector))
