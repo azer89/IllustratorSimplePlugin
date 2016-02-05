@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+				layout="absolute"
+				historyManagementEnabled="false"
+				creationComplete="initPanel()">
+	<mx:Script>
+		<![CDATA[
+
+			//========================================================================================
+			//  
+			//  $File: $
+			//
+			//  $Revision: $
+			//
+			//  Copyright 2010 Adobe Systems Incorporated. All rights reserved.
+			//  
+			//  NOTICE:  Adobe permits you to use, modify, and distribute this file in accordance 
+			//  with the terms of the Adobe license agreement accompanying it.  If you have received
+			//  this file from a source other than Adobe, then your use, modification, or 
+			//  distribution of it requires the prior written permission of Adobe.
+			//  
+			//========================================================================================
+
+			import com.adobe.csxs.core.CSXSInterface;
+			import com.adobe.csxs.events.CSXSEvent;
+			import com.adobe.csxs.events.CSXSEventScope;
+			
+			// Events we dispatch
+			private static const DIALOG_READY : String = "com.adobe.aisdk.TutorialDialogReady";
+			private static const GET_PARAMS_RESP : String = "com.adobe.aisdk.TutorialGetParamsResp";
+			
+			// Events we listen out for
+			private static const GET_PARAMS_REQ : String = "com.adobe.aisdk.TutorialGetParamsReq";
+			
+			private function initPanel() : void
+			{
+				// Register CSXS Event handlers
+				CSXSInterface.getInstance().addEventListener(GET_PARAMS_REQ, respondToParams);
+				
+
+				application.addEventListener(KeyboardEvent.KEY_UP, keyHandler);
+				
+				// Dispatch ready event
+				var event : CSXSEvent = new CSXSEvent(DIALOG_READY, CSXSEventScope.APPLICATION);
+				CSXSInterface.getInstance().dispatchEvent(event);
+			}
+			
+			private function keyHandler(event:KeyboardEvent):void {
+				//if enter pressed submit
+				if(event.keyCode == 13 && event.charCode == 13 )
+				{
+					dispatchParams(false);
+				}
+			}
+			
+			private function respondToParams(event : CSXSEvent) : void
+			{
+				/* The xml recieved will look like this:
+				* 	<payload>
+				* 		<default>	<-- default num of corners and size of generated artwork
+				*   		<corners></corners>
+				*   		<size></size>
+				*		</default>
+				*		<min>		<!-- min num of corners/artwork size
+				*			<corners></corners>
+				*			<size></size>
+				*		</min>
+				*		<max>		<!-- max num of corners/artwork size
+				*			<corners></corners>
+				*			<size></size>
+				*		</max>
+				* 	</payload>
+				*/
+				
+				var xml : XML = new XML(event.data);
+				var defaults : XMLList = xml.descendants("default");
+				corners.text = defaults.descendants("corners").toString();
+				size.text = defaults.descendants("size").toString();
+			}
+			
+			private function dispatchParams(cancelled : Boolean) : void
+			{
+				var payload : XML = <payload>
+										<cancelled>{cancelled}</cancelled>
+										<corners>{corners.text}</corners>
+										<size>{size.text}</size>
+									</payload>;
+				
+				var event : CSXSEvent = new CSXSEvent(GET_PARAMS_RESP, CSXSEventScope.APPLICATION, payload);
+				CSXSInterface.getInstance().dispatchEvent(event);
+			}
+			
+			protected function btnok_clicked(event:MouseEvent):void
+			{
+				dispatchParams(false);
+			}
+			
+			protected function btncancelled_clicked(event:MouseEvent):void
+			{
+				dispatchParams(true);
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:VBox height="100%" width="100%"
+			 verticalAlign="middle" horizontalAlign="center">
+		
+		<mx:Grid>		
+			<mx:GridRow>
+				<mx:GridItem>
+					<mx:Label text="Corners:" />
+				</mx:GridItem>
+				<mx:GridItem>
+					<mx:TextInput id="corners"/>
+				</mx:GridItem>
+			</mx:GridRow>
+			<mx:GridRow>
+				<mx:GridItem>
+					<mx:Label text="Size:" />
+				</mx:GridItem>
+				<mx:GridItem>
+					<mx:TextInput id="size"/>
+				</mx:GridItem>
+			</mx:GridRow>
+		</mx:Grid>
+				
+		<mx:HBox width="100%" horizontalAlign="center">
+			<mx:Button label="Ok" click="btnok_clicked(event)"/>
+			<mx:Button label="Cancel" click="btncancelled_clicked(event)"/>
+		</mx:HBox>
+		
+	</mx:VBox>
+</mx:Application>

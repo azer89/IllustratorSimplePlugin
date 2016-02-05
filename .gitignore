@@ -1,6 +1,6 @@
-/IllustratorAPI/ate/*
-/IllustratorAPI/illustrator/*
-/IllustratorAPI/pica_sp/*
+/illustratorapi/ate/*
+/illustratorapi/illustrator/*
+/illustratorapi/pica_sp/*
 *.tlog
 *.obj
 *.suo
