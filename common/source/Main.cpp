@@ -18,6 +18,10 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <iostream>
+#include "myqtui.h"
+#include <QtWidgets/QApplication>
+
 #ifndef NDEBUG
 #ifdef MAC_ENV
 #include <MacTypes.h>

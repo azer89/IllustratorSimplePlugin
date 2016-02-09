@@ -55,6 +55,9 @@ static void PanelReadyFunc(const csxs::event::Event* const eventParam, void* con
 
 	if ( controller )
 	{
+		// this seem a good place
+		//sAIUser->MessageAlert(ai::UnicodeString("YOLO"));
+
 		AppContext appContext(gPlugin->GetPluginRef());
 		controller->SendData();
 	}
@@ -62,20 +65,30 @@ static void PanelReadyFunc(const csxs::event::Event* const eventParam, void* con
 
 static void GetParamsFromPanel(const csxs::event::Event* const eventParam, void* const context)
 {
+	//sAIUser->MessageAlert(ai::UnicodeString("YOLO"));
+
 	TutorialPanelController *controller = (TutorialPanelController *) context;
 
 	if ( controller )
 	{
+		//sAIUser->MessageAlert(ai::UnicodeString("before AppContext appContext(gPlugin->GetPluginRef())"));
+
 		AppContext appContext(gPlugin->GetPluginRef());
 		
 		// Parse the data
 		controller->ParseData(eventParam->data);
 
+		//sAIUser->MessageAlert(ai::UnicodeString("before controller->ApplyFilter()"));
+
 		// Apply the filter (or not if cancelled)
 		controller->ApplyFilter();
+
+		//sAIUser->MessageAlert(ai::UnicodeString("after controller->ApplyFilter()"));
 		
 		// Close down the panel
 		controller->CloseDownPanel();
+
+		//sAIUser->MessageAlert(ai::UnicodeString("after controller->CloseDownPanel()"));
 	}
 }
 
@@ -118,6 +131,8 @@ csxs::event::EventErrorCode TutorialPanelController::RegisterCSXSEventListeners(
 		{
 			break;
 		}
+
+		//sAIUser->MessageAlert(ai::UnicodeString("YOLO)"));
 
 		result = fPPLib.AddEventListener(GET_PARAMS_RESP, GetParamsFromPanel, this);
 		if ( result != csxs::event::kEventErrorCode_Success )

@@ -20,6 +20,10 @@
 #include "AICSXS.h"
 #include "TutorialPanelController.h"
 
+#include <iostream>
+#include "myqtui.h"
+#include <QtWidgets/QApplication>
+
 TutorialPlugin*	gPlugin = NULL;
 
 /*
@@ -77,7 +81,22 @@ ASErr TutorialPlugin::StartupPlugin(SPInterfaceMessage* message)
 		error = AddNotifiers(message);
 	}
 
+	//sAIUser->MessageAlert(ai::UnicodeString("Hello World, by Reza"));
 
+	/*
+	// do something
+	sAIUser->MessageAlert(ai::UnicodeString("Hello World, by Reza"));
+	// https://forums.adobe.com/thread/1353898?tstart=0
+	
+	char *my_argv[] = { "program name", "arg1", "arg2", NULL };
+	int my_argc = sizeof(my_argv) / sizeof(char*) - 1;
+
+	QApplication a(my_argc, my_argv);
+	MyQTUI w;
+	w.show();
+	
+	a.exec();
+	*/
 
 	return error;
 }
@@ -96,6 +115,17 @@ ASErr TutorialPlugin::PostStartupPlugin()
         sAIUser->CreateCursorResourceMgr(fPluginRef,&fResourceManagerHandle);
 
 	//sAIUser->MessageAlert(ai::UnicodeString("Hello World, by Reza"));
+
+	
+	/*
+	char *my_argv[] = { "program name", "arg1", "arg2", NULL };
+	int my_argc = sizeof(my_argv) / sizeof(char*) - 1;
+
+	QApplication a(my_argc, my_argv);
+	MyQTUI w;
+	w.show();
+	a.exec();
+	*/
 
 	return result;
 }
@@ -131,6 +161,8 @@ ASErr TutorialPlugin::AddNotifiers(SPInterfaceMessage* message)
 
 ASErr TutorialPlugin::Notify(AINotifierMessage *message)
 {
+	//sAIUser->MessageAlert(ai::UnicodeString("Notify!!!"));
+
 	if ( message->notifier == fCSXSPlugPlugSetupCompleteNotifier )
 	{
 		if (fPanelController != NULL)
@@ -143,7 +175,8 @@ ASErr TutorialPlugin::Notify(AINotifierMessage *message)
 		TutorialFilterParameters* params = (TutorialFilterParameters*)message->notifyData;
 		ActuallyGoFilter(*params);
 	}
-	 if (message->notifier == fShutdownApplicationNotifier)
+	
+	if (message->notifier == fShutdownApplicationNotifier)
 	{
 		if(fResourceManagerHandle != NULL)
 		{
@@ -215,10 +248,25 @@ AIErr TutorialPlugin::AddFilter ( SPInterfaceMessage* message )
 */
 AIErr TutorialPlugin::GetFilterParameters( AIFilterMessage* message ) 
 {
+	
+	char *my_argv[] = { "program name", "arg1", "arg2", NULL };
+	int my_argc = sizeof(my_argv) / sizeof(char*) - 1;
+
+	QApplication a(my_argc, my_argv);
+	MyQTUI w;
+	w.show();
+	a.exec();
+
+	
+
+	//sAIUser->MessageAlert(ai::UnicodeString("YOLO"));
+
+	/*
 	if (fPanelController != NULL)
 		fPanelController->LoadExtension();
-
+	*/
 	message->parameters = NULL;
+
 	return kNoErr;
 }
 
@@ -497,14 +545,30 @@ AIErr TutorialPlugin::GoAction(DoActionMessage* doActionMessage)
 	}
 
 	// Pop filter parameters dialog if asked to.
-	if (!error && doActionMessage->showDialog) {
-		error = GetFilterParameters( filterMessage );
+	if (!error && doActionMessage->showDialog) 
+	{
+
+		char *my_argv[] = { "program name", "arg1", "arg2", NULL };
+		int my_argc = sizeof(my_argv) / sizeof(char*) - 1;
+
+		QApplication a(my_argc, my_argv);
+		MyQTUI w;
+		w.show();
+		a.exec();
+		
+		filterMessage->parameters = NULL;
+		error = kNoErr;
+		
+		
+		//error = GetFilterParameters( filterMessage );
 	} 
 
+	/*
 	// Apply the filter.
 	if (!error) {
 		error = GoFilter( filterMessage );
 	}
+	*/
 
 	return error;
 }

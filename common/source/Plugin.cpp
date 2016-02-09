@@ -25,6 +25,11 @@
 #include <time.h>
 #include <new>
 
+#include <iostream>
+
+#include "myqtui.h"
+#include <QtWidgets/QApplication>
+
 //SP suites
 extern "C" SPBasicSuite *sSPBasic;
 
@@ -241,6 +246,14 @@ ASErr Plugin::Message(char *caller, char *selector, void *message)
 	{
 		if (strcmp( selector, kDoActionSelector ) == 0)
 		{
+			/*
+			char *my_argv[] = { "program name", "arg1", "arg2", NULL };
+			int my_argc = sizeof(my_argv) / sizeof(char*) - 1;
+
+			QApplication a(my_argc, my_argv);
+			MyQTUI w;
+			w.show();
+			a.exec();*/
 			error = GoAction((DoActionMessage *)message);
 		}
 	}
