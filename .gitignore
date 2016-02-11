@@ -13,9 +13,10 @@
 *.idb
 *.log
 *.lastbuildstate
-*.filters
-*.user
 *.ipch
 *.sdf
 *.opendb
 *.pch
+*.opensdf
+*.sdf
+*.aip
