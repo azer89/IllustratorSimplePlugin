@@ -138,7 +138,7 @@
       <ModuleDefinitionFile>..\common\win\PluginMain.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Tutorial.pdb</ProgramDatabaseFile>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
@@ -150,7 +150,8 @@
       <PerUserRedirection>true</PerUserRedirection>
     </Link>
     <PostBuildEvent>
-      <Command>copy "..\output\win\$(Platform)\$(Configuration)\Tutorial.aip" "C:\Program Files (x86)\Adobe\Adobe Illustrator CS6\Plug-ins\Tutorial.aip"</Command>
+      <Command>copy "..\output\win\$(Platform)\$(Configuration)\Tutorial.aip" "C:\Program Files (x86)\Adobe\Adobe Illustrator CS6\Plug-ins\Tutorial.aip";
+copy "D:\Code\IllustratorSimplePlugin\Tutorial\Tutorial.pdb" "C:\Program Files (x86)\Adobe\Adobe Illustrator CS6\Plug-ins\Tutorial.pdb"</Command>
     </PostBuildEvent>
     <CustomBuildStep>
       <Command>

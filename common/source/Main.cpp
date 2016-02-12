@@ -97,7 +97,10 @@ extern "C" ASAPI ASErr PluginMain(char* caller, char* selector, void* message)
 			// any partially acquired suites and returned an error.  However, SuitePea still might
 			// call us, so protect against this situation.
 			if (plugin->SuitesAcquired())
+			{
 				error = plugin->Message(caller, selector, message);
+				std::cout << "Messsage\n";
+			}
 			else
 				error = kNoErr;
 		}
