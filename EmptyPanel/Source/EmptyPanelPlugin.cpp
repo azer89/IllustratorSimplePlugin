@@ -28,6 +28,9 @@
 #include "EmptyPanelPluginSuites.h"
 #include "EmptyPanleID.h"
 
+#include <iostream>
+#include "myqtui.h"
+#include <QtWidgets/QApplication>
 
 #define bufMax 1024
 #define controlBarHeight	40
@@ -97,6 +100,12 @@ void PanelVisibilityChangedNotifyProc(AIPanelRef inPanel, AIBoolean isVisible)
 	sAIPanel->GetUserData(inPanel, ud);
 	EmptyPanelPlugin* sPlugin = reinterpret_cast<EmptyPanelPlugin*>(ud);
 	sPlugin->UpdateMenu(isVisible, PANEL);
+
+	/*
+	if (isVisible)
+	{
+		sAIUser->MessageAlert(ai::UnicodeString("Hello World, by Reza"));
+	}*/
 }
 
 void PanelSizeChangedNotifyProc(AIPanelRef inPanel)
@@ -138,6 +147,11 @@ void PanelStateChangedNotifyProc(AIPanelRef inPanel, ai::int16 newState)
 void PanelClosedNotifyProc(AIPanelRef inPanel)
 {
 	sAIUser->MessageAlert(ai::UnicodeString("Panel Closed"));
+}
+
+void PanelOpenedNotifyProc(AIPanelRef inPanel)
+{
+	sAIUser->MessageAlert(ai::UnicodeString("Panel Opened"));
 }
 
 //--------------------------------------------------------------------
@@ -232,6 +246,7 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 	error = sAIPanel->SetSizeChangedNotifyProc(fPanel, PanelSizeChangedNotifyProc);
 	error = sAIPanel->SetStateChangedNotifyProc(fPanel, PanelStateChangedNotifyProc);
 	error = sAIPanel->SetClosedNotifyProc(fPanel, PanelClosedNotifyProc);
+	//error = sAIPanel->SetClosedNotifyProc(fPanel, PanelClosedNotifyProc);
 
 	error = SetIcon();
 
@@ -258,7 +273,20 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 	//Add Different Widgets to Control Bar
 	if(!error)
 		AddWidgetsToControlBar();
+
+
+	/*https://forums.adobe.com/thread/1333483?tstart=0*/
+
 	
+	// m_panel is the AIPanelRef
+
+	AIPanelPlatformWindow windowRef = 0;
+	error = sAIPanel->GetPlatformWindow(fPanel, windowRef);
+	// check error
+	if (!error)
+	{
+		//sAIUser->MessageAlert(ai::UnicodeString("YOLO"));
+	}
 	return error;
 }
 

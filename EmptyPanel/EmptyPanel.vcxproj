@@ -130,6 +130,8 @@
       <ImportLibrary>./EmptyPanel.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5OpenGLd.lib;opengl32.lib;glu32.lib;Qt5Svgd.lib;Qt5Widgetsd.lib;Qt5Xmld.lib;MyQTUI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Qt\Qt5.5.1\5.5\msvc2013\lib;D:\Code\IllustratorSimplePlugin\Win32\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>copy "..\output\win\$(Platform)\$(Configuration)\EmptyPanel.aip" "C:\Program Files (x86)\Adobe\Adobe Illustrator CS6\Plug-ins\EmptyPanel.aip";</Command>
