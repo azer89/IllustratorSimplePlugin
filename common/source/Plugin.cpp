@@ -261,10 +261,12 @@ ASErr Plugin::Message(char *caller, char *selector, void *message)
 	{
 		if (strcmp( selector, kSelectorAIGoMenuItem ) == 0)
 		{
+			//sAIUser->MessageAlert(ai::UnicodeString("GoMenuItem"));
 			error = GoMenuItem((AIMenuMessage *)message);
 		}
 		else if (strcmp( selector, kSelectorAIUpdateMenuItem ) == 0)
 		{
+			//sAIUser->MessageAlert(ai::UnicodeString("UpdateMenuItem"));
 			error = UpdateMenuItem((AIMenuMessage *)message);
 		}
 	}
@@ -333,7 +335,8 @@ ASErr Plugin::Message(char *caller, char *selector, void *message)
 		}
 		else if (strcmp( selector, kSelectorAIToolMouseUp ) == 0)
 		{
-			error = ToolMouseUp((AIToolMessage *)message);
+			sAIUser->MessageAlert(ai::UnicodeString("Mouse up"));
+			//error = ToolMouseUp((AIToolMessage *)message);
 		}
 		else if (strcmp( selector, kSelectorAISelectTool ) == 0)
 		{

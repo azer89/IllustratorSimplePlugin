@@ -101,11 +101,21 @@ void PanelVisibilityChangedNotifyProc(AIPanelRef inPanel, AIBoolean isVisible)
 	EmptyPanelPlugin* sPlugin = reinterpret_cast<EmptyPanelPlugin*>(ud);
 	sPlugin->UpdateMenu(isVisible, PANEL);
 
-	/*
+	
 	if (isVisible)
 	{
-		sAIUser->MessageAlert(ai::UnicodeString("Hello World, by Reza"));
-	}*/
+		/*
+		char *my_argv[] = { "program name", "arg1", "arg2", NULL };
+		int my_argc = sizeof(my_argv) / sizeof(char*) - 1;
+
+		QApplication a(my_argc, my_argv);
+		MyQTUI w;
+		w.show();
+
+		a.exec();
+		*/
+		//sAIUser->MessageAlert(ai::UnicodeString("Hello World, by Reza"));
+	}
 }
 
 void PanelSizeChangedNotifyProc(AIPanelRef inPanel)
@@ -149,10 +159,12 @@ void PanelClosedNotifyProc(AIPanelRef inPanel)
 	sAIUser->MessageAlert(ai::UnicodeString("Panel Closed"));
 }
 
+/*
 void PanelOpenedNotifyProc(AIPanelRef inPanel)
 {
 	sAIUser->MessageAlert(ai::UnicodeString("Panel Opened"));
 }
+*/
 
 //--------------------------------------------------------------------
 //Callback Procedures for Control Bar
@@ -287,6 +299,10 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 	{
 		//sAIUser->MessageAlert(ai::UnicodeString("YOLO"));
 	}
+
+	
+	//sAIUser->MessageAlert(ai::UnicodeString("Startup plugin"));
+
 	return error;
 }
 
@@ -295,6 +311,8 @@ AIErr EmptyPanelPlugin::AddWidgets()
 	AIErr error = kNoErr;
 	AIPanelPlatformWindow hDlg = NULL;
 	error = sAIPanel->GetPlatformWindow(fPanel, hDlg);
+
+	//sAIUser->MessageAlert(ai::UnicodeString("add widget"));
 
 #ifdef WIN_ENV
 
@@ -898,6 +916,8 @@ ASErr EmptyPanelPlugin::ShutdownPlugin(SPInterfaceMessage *message)
 
 ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 {
+	
+
 	AIErr error = kNoErr;
 	if (message->menuItem == fAboutPluginMenu) 
 	{
@@ -911,6 +931,11 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 			AIBoolean isShown = false;
 			error = sAIPanel->IsShown(fPanel, isShown);
 			error = sAIPanel->Show(fPanel, !isShown);
+
+			if (!isShown) // dunno why it is !not
+			{
+				sAIUser->MessageAlert(ai::UnicodeString("YOLO"));
+			}
 		}
 	}
 	else if (message->menuItem == fEmptyPanelControlBarMenuItemHandle)
@@ -928,9 +953,15 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 void EmptyPanelPlugin::UpdateMenu(AIBoolean isVisible, ItemType item)
 {
 	if (item == PANEL)
+	{
 		sAIMenu->CheckItem (fEmptyPanelPanelMenuItemHandle , isVisible);
+		//sAIUser->MessageAlert(ai::UnicodeString("panel"));
+	}
 	else if (item == CTRL_BAR)
+	{
 		sAIMenu->CheckItem (fEmptyPanelControlBarMenuItemHandle, isVisible);
+		//sAIUser->MessageAlert(ai::UnicodeString("bar"));
+	}
 }
 
 ASErr EmptyPanelPlugin::Notify(AINotifierMessage *message)
