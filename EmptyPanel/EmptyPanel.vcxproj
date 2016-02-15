@@ -295,6 +295,7 @@
     <ClCompile Include="..\common\source\Suites.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\includes\Plugin.hpp" />
     <ClInclude Include="Source\CustomEdit.h" />
     <ClInclude Include="Source\EmptyPanelPlugin.h" />
     <ClInclude Include="Source\EmptyPanelPluginSuites.h" />

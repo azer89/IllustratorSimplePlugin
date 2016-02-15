@@ -178,11 +178,15 @@ ASBoolean Plugin::IsReloadMsg(char *caller, char *selector)
 ASErr Plugin::Message(char *caller, char *selector, void *message)
 {
 	ASErr error = kUnhandledMsgErr;
+
+	//sAIUser->MessageAlert(ai::UnicodeString(caller));
 	
 	// Acquire any missing optional suites.
 	AcquireOptionalSuites();
 
 	/* Sweet Pea messages */
+
+	
 
 	if (strcmp(caller, kSPAccessCaller ) == 0)
 	{

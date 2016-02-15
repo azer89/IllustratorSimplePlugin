@@ -62,15 +62,23 @@ public:
 	
 	virtual ASErr StartupPlugin(SPInterfaceMessage *message); 
 	virtual ASErr ShutdownPlugin(SPInterfaceMessage *message); 
+	virtual ASErr Message(char *caller, char *selector, void *message);
+
+	// added by Reza
+	ASErr TimerInAction(void *message);
 
 	void UpdateMenu(AIBoolean isVisible, ItemType item);
 	ASErr GoMenuItem(AIMenuMessage *message);
 	ASErr Notify(AINotifierMessage *message);
 
+	
+
 	FIXUP_VTABLE_EX(EmptyPanelPlugin, Plugin);
 
 private:
 	
+	AITimerHandle timerHandle;
+
 	/**	Handle for the About SDK Plug-ins menu item.
 	*/
 	AIMenuItemHandle fAboutPluginMenu;

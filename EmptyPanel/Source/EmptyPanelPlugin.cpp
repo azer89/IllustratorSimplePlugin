@@ -103,7 +103,7 @@ void PanelVisibilityChangedNotifyProc(AIPanelRef inPanel, AIBoolean isVisible)
 
 	
 	if (isVisible)
-	{
+	{		
 		/*
 		char *my_argv[] = { "program name", "arg1", "arg2", NULL };
 		int my_argc = sizeof(my_argv) / sizeof(char*) - 1;
@@ -187,6 +187,30 @@ void ControlBarSizeChangedNotifyProc(AIControlBarRef inControlBar)
 
 }
 
+ASErr EmptyPanelPlugin::TimerInAction(void *message)
+{
+	ASErr error = kUnhandledMsgErr;
+
+	//sAIUser->MessageAlert(ai::UnicodeString("Timer YOLO YOLLO"));
+	sAIDocument->RedrawDocument();
+
+	return error;
+}
+
+ASErr EmptyPanelPlugin::Message(char *caller, char *selector, void *message)
+{
+	ASErr error = Plugin::Message(caller, selector, message);
+
+	// kCallerAITimer
+	if (strcmp(caller, kCallerAITimer) == 0)
+	{
+		//sAIUser->MessageAlert(ai::UnicodeString("Timer YOLO"));
+		error = TimerInAction(message);
+	}
+
+	return error;
+}
+
 // --------------------------------------------------------------------
 // Called when plugin is initially loaded
 // --------------------------------------------------------------------
@@ -198,6 +222,10 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 	err = Plugin::StartupPlugin(message);
 	if (err)
 		return err;
+
+	// added by reza
+	//AITimerHandle timerHandle;
+	err = sAITimer->AddTimer(message->d.self, "Time for Timer", kTicksPerSecond, &timerHandle);
 
 	AINotifierHandle appShutDownNotifier;
 	err = sAINotifier->AddNotifier(fPluginRef, "AI Application Shutdown Notifier", kAIApplicationShutdownNotifier, &appShutDownNotifier);
@@ -901,6 +929,10 @@ AIErr EmptyPanelPlugin::GetIntegerFromEditText(HWND hWNDContainingEditText, int 
 ASErr EmptyPanelPlugin::ShutdownPlugin(SPInterfaceMessage *message)
 {
 	AIErr error = kNoErr;
+
+	// added by reza
+	error = sAITimer->SetTimerActive(timerHandle, false);
+	
 	if(fPanel)
 	{
 		error = sAIPanel->Destroy(fPanel);
@@ -934,8 +966,19 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 
 			if (!isShown) // dunno why it is !not
 			{
-				sAIUser->MessageAlert(ai::UnicodeString("YOLO"));
-				sAIDocument->RedrawDocument();
+				//sAIUser->MessageAlert(ai::UnicodeString("YOLO"));
+				char *my_argv[] = { "program name", "arg1", "arg2", NULL };
+				int my_argc = sizeof(my_argv) / sizeof(char*) - 1;
+
+				QApplication a(my_argc, my_argv);
+				MyQTUI w;
+				w.show();
+
+				a.exec();
+
+				//sAIDocument->
+
+				//sAIDocument->RedrawDocument();
 			}
 		}
 	}
@@ -967,6 +1010,8 @@ void EmptyPanelPlugin::UpdateMenu(AIBoolean isVisible, ItemType item)
 
 ASErr EmptyPanelPlugin::Notify(AINotifierMessage *message)
 {
+	//->MessageAlert(ai::UnicodeString(message->type));
+
 	AIErr result = kNoErr;
 	if(strcmp(message->type, kAIApplicationShutdownNotifier) == 0)
 	{
