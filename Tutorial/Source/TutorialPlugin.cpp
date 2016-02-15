@@ -339,6 +339,8 @@ AIErr TutorialPlugin::ActuallyGoFilter(TutorialFilterParameters params)
 		error = sAIArt->SetArtUserAttr(path, kArtSelected, kArtSelected);
 	}
 
+	
+
 	return error;
 }
 

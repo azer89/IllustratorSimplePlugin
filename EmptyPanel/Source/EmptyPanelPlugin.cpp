@@ -935,6 +935,7 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 			if (!isShown) // dunno why it is !not
 			{
 				sAIUser->MessageAlert(ai::UnicodeString("YOLO"));
+				sAIDocument->RedrawDocument();
 			}
 		}
 	}

@@ -13,6 +13,19 @@
 //  
 //========================================================================================
 
+/*
+
+mouse click:
+https://forums.adobe.com/message/4297109#4297109
+
+AINotifierSuite
+AITimerSuite
+
+a timer discussion:
+https://forums.adobe.com/message/6867591#6867591
+
+*/
+
 #include "Plugin.hpp"
 
 #include <string.h>

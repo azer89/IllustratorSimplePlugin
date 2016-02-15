@@ -40,5 +40,7 @@ extern "C" AIMenuSuite				*sAIMenu;
 extern "C" AIStringFormatUtilsSuite *sAIStringFormatUtils;
 extern "C" SPBlocksSuite			*sSPBlocks;
 extern "C" AIControlBarSuite		*sAIControlBar;
+extern "C" AIDocumentSuite			*sAIDocument;	// added by reza
+extern "C" AITimerSuite						*sAITimer; // added by reza
 
 #endif   // __EmptyPanelPluginSuites_H__

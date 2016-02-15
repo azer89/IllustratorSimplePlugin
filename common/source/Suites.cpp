@@ -26,7 +26,7 @@
 extern "C" {
 	SPAccessSuite *sSPAccess;
 	SPPluginsSuite *sSPPlugins;
-	AINotifierSuite *sAINotifier;
+	AINotifierSuite *sAINotifier;		// AINotifierSuite, is needed for timer
 	AIAppContextSuite *sAIAppContext;
 	AIUserSuite *sAIUser;
 	AIFilePathSuite *sAIFilePath;

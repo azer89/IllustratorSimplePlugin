@@ -328,6 +328,7 @@ ASErr Plugin::Message(char *caller, char *selector, void *message)
 		else if (strcmp( selector, kSelectorAIToolMouseDown ) == 0)
 		{
 			error = ToolMouseDown((AIToolMessage *)message);
+			sAIUser->MessageAlert(ai::UnicodeString("Mouse down"));
 		}
 		else if (strcmp( selector, kSelectorAIToolMouseDrag ) == 0)
 		{
