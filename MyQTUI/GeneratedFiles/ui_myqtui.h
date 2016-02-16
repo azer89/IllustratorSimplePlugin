@@ -13,11 +13,12 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
 
@@ -27,7 +28,8 @@ class Ui_MyQTUIClass
 {
 public:
     QWidget *centralWidget;
-    QLabel *label;
+    QGridLayout *gridLayout;
+    QTextEdit *textEdit;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -36,16 +38,22 @@ public:
     {
         if (MyQTUIClass->objectName().isEmpty())
             MyQTUIClass->setObjectName(QStringLiteral("MyQTUIClass"));
-        MyQTUIClass->resize(600, 400);
+        MyQTUIClass->resize(750, 624);
         centralWidget = new QWidget(MyQTUIClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        label = new QLabel(centralWidget);
-        label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(40, 40, 55, 16));
+        gridLayout = new QGridLayout(centralWidget);
+        gridLayout->setSpacing(6);
+        gridLayout->setContentsMargins(11, 11, 11, 11);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        textEdit = new QTextEdit(centralWidget);
+        textEdit->setObjectName(QStringLiteral("textEdit"));
+
+        gridLayout->addWidget(textEdit, 0, 0, 1, 1);
+
         MyQTUIClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MyQTUIClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 600, 26));
+        menuBar->setGeometry(QRect(0, 0, 750, 26));
         MyQTUIClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MyQTUIClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -61,8 +69,7 @@ public:
 
     void retranslateUi(QMainWindow *MyQTUIClass)
     {
-        MyQTUIClass->setWindowTitle(QApplication::translate("MyQTUIClass", "MyQTUI", 0));
-        label->setText(QApplication::translate("MyQTUIClass", "YOLO !!!", 0));
+        MyQTUIClass->setWindowTitle(QApplication::translate("MyQTUIClass", "Awesome Window", 0));
     } // retranslateUi
 
 };

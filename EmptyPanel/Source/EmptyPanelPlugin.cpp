@@ -28,9 +28,9 @@
 #include "EmptyPanelPluginSuites.h"
 #include "EmptyPanleID.h"
 
-#include <iostream>
-#include "myqtui.h"
-#include <QtWidgets/QApplication>
+//QT
+#include <QTextEdit>
+
 
 #define bufMax 1024
 #define controlBarHeight	40
@@ -58,7 +58,9 @@ void FixupReload(Plugin *plugin)
 EmptyPanelPlugin::EmptyPanelPlugin(SPPluginRef pluginRef)
 	: Plugin(pluginRef),
 	fPanel(NULL),
-	hDlg(NULL)
+	hDlg(NULL),
+	my_qt_app(0),
+	my_qt_window(0)
 {
 	strncpy(fPluginName, kEmptyPanelPluginName, kMaxStringLength);
 	#ifdef WIN_ENV
@@ -201,6 +203,8 @@ ASErr EmptyPanelPlugin::Message(char *caller, char *selector, void *message)
 {
 	ASErr error = Plugin::Message(caller, selector, message);
 
+	my_qt_window->GetTextEdit()->append(caller);
+
 	// kCallerAITimer
 	if (strcmp(caller, kCallerAITimer) == 0)
 	{
@@ -224,8 +228,14 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 		return err;
 
 	// added by reza
-	//AITimerHandle timerHandle;
-	err = sAITimer->AddTimer(message->d.self, "Time for Timer", kTicksPerSecond, &timerHandle);
+	//err = sAITimer->AddTimer(message->d.self, "Time for Timer", kTicksPerSecond, &timerHandle);
+	char *my_argv[] = { "program name", "arg1", "arg2", NULL };
+	int my_argc = sizeof(my_argv) / sizeof(char*) - 1;
+	my_qt_app = new QApplication (my_argc, my_argv);
+	my_qt_window = new MyQTUI();
+	//my_qt_app->exec();
+	//my_qt_app->quit();
+	//my_qt_app->exit();
 
 	AINotifierHandle appShutDownNotifier;
 	err = sAINotifier->AddNotifier(fPluginRef, "AI Application Shutdown Notifier", kAIApplicationShutdownNotifier, &appShutDownNotifier);
@@ -931,7 +941,10 @@ ASErr EmptyPanelPlugin::ShutdownPlugin(SPInterfaceMessage *message)
 	AIErr error = kNoErr;
 
 	// added by reza
-	error = sAITimer->SetTimerActive(timerHandle, false);
+	//error = sAITimer->SetTimerActive(timerHandle, false);
+
+	if (my_qt_app) { delete my_qt_app; }
+	if (my_qt_window) { delete my_qt_window; }
 	
 	if(fPanel)
 	{
@@ -966,7 +979,11 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 
 			if (!isShown) // dunno why it is !not
 			{
+				my_qt_window->show();
+				my_qt_app->exec();
+
 				//sAIUser->MessageAlert(ai::UnicodeString("YOLO"));
+				/*
 				char *my_argv[] = { "program name", "arg1", "arg2", NULL };
 				int my_argc = sizeof(my_argv) / sizeof(char*) - 1;
 
@@ -975,6 +992,7 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 				w.show();
 
 				a.exec();
+				*/
 
 				//sAIDocument->
 

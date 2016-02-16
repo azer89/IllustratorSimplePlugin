@@ -12,6 +12,8 @@ public:
 	MyQTUI(QWidget *parent = 0);
 	~MyQTUI();
 
+	QTextEdit* GetTextEdit() { return ui.textEdit; }
+
 private:
 	Ui::MyQTUIClass ui;
 };

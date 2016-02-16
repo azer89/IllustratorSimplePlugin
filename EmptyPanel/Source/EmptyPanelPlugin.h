@@ -22,6 +22,11 @@
 #include "SDKDef.h"
 #include "SDKAboutPluginsHelper.h"
 
+// QT
+#include <iostream>
+#include "myqtui.h"
+#include <QtWidgets/QApplication>
+
 #ifdef WIN_ENV
 	#include "windows.h"
 
@@ -55,6 +60,10 @@ enum ItemType {
 
 class EmptyPanelPlugin : public Plugin
 {
+public:
+	QApplication* my_qt_app;
+	MyQTUI* my_qt_window;
+
 public:
 
 	EmptyPanelPlugin(SPPluginRef pluginRef);
