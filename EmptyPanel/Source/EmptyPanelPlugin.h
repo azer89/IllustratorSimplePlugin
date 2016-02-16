@@ -22,7 +22,7 @@
 #include "SDKDef.h"
 #include "SDKAboutPluginsHelper.h"
 
-// QT
+// Qt
 #include <iostream>
 #include "myqtui.h"
 #include <QtWidgets/QApplication>
@@ -60,6 +60,8 @@ enum ItemType {
 
 class EmptyPanelPlugin : public Plugin
 {
+
+// Qt
 public:
 	QApplication* my_qt_app;
 	MyQTUI* my_qt_window;
@@ -98,11 +100,11 @@ private:
 
 	/** Pointer to instance of Panel.
 	*/
-	AIPanelRef fPanel;
+	//AIPanelRef fPanel;
 
 	AIPanelFlyoutMenuRef fPanelFlyoutMenu;
 
-	AIControlBarRef fControlBar;
+	//AIControlBarRef fControlBar;
 
 	AIMenuItemHandle fEmptyPanelControlBarMenuItemHandle;
 	
@@ -115,6 +117,7 @@ private:
 	AIPanelPlatformWindow hDlg;
 #ifdef WIN_ENV
 	//Panel related
+	/*
 	static LRESULT CALLBACK NewWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	bool PanelWindowProc(LRESULT& result, HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	LRESULT CALLBACK CallDefaultWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -122,12 +125,15 @@ private:
 	HWND fHWndXEdit;
 	HWND fHwndYEdit;
 	HWND fHwndResultEdit;
+	*/
 
 	//Control Bar Related
+	/*
 	WNDPROC fDefCtrlBarWndProc;
 	static LRESULT CALLBACK StaticCtrlBarWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	LRESULT CtrlBarWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	AIErr GetIntegerFromEditText(HWND hWNDContainingEditText, int idEditText, int& outIntText);
+	*/
 
 #endif
 };

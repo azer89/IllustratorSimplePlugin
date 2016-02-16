@@ -57,15 +57,15 @@ void FixupReload(Plugin *plugin)
 
 EmptyPanelPlugin::EmptyPanelPlugin(SPPluginRef pluginRef)
 	: Plugin(pluginRef),
-	fPanel(NULL),
+	//fPanel(NULL),
 	hDlg(NULL),
 	my_qt_app(0),
 	my_qt_window(0)
 {
 	strncpy(fPluginName, kEmptyPanelPluginName, kMaxStringLength);
-	#ifdef WIN_ENV
-		fDefaultWindProc = NULL;
-	#endif
+	//#ifdef WIN_ENV
+	//	fDefaultWindProc = NULL;
+	//#endif
 }
 
 static void flyoutMenuPreVisFunc(AIPanelRef inPanel)
@@ -209,7 +209,8 @@ ASErr EmptyPanelPlugin::Message(char *caller, char *selector, void *message)
 	if (strcmp(caller, kCallerAITimer) == 0)
 	{
 		//sAIUser->MessageAlert(ai::UnicodeString("Timer YOLO"));
-		error = TimerInAction(message);
+		//error = TimerInAction(message);
+		//my_qt_window->GetTextEdit()->append("timer");
 	}
 
 	return error;
@@ -226,12 +227,16 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 	err = Plugin::StartupPlugin(message);
 	if (err)
 		return err;
-
-	// added by reza
+		
+	// Timer, it is not used
 	//err = sAITimer->AddTimer(message->d.self, "Time for Timer", kTicksPerSecond, &timerHandle);
+	
+	// added by Reza
+	// ABout QApplication: http://doc.qt.io/qt-5/qapplication.html
 	char *my_argv[] = { "program name", "arg1", "arg2", NULL };
 	int my_argc = sizeof(my_argv) / sizeof(char*) - 1;
 	my_qt_app = new QApplication (my_argc, my_argv);
+	//_qt_app->
 	my_qt_window = new MyQTUI();
 	//my_qt_app->exec();
 	//my_qt_app->quit();
@@ -256,7 +261,7 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 		return error;
 
 	// Add menu item
-	error = sAIMenu->AddMenuItemZString(fPluginRef, "Third Party Panel", kOtherPalettesMenuGroup, ZREF("Third Party Panel"),
+	error = sAIMenu->AddMenuItemZString(fPluginRef, "==> CLICK ME <==", kOtherPalettesMenuGroup, ZREF("==> CLICK ME <=="),
 										kMenuItemNoOptions, &fEmptyPanelPanelMenuItemHandle);
 	if (error)
 		return error;
@@ -277,11 +282,14 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 	error = sAIPanelFlyoutMenu->SetItemMark(fPanelFlyoutMenu, 2 , kAIPanelFlyoutMenuItemMark_CHECK);
 	error = sAIPanelFlyoutMenu->SetItemMark(fPanelFlyoutMenu, 3 , kAIPanelFlyoutMenuItemMark_DASH);
 
+	/*
 	AISize pnSize = {240, 320};
 	error = sAIPanel->Create(fPluginRef, ai::UnicodeString("Third Party Panel"), ai::UnicodeString("Third Party Panel"), 3, pnSize, true, fPanelFlyoutMenu, this, fPanel);
 	if (error)
 		return error;
+	*/
 
+	/*
 	AISize minSize = {50, 50};
 	AISize maxSize = {800, 800};
 	AISize prefConstSize = {100, 100};
@@ -297,32 +305,35 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 	error = sAIPanel->SetStateChangedNotifyProc(fPanel, PanelStateChangedNotifyProc);
 	error = sAIPanel->SetClosedNotifyProc(fPanel, PanelClosedNotifyProc);
 	//error = sAIPanel->SetClosedNotifyProc(fPanel, PanelClosedNotifyProc);
+	*/
 
-	error = SetIcon();
+	//error = SetIcon();
 
-	error = AddWidgets();
+	//error = AddWidgets();
 	
 	//Add Menu Item for Control Bar
-	if(!error)
-		error = sAIMenu->AddMenuItemZString(fPluginRef, "Third Party Control Bar", kOtherPalettesMenuGroup, ZREF("Third Party Control Bar"),
-											kMenuItemNoOptions, &fEmptyPanelControlBarMenuItemHandle);
+	//if(!error)
+	//	error = sAIMenu->AddMenuItemZString(fPluginRef, "Third Party Control Bar", kOtherPalettesMenuGroup, ZREF("Third Party Control Bar"),
+	//										kMenuItemNoOptions, &fEmptyPanelControlBarMenuItemHandle);
 	
 	//Create Control Bar
-	AISize sizeControlBar = {controlBarWidth, controlBarHeight};
-	if(!error)
-		error = sAIControlBar->Create(fPluginRef, sizeControlBar, controlBarWidthMin, controlBarWidthMax,NULL/*Userdata*/,fControlBar);
-	if(!error)
-		error = sAIControlBar->SetUserData(fControlBar, this);
+	// AISize sizeControlBar = {controlBarWidth, controlBarHeight};
+	// if(!error)
+	// 	   error = sAIControlBar->Create(fPluginRef, sizeControlBar, controlBarWidthMin, controlBarWidthMax,NULL/*Userdata*/,fControlBar);
+	// if(!error)
+	//     error = sAIControlBar->SetUserData(fControlBar, this);
 	
 	//Set Callbacks
+	/*
 	if(!error)
 		error = sAIControlBar->SetVisibilityChangedNotifyProc(fControlBar, ControlBarVisibilityChangedNotifyProc);
 	if(!error)
 		error = sAIControlBar->SetSizeChangedNotifyProc(fControlBar, ControlBarSizeChangedNotifyProc);
-	
+	*/
+
 	//Add Different Widgets to Control Bar
-	if(!error)
-		AddWidgetsToControlBar();
+	// if(!error)
+	// 	  AddWidgetsToControlBar();
 
 
 	/*https://forums.adobe.com/thread/1333483?tstart=0*/
@@ -330,8 +341,8 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 	
 	// m_panel is the AIPanelRef
 
-	AIPanelPlatformWindow windowRef = 0;
-	error = sAIPanel->GetPlatformWindow(fPanel, windowRef);
+	//AIPanelPlatformWindow windowRef = 0;
+	//error = sAIPanel->GetPlatformWindow(fPanel, windowRef);
 	// check error
 	if (!error)
 	{
@@ -344,6 +355,7 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 	return error;
 }
 
+/*
 AIErr EmptyPanelPlugin::AddWidgets()
 {
 	AIErr error = kNoErr;
@@ -487,13 +499,14 @@ AIErr EmptyPanelPlugin::AddWidgets()
 #endif
 	return error;
 }
+*/
 
 AIErr EmptyPanelPlugin::AddWidgetsToControlBar()
 {
 	AIErr error = kNoErr;
 	AIControlBarPlatformWindow ctrlBarPlatformWindow = NULL;
 	
-	error = sAIControlBar->GetPlatformWindow(fControlBar, ctrlBarPlatformWindow);
+	// error = sAIControlBar->GetPlatformWindow(fControlBar, ctrlBarPlatformWindow);
 
 	if (error)
 		return error;
@@ -707,9 +720,9 @@ AIErr EmptyPanelPlugin::AddWidgetsToControlBar()
 		sAIStringFormatUtils->IntegerToString(numFormat, controlBarWidth, strResult);
 		SendMessage(hwndEditTextWidth, (UINT) WM_SETTEXT, 0, (LPARAM)strResult.as_ASUnicode().c_str());
 
-		SetProp(ctrlBarPlatformWindow,L"PLUGINPTR", this);
-		fDefCtrlBarWndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtr(ctrlBarPlatformWindow, GWLP_WNDPROC,
-			reinterpret_cast<LONG_PTR>(&EmptyPanelPlugin::StaticCtrlBarWindowProc)));
+		//SetProp(ctrlBarPlatformWindow,L"PLUGINPTR", this);
+		//fDefCtrlBarWndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtr(ctrlBarPlatformWindow, GWLP_WNDPROC,
+		//	reinterpret_cast<LONG_PTR>(&EmptyPanelPlugin::StaticCtrlBarWindowProc)));
 #endif
 #ifdef MAC_ENV
 		
@@ -774,6 +787,7 @@ AIErr EmptyPanelPlugin::AddWidgetsToControlBar()
 	return error;
 }
 
+/*
 #ifdef WIN_ENV
 LRESULT CALLBACK EmptyPanelPlugin::NewWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -832,7 +846,9 @@ LRESULT CALLBACK EmptyPanelPlugin::CallDefaultWindowProc(HWND hWnd, UINT msg, WP
 		return 0; 
 	}
 }
+*/
 
+/*
 LRESULT CALLBACK EmptyPanelPlugin::StaticCtrlBarWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	EmptyPanelPlugin* pluginPtr = reinterpret_cast<EmptyPanelPlugin*>(GetProp(hWnd, L"PLUGINPTR"));
@@ -841,7 +857,9 @@ LRESULT CALLBACK EmptyPanelPlugin::StaticCtrlBarWindowProc(HWND hWnd, UINT msg, 
 	else
 		return NULL;
 }
+*/
 
+/*
 LRESULT EmptyPanelPlugin::CtrlBarWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg)
@@ -927,30 +945,42 @@ LRESULT EmptyPanelPlugin::CtrlBarWindowProc(HWND hWnd, UINT msg, WPARAM wParam, 
 		return CallWindowProc(fDefaultWindProc, hWnd, msg, wParam, lParam);
 	}
 }
+*/
 
+/*
 AIErr EmptyPanelPlugin::GetIntegerFromEditText(HWND hWNDContainingEditText, int idEditText, int& outIntText)
 {
 	BOOL success = FALSE;
 	outIntText = GetDlgItemInt(hWNDContainingEditText, idEditText, &success, false);
 	return (success == TRUE) ? kNoErr : kCantHappenErr;
 }
-#endif
 
+#endif
+*/
 ASErr EmptyPanelPlugin::ShutdownPlugin(SPInterfaceMessage *message)
 {
 	AIErr error = kNoErr;
 
-	// added by reza
+	// added by Reza
 	//error = sAITimer->SetTimerActive(timerHandle, false);
 
-	if (my_qt_app) { delete my_qt_app; }
-	if (my_qt_window) { delete my_qt_window; }
+	if (my_qt_window)
+	{
+		my_qt_window->close();
+		delete my_qt_window;
+	}
+
+	if (my_qt_app) 
+	{ 
+		my_qt_app->quit();
+		delete my_qt_app; 
+	}	
 	
-	if(fPanel)
+	/*if(fPanel)
 	{
 		error = sAIPanel->Destroy(fPanel);
 		fPanel = NULL;
-	}
+	}*/
 	if(fPanelFlyoutMenu)
 	{
 		error = sAIPanelFlyoutMenu->Destroy(fPanelFlyoutMenu);
@@ -971,35 +1001,25 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 	}
 	else if (message->menuItem == fEmptyPanelPanelMenuItemHandle)
 	{	
-		if(fPanel)
-		{
-			AIBoolean isShown = false;
-			error = sAIPanel->IsShown(fPanel, isShown);
-			error = sAIPanel->Show(fPanel, !isShown);
+		//if(fPanel)
+		//{
+		//AIBoolean isShown = false;
+		//error = sAIPanel->IsShown(fPanel, isShown);
+		//error = sAIPanel->Show(fPanel, !isShown);
 
-			if (!isShown) // dunno why it is !not
-			{
-				my_qt_window->show();
-				my_qt_app->exec();
+		//if (!isShown) // dunno why it is !not
+		//{
 
-				//sAIUser->MessageAlert(ai::UnicodeString("YOLO"));
-				/*
-				char *my_argv[] = { "program name", "arg1", "arg2", NULL };
-				int my_argc = sizeof(my_argv) / sizeof(char*) - 1;
+		// Note that I don't use QApplication.exec()
+		my_qt_window->show();
+		my_qt_window->setFocus();	// should call this or the window will be hidden behind
 
-				QApplication a(my_argc, my_argv);
-				MyQTUI w;
-				w.show();
-
-				a.exec();
-				*/
-
-				//sAIDocument->
-
-				//sAIDocument->RedrawDocument();
-			}
-		}
+		//sAIDocument->RedrawDocument();
+		//}
+		//}
 	}
+	
+	/*
 	else if (message->menuItem == fEmptyPanelControlBarMenuItemHandle)
 	{
 		if(fControlBar)
@@ -1009,6 +1029,8 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 			error = sAIControlBar->Show(fControlBar, !isShown);
 		}
 	}
+	*/
+
 	return error;
 }
 
@@ -1034,7 +1056,7 @@ ASErr EmptyPanelPlugin::Notify(AINotifierMessage *message)
 	if(strcmp(message->type, kAIApplicationShutdownNotifier) == 0)
 	{
 		
-		if(fPanel)
+		/*if(fPanel)
 		{
 		#ifdef WIN_ENV
 			
@@ -1051,12 +1073,14 @@ ASErr EmptyPanelPlugin::Notify(AINotifierMessage *message)
 
 			result = sAIPanel->Destroy(fPanel);
 			fPanel = NULL;
-		}
+		}*/
+
 		if(fPanelFlyoutMenu)
 		{
 			result = sAIPanelFlyoutMenu->Destroy(fPanelFlyoutMenu);
 			fPanelFlyoutMenu = NULL;
 		}
+		/*
 		if (fControlBar != NULL)
 		{
 #ifdef WIN_ENV
@@ -1075,11 +1099,12 @@ ASErr EmptyPanelPlugin::Notify(AINotifierMessage *message)
 			result = sAIControlBar->Destroy(fControlBar);
 			fControlBar = NULL;
 		}
+		*/
 	}
 	return result;
 }
 
-ASErr EmptyPanelPlugin::SetIcon()
+/*ASErr EmptyPanelPlugin::SetIcon()
 {
 	AIErr error = kNoErr;
 	AIDataFilterSuite* sAIDataFilter = NULL;
@@ -1120,3 +1145,4 @@ ASErr EmptyPanelPlugin::SetIcon()
 	}
 	return error;
 }
+*/

@@ -21,6 +21,7 @@
 
 // AI suite headers
 #include "AIArt.h"
+#include "AIDrawArt.h" // added by Reza
 #include "AIMatchingArt.h"
 #include "AIUnicodeString.h"
 #include "AIUser.h"
@@ -32,6 +33,7 @@
 
 // Suite externs
 extern "C" AIArtSuite				*sAIArt;
+extern "C"  AIDrawArtSuite*			sAIDrawArtSuite; // added by Reza
 extern "C" AIMatchingArtSuite		*sAIMatchingArt;
 extern "C" AIUnicodeStringSuite		*sAIUnicodeString;
 extern "C" AIPanelSuite				*sAIPanel;
@@ -40,7 +42,7 @@ extern "C" AIMenuSuite				*sAIMenu;
 extern "C" AIStringFormatUtilsSuite *sAIStringFormatUtils;
 extern "C" SPBlocksSuite			*sSPBlocks;
 extern "C" AIControlBarSuite		*sAIControlBar;
-extern "C" AIDocumentSuite			*sAIDocument;	// added by reza
-extern "C" AITimerSuite				*sAITimer; // added by reza
+extern "C" AIDocumentSuite			*sAIDocument;	// added by Reza
+extern "C" AITimerSuite				*sAITimer; // added by Reza
 
 #endif   // __EmptyPanelPluginSuites_H__
