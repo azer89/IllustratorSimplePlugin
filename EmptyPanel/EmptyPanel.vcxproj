@@ -134,7 +134,8 @@
       <AdditionalLibraryDirectories>C:\Qt\Qt5.5.1\5.5\msvc2013\lib;D:\Code\IllustratorSimplePlugin\Win32\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy "..\output\win\$(Platform)\$(Configuration)\EmptyPanel.aip" "C:\Program Files (x86)\Adobe\Adobe Illustrator CS6\Plug-ins\EmptyPanel.aip";</Command>
+      <Command>copy "..\output\win\$(Platform)\$(Configuration)\EmptyPanel.aip" "C:\Program Files (x86)\Adobe\Adobe Illustrator CS6\Plug-ins\EmptyPanel.aip";
+copy "D:\Code\IllustratorSimplePlugin\Win32\Debug\MyQTUI.lib" "C:\Program Files (x86)\Adobe\Adobe Illustrator CS6\Plug-ins\MyQTUI.lib";</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

@@ -47,16 +47,28 @@
     <ClCompile Include="GeneratedFiles\qrc_myqtui.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="GLContainer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GLWIdget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SystemParams.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VertexDataHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_GLWidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_GLWidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GLWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_GLContainer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_GLContainer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GLContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -70,6 +82,12 @@
     <CustomBuild Include="myqtui.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="GLWidget.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GLContainer.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_myqtui.h">
@@ -79,12 +97,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AVector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GLContainer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GLWIdget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SystemParams.h">

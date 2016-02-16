@@ -19,7 +19,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="1">
-     <widget class="QWidget" name="widget" native="true">
+     <widget class="GLContainer" name="widget" native="true">
       <property name="autoFillBackground">
        <bool>false</bool>
       </property>
@@ -60,6 +60,14 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>GLContainer</class>
+   <extends>QWidget</extends>
+   <header>GLContainer.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="myqtui.qrc"/>
  </resources>

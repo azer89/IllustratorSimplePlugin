@@ -18,6 +18,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QWidget>
+#include "GLContainer.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -26,7 +27,7 @@ class Ui_MyQTUIClass
 public:
     QWidget *centralWidget;
     QGridLayout *gridLayout;
-    QWidget *widget;
+    GLContainer *widget;
     QTextEdit *textEdit;
 
     void setupUi(QMainWindow *MyQTUIClass)
@@ -41,7 +42,7 @@ public:
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        widget = new QWidget(centralWidget);
+        widget = new GLContainer(centralWidget);
         widget->setObjectName(QStringLiteral("widget"));
         widget->setAutoFillBackground(false);
 

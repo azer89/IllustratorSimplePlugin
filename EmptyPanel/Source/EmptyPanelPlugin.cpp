@@ -1013,7 +1013,7 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 		// Note that I don't use QApplication.exec()
 		my_qt_window->show();
 		my_qt_window->setFocus();	// should call this or the window will be hidden behind
-
+		my_qt_app->exec();
 		//sAIDocument->RedrawDocument();
 		//}
 		//}
