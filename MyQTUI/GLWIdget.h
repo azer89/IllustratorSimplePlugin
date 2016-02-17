@@ -15,10 +15,8 @@
 #include "VertexDataHelper.h"
 
 /**
+* Reza Adhitya Saputra
 * radhitya@uwaterloo.ca
-*
-*
-*
 */
 
 class GLWidget : public QGLWidget

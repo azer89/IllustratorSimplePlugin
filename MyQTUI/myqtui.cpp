@@ -1,5 +1,10 @@
 #include "myqtui.h"
 
+/**
+* Reza Adhitya Saputra
+* radhitya@uwaterloo.ca
+*/
+
 MyQTUI::MyQTUI(QWidget *parent)
 	: QMainWindow(parent)
 {

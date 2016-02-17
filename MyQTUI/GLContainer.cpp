@@ -12,10 +12,8 @@
 #include <QTimer>
 
 /**
+* Reza Adhitya Saputra
 * radhitya@uwaterloo.ca
-*
-*
-*
 */
 
 

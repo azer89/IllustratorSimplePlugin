@@ -5,10 +5,8 @@
 
 
 /**
+* Reza Adhitya Saputra
 * radhitya@uwaterloo.ca
-*
-*
-*
 */
 
 class SystemParams

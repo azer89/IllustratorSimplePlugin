@@ -1,6 +1,11 @@
 #ifndef MYQTUI_H
 #define MYQTUI_H
 
+/**
+* Reza Adhitya Saputra
+* radhitya@uwaterloo.ca
+*/
+
 #include <QtWidgets/QMainWindow>
 #include "ui_myqtui.h"
 

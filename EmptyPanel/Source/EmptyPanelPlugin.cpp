@@ -13,10 +13,9 @@
 //  
 //========================================================================================
 
-/*
-
-radhitya@uwaterloo.ca
-
+/**
+* Reza Adhitya Saputra
+* radhitya@uwaterloo.ca
 */
 
 #ifdef MAC_ENV

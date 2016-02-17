@@ -8,10 +8,8 @@
 
 
 /**
+* Reza Adhitya Saputra
 * radhitya@uwaterloo.ca
-*
-*
-*
 */
 
 class GLContainer : public QAbstractScrollArea

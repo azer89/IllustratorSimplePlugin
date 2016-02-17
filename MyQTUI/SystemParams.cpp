@@ -1,10 +1,8 @@
 #include "SystemParams.h"
 
 /**
+* Reza Adhitya Saputra
 * radhitya@uwaterloo.ca
-*
-*
-*
 */
 
 SystemParams::SystemParams()

@@ -5,10 +5,8 @@
 #include <QVector3D>
 
 /**
+* Reza Adhitya Saputra
 * radhitya@uwaterloo.ca
-*
-*
-*
 */
 
 struct VertexData
