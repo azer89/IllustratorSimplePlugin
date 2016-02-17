@@ -1,4 +1,4 @@
-I think I have successfully use Qt for this "experimental" Illustrator CS6 plugin. I can create and show a Qt window that is triggered by Illustrator. So far, there is no issue. 
+I think I have successfully use Qt for this "experimental" Illustrator CS6 plugin. I can create and show a Qt window that is triggered by Illustrator. So far, there is no issue. except that I don't use QApplication::exec()
 
 Some resources you might want to read:
 * [Getting Started with Adobe Illustrator CS6 Development](http://wwwimages.adobe.com/content/dam/Adobe/en/devnet/illustrator/sdk/cs6/getting-started-guide.pdf)
