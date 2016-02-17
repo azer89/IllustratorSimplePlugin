@@ -16,6 +16,10 @@ public:
 
 private:
 	Ui::MyQTUIClass ui;
+
+private slots:
+	// display message
+	void QtDisplayMessage(QString msg);
 };
 
 #endif // MYQTUI_H

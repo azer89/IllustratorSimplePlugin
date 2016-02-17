@@ -12,6 +12,13 @@
 //  distribution of it requires the prior written permission of Adobe.
 //  
 //========================================================================================
+
+/*
+
+radhitya@uwaterloo.ca
+
+*/
+
 #ifdef MAC_ENV
 #include <Cocoa/Cocoa.h>
 #include "CalcController.h"

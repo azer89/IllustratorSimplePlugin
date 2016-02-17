@@ -7,6 +7,7 @@
 #include <QOpenGLBuffer>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
+#include <QTextEdit>
 
 #include "AVector.h"
 #include "ALine.h"
@@ -75,11 +76,18 @@ protected:
 	void resizeGL(int width, int height);
 
 public:
+	QTextEdit* textEdit;
+
+public:
 
 	// constructor
 	GLWidget(QGLFormat format, QWidget *parent = 0);
 	// destructor
 	~GLWidget();
+
+	
+
+	//void SetText(QTextEdit *textEdit) { this }
 
 	QSize GetCanvasSize() { return QSize(_img_width, _img_height); }
 
@@ -110,6 +118,10 @@ public:
 	void mouseReleaseEvent(int x, int y);
 	// mouse double click
 	void mouseDoubleClick(int x, int y);
+
+signals:
+	// send message to UI (bottom left)
+	void QtSendMessage(QString msg);
 };
 
 #endif // GLWIDGET_H

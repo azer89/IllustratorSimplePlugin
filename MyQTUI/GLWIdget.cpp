@@ -20,15 +20,17 @@
 */
 
 GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
-QGLWidget(format, parent),
-_vDataHelper(0),
-_isMouseDown(false),
-_zoomFactor(10.0),
-_img_width(50),
-_img_height(50),
-_slice(8),
-_shaderProgram(0)
+	QGLWidget(format, parent),
+	_vDataHelper(0),
+	_isMouseDown(false),
+	_zoomFactor(10.0),
+	_img_width(50),
+	_img_height(50),
+	_slice(8),
+	_shaderProgram(0),
+	textEdit(0)
 {
+	//emit QtSendMessage("GLWidget OK!");
 }
 
 GLWidget::~GLWidget()
@@ -52,12 +54,27 @@ void GLWidget::initializeGL()
 	_shaderProgram = new QOpenGLShaderProgram();
 	if (!_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, SystemParams::v_shader_file.c_str()))
 	{
-		std::cerr << "Cannot load vertex shader." << std::endl; return;
+		std::cerr << "Cannot load vertex shader." << std::endl; 	
+		this->textEdit->append("Cannot load vertex shader.");
+		this->textEdit->append(SystemParams::v_shader_file.c_str());
+		return;
+	}
+	else
+	{
+		this->textEdit->append("vertex shader OK");
 	}
 
 	if (!_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, SystemParams::f_shader_file.c_str()))
 	{
-		std::cerr << "Cannot load fragment shader." << std::endl; return;
+		std::cerr << "Cannot load fragment shader." << std::endl; 
+		this->textEdit->append("Cannot load fragment shader.");
+		this->textEdit->append(SystemParams::f_shader_file.c_str());
+		return;
+		
+	}
+	else
+	{
+		this->textEdit->append("fragment shader OK");
 	}
 
 	if (!_shaderProgram->link())

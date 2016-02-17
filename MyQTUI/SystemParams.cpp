@@ -11,6 +11,6 @@ SystemParams::SystemParams()
 {
 }
 
-std::string SystemParams::v_shader_file = "D:\Code\IllustratorSimplePlugin\MyQTUI\shader.vert";
+std::string SystemParams::v_shader_file = "D:\\Code\\IllustratorSimplePlugin\\MyQTUI\\shader.vert";
 
-std::string SystemParams::f_shader_file = "D:\Code\IllustratorSimplePlugin\MyQTUI\shader.frag";
+std::string SystemParams::f_shader_file = "D:\\Code\\IllustratorSimplePlugin\\MyQTUI\\shader.frag";
