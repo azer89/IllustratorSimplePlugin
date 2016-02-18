@@ -29,28 +29,9 @@ extern "C"
 	AIStringFormatUtilsSuite	*sAIStringFormatUtils;
 	AIControlBarSuite			*sAIControlBar;
 	AIDocumentSuite				*sAIDocument;	// added by reza
-	AITimerSuite					*sAITimer;	// added by reza
-	//AINotifierSuite				*sAINotifier;	// it's already is Suites.cpp
+	AITimerSuite				*sAITimer;	    // added by reza
+	//AINotifierSuite			*sAINotifier;	// it's already is Suites.cpp
 }
-
-/*
-ImportSuite gImportSuites[] =
-{
-	kAIUnicodeStringSuite, kAIUnicodeStringSuiteVersion, &sAIUnicodeString,
-	kSPBlocksSuite, kSPBlocksSuiteVersion, &sSPBlocks,
-	kAIAnnotatorSuite, kAIAnnotatorSuiteVersion, &sAIAnnotator,
-	kAIAnnotatorDrawerSuite, kAIAnnotatorDrawerSuiteVersion, &sAIAnnotatorDrawer,
-	kAIToolSuite, kAIToolSuiteVersion, &sAITool,
-	kAIArtSetSuite, kAIArtSetSuiteVersion, &sAIArtSet,
-	kAIArtSuite, kAIArtSuiteVersion, &sAIArt,
-	kAIHitTestSuite, kAIHitTestSuiteVersion, &sAIHitTest,
-	kAIDocumentViewSuite, kAIDocumentViewSuiteVersion, &sAIDocumentView,
-	kAIDocumentSuite, kAIDocumentSuiteVersion, &sAIDocument,
-	kAIMatchingArtSuite, kAIMatchingArtSuiteVersion, &sAIMatchingArt,
-	kAIStringFormatUtilsSuite, kAIStringFormatUtilsSuiteVersion, &sAIStringFormatUtils,
-	nil, 0, nil
-};
-*/
 
 ImportSuite		gImportSuites[] = {
 	kAIArtSuite, kAIArtSuiteVersion, &sAIArt,
@@ -63,7 +44,7 @@ ImportSuite		gImportSuites[] = {
 	kAIStringFormatUtilsSuite, kAIStringFormatUtilsSuiteVersion, &sAIStringFormatUtils,
 	kAIControlBarSuite, kAIControlBarSuiteVersion, &sAIControlBar,
 	kAIDocumentSuite, kAIDocumentSuiteVersion, &sAIDocument, // added by reza
-	kAITimerSuite, kAITimerVersion, &sAITimer,				  // added by reza
-	//kAINotifierSuite, kAINotifierVersion, &sAINotifier,	// added by reza
+	kAITimerSuite, kAITimerVersion, &sAITimer,				 // added by reza
+	//kAINotifierSuite, kAINotifierVersion, &sAINotifier,	 // added by reza
 	nil, 0, nil
 };

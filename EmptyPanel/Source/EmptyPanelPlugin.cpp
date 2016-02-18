@@ -18,6 +18,14 @@
 * radhitya@uwaterloo.ca
 */
 
+
+/**
+ * Some important functions:
+ *     GoMenuItem
+ *     StartupPlugin
+ *     SHutdownPlugin
+ */
+
 #ifdef MAC_ENV
 #include <Cocoa/Cocoa.h>
 #include "CalcController.h"

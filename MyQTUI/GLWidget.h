@@ -24,6 +24,11 @@ class GLWidget : public QGLWidget
 	Q_OBJECT
 
 private:
+	// ~~~ this is a dummy image ~~~
+	QImage _imgOriginal;
+	QImage _imgGL;
+	GLuint _imgID;
+
 	VertexDataHelper* _vDataHelper;
 
 	bool   _isMouseDown;
