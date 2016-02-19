@@ -73,7 +73,6 @@ enum ItemType {
 
 class EmptyPanelPlugin : public Plugin
 {
-
 // Qt
 public:
 	QApplication* my_qt_app;
@@ -86,7 +85,7 @@ public:
 	
 	virtual ASErr StartupPlugin(SPInterfaceMessage *message); 
 	virtual ASErr ShutdownPlugin(SPInterfaceMessage *message); 
-	virtual ASErr Message(char *caller, char *selector, void *message);
+	virtual ASErr Message(char *caller, char *selector, void *message);	// added by Reza
 
 	// added by Reza
 	ASErr TimerInAction(void *message);
@@ -95,40 +94,32 @@ public:
 	ASErr GoMenuItem(AIMenuMessage *message);
 	ASErr Notify(AINotifierMessage *message);
 
-	
-
 	FIXUP_VTABLE_EX(EmptyPanelPlugin, Plugin);
 
 private:
 	
 	AITimerHandle timerHandle;
 
-	/**	Handle for the About SDK Plug-ins menu item.
-	*/
-	//AIMenuItemHandle fAboutPluginMenu;
-
-	/** Handle for menu item in Window > Third Party Panel menu item.
-	*/
+	/* Handle for menu item in Window > Third Party Panel menu item. */
 	AIMenuItemHandle fEmptyPanelPanelMenuItemHandle;
 
-	/** Pointer to instance of Panel.
-	*/
+	/**	Handle for the About SDK Plug-ins menu item. */
+	//AIMenuItemHandle fAboutPluginMenu;	
+
+	/* Pointer to instance of Panel. */
 	//AIPanelRef fPanel;
-
 	//AIPanelFlyoutMenuRef fPanelFlyoutMenu;
-
 	//AIControlBarRef fControlBar;
-
 	//AIMenuItemHandle fEmptyPanelControlBarMenuItemHandle;
 	
-	ASErr SetIcon();
-	ASErr AddWidgets();	
-	ASErr AddWidgetsToControlBar();
-	AIPanelPlatformWindow hDlg;
+	//ASErr SetIcon();
+	//ASErr AddWidgets();	
+	//ASErr AddWidgetsToControlBar();
+	//AIPanelPlatformWindow hDlg;
 
+/*
 #ifdef WIN_ENV
-	//Panel related
-	/*
+	//Panel related	
 	static LRESULT CALLBACK NewWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	bool PanelWindowProc(LRESULT& result, HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	LRESULT CALLBACK CallDefaultWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -136,17 +127,14 @@ private:
 	HWND fHWndXEdit;
 	HWND fHwndYEdit;
 	HWND fHwndResultEdit;
-	*/
 
 	//Control Bar Related
-	/*
 	WNDPROC fDefCtrlBarWndProc;
 	static LRESULT CALLBACK StaticCtrlBarWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	LRESULT CtrlBarWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	AIErr GetIntegerFromEditText(HWND hWNDContainingEditText, int idEditText, int& outIntText);
-	*/
-
 #endif
+*/
 };
 
 #endif	// __EmptyPanelPlugin_H__

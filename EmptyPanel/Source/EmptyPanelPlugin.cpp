@@ -96,10 +96,12 @@ EmptyPanelPlugin::EmptyPanelPlugin(SPPluginRef pluginRef)
 	//#endif
 }
 
+/*
 static void flyoutMenuPreVisFunc(AIPanelRef inPanel)
 {
-	sAIUser->MessageAlert(ai::UnicodeString("pre visiblity"));
+	//sAIUser->MessageAlert(ai::UnicodeString("pre visiblity"));
 }
+*/
 
 void PanelFlyoutMenuProc(AIPanelRef inPanel, ai::uint32 itemID)
 {
@@ -148,6 +150,7 @@ void PanelSizeChangedNotifyProc(AIPanelRef inPanel)
 #endif
 }	
 
+/*
 void PanelStateChangedNotifyProc(AIPanelRef inPanel, ai::int16 newState)
 {
 	AIErr err = kNoErr;
@@ -167,11 +170,14 @@ void PanelStateChangedNotifyProc(AIPanelRef inPanel, ai::int16 newState)
 	
 	err = sAIPanel->SetPreferredSizes(inPanel, prefSize);
 }
+*/
 
+/*
 void PanelClosedNotifyProc(AIPanelRef inPanel)
 {
 	sAIUser->MessageAlert(ai::UnicodeString("Panel Closed"));
 }
+*/
 
 /*
 void PanelOpenedNotifyProc(AIPanelRef inPanel)
@@ -202,13 +208,11 @@ void ControlBarSizeChangedNotifyProc(AIControlBarRef inControlBar)
 }
 */
 
+// Shouldn't be used
 ASErr EmptyPanelPlugin::TimerInAction(void *message)
 {
 	ASErr error = kUnhandledMsgErr;
-
-	//sAIUser->MessageAlert(ai::UnicodeString("Timer YOLO YOLLO"));
 	sAIDocument->RedrawDocument();
-
 	return error;
 }
 
@@ -245,15 +249,12 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 	//err = sAITimer->AddTimer(message->d.self, "Time for Timer", kTicksPerSecond, &timerHandle);
 	
 	// added by Reza
-	// ABout QApplication: http://doc.qt.io/qt-5/qapplication.html
+	// About QApplication: http://doc.qt.io/qt-5/qapplication.html
 	char *my_argv[] = { "program name", "arg1", "arg2", NULL };
 	int my_argc = sizeof(my_argv) / sizeof(char*) - 1;
 	my_qt_app = new QApplication (my_argc, my_argv);
-	//_qt_app->
 	my_qt_window = new MyQTUI();
 	//my_qt_app->exec();
-	//my_qt_app->quit();
-	//my_qt_app->exit();
 
 	AINotifierHandle appShutDownNotifier;
 	err = sAINotifier->AddNotifier(fPluginRef, "AI Application Shutdown Notifier", kAIApplicationShutdownNotifier, &appShutDownNotifier);
@@ -275,7 +276,7 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 		return error;
 
 	// Add menu item
-	error = sAIMenu->AddMenuItemZString(fPluginRef, "==> CLICK ME <==", kOtherPalettesMenuGroup, ZREF("==> CLICK ME <=="),
+	error = sAIMenu->AddMenuItemZString(fPluginRef, "<Plugin>", kOtherPalettesMenuGroup, ZREF("<Plugin>"),
 										kMenuItemNoOptions, &fEmptyPanelPanelMenuItemHandle);
 	if (error)
 		return error;
@@ -350,23 +351,6 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 	//Add Different Widgets to Control Bar
 	// if(!error)
 	// 	  AddWidgetsToControlBar();
-
-
-	/*https://forums.adobe.com/thread/1333483?tstart=0*/
-
-	
-	// m_panel is the AIPanelRef
-
-	//AIPanelPlatformWindow windowRef = 0;
-	//error = sAIPanel->GetPlatformWindow(fPanel, windowRef);
-	// check error
-	if (!error)
-	{
-		//sAIUser->MessageAlert(ai::UnicodeString("YOLO"));
-	}
-
-	
-	//sAIUser->MessageAlert(ai::UnicodeString("Startup plugin"));
 
 	return error;
 }
@@ -695,12 +679,14 @@ ASErr EmptyPanelPlugin::ShutdownPlugin(SPInterfaceMessage *message)
 	// added by Reza
 	//error = sAITimer->SetTimerActive(timerHandle, false);
 
+	// added by Reza
 	if (my_qt_window)
 	{
 		my_qt_window->close();
 		delete my_qt_window;
 	}
 
+	// added by Reza
 	if (my_qt_app) 
 	{ 
 		my_qt_app->quit();
@@ -724,15 +710,14 @@ ASErr EmptyPanelPlugin::ShutdownPlugin(SPInterfaceMessage *message)
 
 ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 {
-	
-
 	AIErr error = kNoErr;
 	/*if (message->menuItem == fAboutPluginMenu) 
 	{
 		SDKAboutPluginsHelper aboutPluginsHelper;
 		aboutPluginsHelper.PopAboutBox(message, "About EmptyPanel", kSDKDefAboutSDKCompanyPluginsAlertString);
 	}
-	else*/ if (message->menuItem == fEmptyPanelPanelMenuItemHandle)
+	else*/ 
+	if (message->menuItem == fEmptyPanelPanelMenuItemHandle)
 	{	
 		//if(fPanel)
 		//{
@@ -789,8 +774,7 @@ ASErr EmptyPanelPlugin::Notify(AINotifierMessage *message)
 
 	AIErr result = kNoErr;
 	if(strcmp(message->type, kAIApplicationShutdownNotifier) == 0)
-	{
-		
+	{		
 		/*if(fPanel)
 		{
 		#ifdef WIN_ENV
