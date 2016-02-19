@@ -23,14 +23,18 @@
 
 #include "Plugin.hpp"
 #include "AIPanel.h"
-#include "AIControlBar.h"
-#include "SDKDef.h"
-#include "SDKAboutPluginsHelper.h"
+//#include "AIControlBar.h"
+//#include "SDKDef.h"
+//#include "SDKAboutPluginsHelper.h"
 
-// Qt
+// Qt (Forward Declaration)
+class QApplication;
+class MyQTUI;
+/*
 #include <iostream>
 #include "myqtui.h"
 #include <QtWidgets/QApplication>
+*/
 
 #ifdef WIN_ENV
 	#include "windows.h"
@@ -107,11 +111,11 @@ private:
 	*/
 	//AIPanelRef fPanel;
 
-	AIPanelFlyoutMenuRef fPanelFlyoutMenu;
+	//AIPanelFlyoutMenuRef fPanelFlyoutMenu;
 
 	//AIControlBarRef fControlBar;
 
-	AIMenuItemHandle fEmptyPanelControlBarMenuItemHandle;
+	//AIMenuItemHandle fEmptyPanelControlBarMenuItemHandle;
 	
 	ASErr SetIcon();
 

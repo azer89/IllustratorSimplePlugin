@@ -16,8 +16,9 @@
 #ifndef __EmptyPanelPluginSuites_H__
 #define __EmptyPanelPluginSuites_H__
 
-#include "IllustratorSDK.h"
-#include "Suites.hpp"
+// moved to cpp
+//#include "IllustratorSDK.h"
+//#include "Suites.hpp"
 
 // AI suite headers
 #include "AIArt.h"
@@ -31,9 +32,12 @@
 #include "AIControlBar.h"
 #include "AIDrawArt.h"		// added by Reza
 
+#include "AIDocument.h"
+#include "AiTimer.h"
+
+
 // Suite externs
 extern "C" AIArtSuite				*sAIArt;
-
 extern "C" AIMatchingArtSuite		*sAIMatchingArt;
 extern "C" AIUnicodeStringSuite		*sAIUnicodeString;
 extern "C" AIPanelSuite				*sAIPanel;

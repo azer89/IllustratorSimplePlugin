@@ -40,10 +40,24 @@
 #include "IllustratorSDK.h"
 #include "EmptyPanelPlugin.h"
 #include "EmptyPanelPluginSuites.h"
+
+// moved from EmptyPanelPluginSuites
+#include "IllustratorSDK.h"
+#include "Suites.hpp"
+//
+
+//
+#include "SDKDef.h"
+#include "SDKAboutPluginsHelper.h"
+//
+
 #include "EmptyPanleID.h"
 
 //QT
 #include <QTextEdit>
+#include <iostream>
+#include "myqtui.h"
+#include <QtWidgets/QApplication>
 
 
 #define bufMax 1024
@@ -280,6 +294,7 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 	if (error)
 		return error;
 
+	/*
 	fPanelFlyoutMenu = NULL;
 	error = sAIPanelFlyoutMenu->Create(fPanelFlyoutMenu);
 	if (error)
@@ -295,6 +310,7 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 	error = sAIPanelFlyoutMenu->SetItemMark(fPanelFlyoutMenu, 1 , kAIPanelFlyoutMenuItemMark_BULLET);
 	error = sAIPanelFlyoutMenu->SetItemMark(fPanelFlyoutMenu, 2 , kAIPanelFlyoutMenuItemMark_CHECK);
 	error = sAIPanelFlyoutMenu->SetItemMark(fPanelFlyoutMenu, 3 , kAIPanelFlyoutMenuItemMark_DASH);
+	*/
 
 	/*
 	AISize pnSize = {240, 320};
@@ -995,11 +1011,13 @@ ASErr EmptyPanelPlugin::ShutdownPlugin(SPInterfaceMessage *message)
 		error = sAIPanel->Destroy(fPanel);
 		fPanel = NULL;
 	}*/
+	/*
 	if(fPanelFlyoutMenu)
 	{
 		error = sAIPanelFlyoutMenu->Destroy(fPanelFlyoutMenu);
 		fPanelFlyoutMenu = NULL;
 	}
+	*/
 	return kNoErr;
 }
 
@@ -1057,7 +1075,7 @@ void EmptyPanelPlugin::UpdateMenu(AIBoolean isVisible, ItemType item)
 	}
 	else if (item == CTRL_BAR)
 	{
-		sAIMenu->CheckItem (fEmptyPanelControlBarMenuItemHandle, isVisible);
+		//sAIMenu->CheckItem (fEmptyPanelControlBarMenuItemHandle, isVisible);
 		//sAIUser->MessageAlert(ai::UnicodeString("bar"));
 	}
 }
@@ -1089,11 +1107,13 @@ ASErr EmptyPanelPlugin::Notify(AINotifierMessage *message)
 			fPanel = NULL;
 		}*/
 
+		/*
 		if(fPanelFlyoutMenu)
 		{
 			result = sAIPanelFlyoutMenu->Destroy(fPanelFlyoutMenu);
 			fPanelFlyoutMenu = NULL;
 		}
+		*/
 		/*
 		if (fControlBar != NULL)
 		{
