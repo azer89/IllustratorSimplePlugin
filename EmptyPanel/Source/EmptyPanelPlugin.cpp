@@ -86,7 +86,7 @@ void FixupReload(Plugin *plugin)
 EmptyPanelPlugin::EmptyPanelPlugin(SPPluginRef pluginRef)
 	: Plugin(pluginRef),
 	//fPanel(NULL),
-	hDlg(NULL),
+	//hDlg(NULL),
 	my_qt_app(0),
 	my_qt_window(0)
 {
@@ -129,23 +129,7 @@ void PanelVisibilityChangedNotifyProc(AIPanelRef inPanel, AIBoolean isVisible)
 	AIPanelUserData ud = NULL;
 	sAIPanel->GetUserData(inPanel, ud);
 	EmptyPanelPlugin* sPlugin = reinterpret_cast<EmptyPanelPlugin*>(ud);
-	sPlugin->UpdateMenu(isVisible, PANEL);
-
-	
-	if (isVisible)
-	{		
-		/*
-		char *my_argv[] = { "program name", "arg1", "arg2", NULL };
-		int my_argc = sizeof(my_argv) / sizeof(char*) - 1;
-
-		QApplication a(my_argc, my_argv);
-		MyQTUI w;
-		w.show();
-
-		a.exec();
-		*/
-		//sAIUser->MessageAlert(ai::UnicodeString("Hello World, by Reza"));
-	}
+	//sPlugin->UpdateMenu(isVisible, PANEL);
 }
 
 void PanelSizeChangedNotifyProc(AIPanelRef inPanel)
@@ -199,6 +183,7 @@ void PanelOpenedNotifyProc(AIPanelRef inPanel)
 //--------------------------------------------------------------------
 //Callback Procedures for Control Bar
 //--------------------------------------------------------------------
+/*
 void ControlBarVisibilityChangedNotifyProc(AIControlBarRef inControlBar, AIBoolean isVisible)
 {
 	AIErr err = kNoErr;
@@ -214,8 +199,8 @@ void ControlBarVisibilityChangedNotifyProc(AIControlBarRef inControlBar, AIBoole
 
 void ControlBarSizeChangedNotifyProc(AIControlBarRef inControlBar)
 {
-
 }
+*/
 
 ASErr EmptyPanelPlugin::TimerInAction(void *message)
 {
@@ -278,13 +263,14 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 	AIErr error = kNoErr;
 
 	// Add About Plugins menu item for this plug-in.
+	/*
 	SDKAboutPluginsHelper aboutPluginsHelper;
 	error = aboutPluginsHelper.AddAboutPluginsMenuItem(message, 
 				kSDKDefAboutSDKCompanyPluginsGroupName, 
 				ai::UnicodeString(kSDKDefAboutSDKCompanyPluginsGroupNameString), 
 				"EmptyPanel...", 
 				&fAboutPluginMenu);
-
+	*/
 	if (error)
 		return error;
 
@@ -531,291 +517,6 @@ AIErr EmptyPanelPlugin::AddWidgets()
 }
 */
 
-AIErr EmptyPanelPlugin::AddWidgetsToControlBar()
-{
-	AIErr error = kNoErr;
-	AIControlBarPlatformWindow ctrlBarPlatformWindow = NULL;
-	
-	// error = sAIControlBar->GetPlatformWindow(fControlBar, ctrlBarPlatformWindow);
-
-	if (error)
-		return error;
-	
-	if(ctrlBarPlatformWindow)
-	{
-		#ifdef WIN_ENV
-		//Min Width
-		HWND hwndStaticTextMinWidth = CreateWindowEx(NULL,
-			L"STATIC",		/* System Class */
-			L"Min Width:",	/* Label */
-			WS_CHILD | WS_VISIBLE | SS_LEFT,
-			10,		/* X */
-			10,		/* Y */
-			70,		/* Width */
-			18,		/* Height */
-			ctrlBarPlatformWindow,	/* Parent */
-			NULL,	
-			(HINSTANCE)GetWindowLongPtr(ctrlBarPlatformWindow, GWLP_HINSTANCE),
-			NULL);
-
-		HWND hwndEditTextMinWidth = CustomEdit::CreateCustomEdit(WS_EX_CLIENTEDGE,
-			L"",		/* Label */	
-			WS_CHILD | WS_VISIBLE| ES_NUMBER | WS_TABSTOP,
-			85,		/* X */
-			10,		/* Y */
-			40,		/* Width */
-			18,		/* Height **/
-			ctrlBarPlatformWindow,	/* Parent */
-			(HMENU)Min_Width_Edit_Text,
-			(HINSTANCE)GetWindowLongPtr(ctrlBarPlatformWindow, GWLP_HINSTANCE),
-			NULL);
-
-		HWND hwndButtonMinWidth = CreateWindowEx(NULL,
-			L"BUTTON",	/* System Class */
-			L"Commit",	/* Label */
-			WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON,
-			130,	/* X */
-			8,		/* Y */
-			60,		/* Width */
-			22,		/* Height */
-			ctrlBarPlatformWindow,	/* Parent */
-			(HMENU)Min_Width_Button,
-			(HINSTANCE)GetWindowLongPtr(ctrlBarPlatformWindow, GWLP_HINSTANCE),
-			NULL);
-
-		//Max Width
-		HWND hwndStaticTextMaxWidth = CreateWindowEx(NULL,
-			L"STATIC",		/* System Class */
-			L"MaxWidth:",	/* Label */
-			WS_CHILD | WS_VISIBLE ,
-			200,	/* X */
-			10,		/* Y */
-			70,		/* Width */
-			18,		/* Height */
-			ctrlBarPlatformWindow,	/* Parent */
-			NULL,	
-			(HINSTANCE)GetWindowLongPtr(ctrlBarPlatformWindow, GWLP_HINSTANCE),
-			NULL);
-
-		HWND hwndEditTextMaxWidth = CustomEdit::CreateCustomEdit(WS_EX_CLIENTEDGE,
-			L"",		/* Label */	
-			WS_CHILD | WS_VISIBLE| ES_NUMBER | WS_TABSTOP,
-			275,	/* X */
-			10,		/* Y */
-			40,		/* Width */
-			18,		/* Height **/
-			ctrlBarPlatformWindow,	/* Parent */
-			(HMENU)Max_Width_Edit_Text,
-			(HINSTANCE)GetWindowLongPtr(ctrlBarPlatformWindow, GWLP_HINSTANCE),
-			NULL);
-
-		HWND hwndButtonMaxWidth = CreateWindowEx(NULL,
-			L"BUTTON",	/* System Class */
-			L"Commit",	/* Label */
-			WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON,
-			320,	/* X */
-			8,		/* Y */
-			60,		/* Width */
-			22,		/* Height */
-			ctrlBarPlatformWindow,	/* Parent */
-			(HMENU)Max_Width_Button,
-			(HINSTANCE)GetWindowLongPtr(ctrlBarPlatformWindow, GWLP_HINSTANCE),
-			NULL);
-
-		//Width
-		HWND hwndStaticTextWidth = CreateWindowEx(NULL,
-			L"STATIC",		/* System Class */
-			L"Width:",		/* Label */
-			WS_CHILD | WS_VISIBLE ,
-			390,	/* X */
-			10,		/* Y */
-			45,		/* Width */
-			18,		/* Height */
-			ctrlBarPlatformWindow,	/* Parent */
-			NULL,	
-			(HINSTANCE)GetWindowLongPtr(ctrlBarPlatformWindow, GWLP_HINSTANCE),
-			NULL);
-
-		HWND hwndEditTextWidth = CustomEdit::CreateCustomEdit(WS_EX_CLIENTEDGE,
-			L"",		/* Label */	
-			WS_CHILD | WS_VISIBLE | ES_NUMBER | WS_TABSTOP,
-			440,	/* X */
-			10,		/* Y */
-			40,		/* Width */
-			18,		/* Height **/
-			ctrlBarPlatformWindow,	/* Parent */
-			(HMENU)Width_Edit_Text,
-			(HINSTANCE)GetWindowLongPtr(ctrlBarPlatformWindow, GWLP_HINSTANCE),
-			NULL);
-
-		HWND hwndButtonWidth = CreateWindowEx(NULL,
-			L"BUTTON",	/* System Class */
-			L"Commit",	/* Label */
-			WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON ,
-			485,	/* X */
-			8,		/* Y */
-			60,		/* Width */
-			22,		/* Height */
-			ctrlBarPlatformWindow,	/* Parent */
-			(HMENU)Width_Button,
-			(HINSTANCE)GetWindowLongPtr(ctrlBarPlatformWindow, GWLP_HINSTANCE),
-			NULL);
-
-		//Move to Point
-		HWND hwndStaticTextX = CreateWindowEx(NULL,
-			L"STATIC",		/* System Class */
-			L"X:",			/* Label */
-			WS_CHILD | WS_VISIBLE,
-			555,	/* X */
-			10,		/* Y */
-			15,		/* Width */
-			18,		/* Height */
-			ctrlBarPlatformWindow,	/* Parent */
-			NULL,	
-			(HINSTANCE)GetWindowLongPtr(ctrlBarPlatformWindow, GWLP_HINSTANCE),
-			NULL);
-
-		HWND hwndEditTextX = CustomEdit::CreateCustomEdit(WS_EX_CLIENTEDGE,
-			L"",		/* Label */	
-			WS_CHILD | WS_VISIBLE | ES_NUMBER | WS_TABSTOP,
-			575,	/* X */
-			10,		/* Y */
-			40,		/* Width */
-			18,		/* Height **/
-			ctrlBarPlatformWindow,	/* Parent */
-			(HMENU)X_Edit_Text,
-			(HINSTANCE)GetWindowLongPtr(ctrlBarPlatformWindow, GWLP_HINSTANCE),
-			NULL);
-
-		HWND hwndStaticTextY = CreateWindowEx(NULL,
-			L"STATIC",		/* System Class */
-			L"Y:",			/* Label */
-			WS_CHILD | WS_VISIBLE,
-			620,	/* X */
-			10,		/* Y */
-			15,		/* Width */
-			18,		/* Height */
-			ctrlBarPlatformWindow,	/* Parent */
-			NULL,	
-			(HINSTANCE)GetWindowLongPtr(ctrlBarPlatformWindow, GWLP_HINSTANCE),
-			NULL);
-
-		HWND hwndEditTextY = CustomEdit::CreateCustomEdit(WS_EX_CLIENTEDGE,
-			L"",		/* Label */	
-			WS_CHILD | WS_VISIBLE| ES_NUMBER | WS_TABSTOP,
-			640,	/* X */
-			10,		/* Y */
-			40,		/* Width */
-			18,		/* Height **/
-			ctrlBarPlatformWindow,	/* Parent */
-			(HMENU)Y_Edit_text,
-			(HINSTANCE)GetWindowLongPtr(ctrlBarPlatformWindow, GWLP_HINSTANCE),
-			NULL);
-
-		HWND hwndButtonMove = CreateWindowEx(NULL,
-			L"BUTTON",	/* System Class */
-			L"Move",	/* Label */
-			WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON,
-			690,	/* X */
-			8,		/* Y */
-			50,		/* Width */
-			22,		/* Height */
-			ctrlBarPlatformWindow,	/* Parent */
-			(HMENU)Move_Button,
-			(HINSTANCE)GetWindowLongPtr(ctrlBarPlatformWindow, GWLP_HINSTANCE),
-			NULL);
-
-		HWND hwndButtonGet = CreateWindowEx(NULL,
-			L"BUTTON",	/* System Class */
-			L"Get",		/* Label */
-			WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON,
-			750,	/* X */
-			8,		/* Y */
-			40,		/* Width */
-			22,		/* Height */
-			ctrlBarPlatformWindow,	/* Parent */
-			(HMENU)Get_Button,
-			(HINSTANCE)GetWindowLongPtr(ctrlBarPlatformWindow, GWLP_HINSTANCE),
-			NULL);
-
-		ai::NumberFormat numFormat;
-		ai::UnicodeString strResult;
-
-		sAIStringFormatUtils->IntegerToString(numFormat, controlBarWidthMin, strResult);
-		SendMessage(hwndEditTextMinWidth, (UINT) WM_SETTEXT, 0, (LPARAM)strResult.as_ASUnicode().c_str());
-
-		sAIStringFormatUtils->IntegerToString(numFormat, controlBarWidthMax, strResult);
-		SendMessage(hwndEditTextMaxWidth, (UINT) WM_SETTEXT, 0, (LPARAM)strResult.as_ASUnicode().c_str());
-	
-		sAIStringFormatUtils->IntegerToString(numFormat, controlBarWidth, strResult);
-		SendMessage(hwndEditTextWidth, (UINT) WM_SETTEXT, 0, (LPARAM)strResult.as_ASUnicode().c_str());
-
-		//SetProp(ctrlBarPlatformWindow,L"PLUGINPTR", this);
-		//fDefCtrlBarWndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtr(ctrlBarPlatformWindow, GWLP_WNDPROC,
-		//	reinterpret_cast<LONG_PTR>(&EmptyPanelPlugin::StaticCtrlBarWindowProc)));
-#endif
-#ifdef MAC_ENV
-		
-		//Uncomment this section for code that does not use a nib (not recommended)
-		/* 
-		NSRect widthTextEditFrame = NSMakeRect(10, 10, 70, 18);
-		NSTextField* widthTextEditField = [[NSTextField alloc] initWithFrame:widthTextEditFrame];
-		[ctrlBarPlatformWindow addSubview:widthTextEditField];
-		
-		NSRect minWidthTextEditFrame = NSMakeRect(85, 10, 40, 18);
-		NSTextField* minWidthTextEditField = [[NSTextField alloc] initWithFrame:minWidthTextEditFrame];
-		[ctrlBarPlatformWindow addSubview:minWidthTextEditField];
-		
-		NSRect commitButtonFrame = NSMakeRect(130, 8, 60, 22);
-		NSButton *commitButton = [[NSButton alloc] initWithFrame:commitButtonFrame];
-		[commitButton setTitle:@"Commit"];
-		[ctrlBarPlatformWindow addSubview:commitButton]; 
-		 
-		 */
-		
-		//Uncomment below for example loading nib without NSViewController (CalcController classes)
-		/*
-		NSBundle* bundle = [NSBundle bundleWithIdentifier:@"com.adobe.illustrator.plugins.EmptyPanel"];
-		
-		// Replace "View" with your own nib file
-		NSNib*      aNib = [[NSNib alloc] initWithNibNamed:@"ControlPanel" bundle:bundle];
-		NSArray*    topLevelObjs = nil;
-		
-		// ***** Loads Nib ******
-		if (![aNib instantiateNibWithOwner:ctrlBarPlatformWindow topLevelObjects:&topLevelObjs])
-		{
-			NSLog(@"Warning! Could not load nib file.\n");
-			return nil;
-		}
-		
-		for(id topView in topLevelObjs)
-		{
-			if([topView isKindOfClass:[NSView class]])
-			{
-				controlPanelNibView = topView;
-				break;
-			}
-		}
-		
-		//This could also be done from IB
-		[controlPanelNibView setAutoresizingMask:0];
-		[ctrlBarPlatformWindow setFrame:[controlPanelNibView frame]];
-		[ctrlBarPlatformWindow addSubview:controlPanelNibView];
-		[controlPanelNibView release];*/
-		
-		NSBundle* bundle = [NSBundle bundleWithIdentifier:@"com.adobe.illustrator.plugins.EmptyPanel"];
-		BarController* barcontroller = [BarController alloc];
-		[barcontroller initWithNibName:@"ControlPanel" bundle:bundle];
-		
-		NSView* newView = [barcontroller view];
-		
-		[ctrlBarPlatformWindow setFrame:[newView frame]];
-		[ctrlBarPlatformWindow addSubview:newView];
-		[barcontroller setControlBarRef:fControlBar];
-#endif
-	}
-	return error;
-}
 
 /*
 #ifdef WIN_ENV
@@ -1026,12 +727,12 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 	
 
 	AIErr error = kNoErr;
-	if (message->menuItem == fAboutPluginMenu) 
+	/*if (message->menuItem == fAboutPluginMenu) 
 	{
 		SDKAboutPluginsHelper aboutPluginsHelper;
 		aboutPluginsHelper.PopAboutBox(message, "About EmptyPanel", kSDKDefAboutSDKCompanyPluginsAlertString);
 	}
-	else if (message->menuItem == fEmptyPanelPanelMenuItemHandle)
+	else*/ if (message->menuItem == fEmptyPanelPanelMenuItemHandle)
 	{	
 		//if(fPanel)
 		//{
@@ -1066,6 +767,7 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 	return error;
 }
 
+/*
 void EmptyPanelPlugin::UpdateMenu(AIBoolean isVisible, ItemType item)
 {
 	if (item == PANEL)
@@ -1079,6 +781,7 @@ void EmptyPanelPlugin::UpdateMenu(AIBoolean isVisible, ItemType item)
 		//sAIUser->MessageAlert(ai::UnicodeString("bar"));
 	}
 }
+*/
 
 ASErr EmptyPanelPlugin::Notify(AINotifierMessage *message)
 {

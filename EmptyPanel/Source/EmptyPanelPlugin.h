@@ -36,6 +36,7 @@ class MyQTUI;
 #include <QtWidgets/QApplication>
 */
 
+/*
 #ifdef WIN_ENV
 	#include "windows.h"
 
@@ -58,14 +59,17 @@ class MyQTUI;
 	#define X_Edit_Text				14
 	#define Y_Edit_text				15
 #endif
+*/
 
 Plugin *AllocatePlugin(SPPluginRef pluginRef);
 void FixupReload(Plugin *plugin);
 
+/*
 enum ItemType {
 	PANEL,
 	CTRL_BAR
 };
+*/
 
 class EmptyPanelPlugin : public Plugin
 {
@@ -87,7 +91,7 @@ public:
 	// added by Reza
 	ASErr TimerInAction(void *message);
 
-	void UpdateMenu(AIBoolean isVisible, ItemType item);
+	//void UpdateMenu(AIBoolean isVisible, ItemType item);
 	ASErr GoMenuItem(AIMenuMessage *message);
 	ASErr Notify(AINotifierMessage *message);
 
@@ -101,7 +105,7 @@ private:
 
 	/**	Handle for the About SDK Plug-ins menu item.
 	*/
-	AIMenuItemHandle fAboutPluginMenu;
+	//AIMenuItemHandle fAboutPluginMenu;
 
 	/** Handle for menu item in Window > Third Party Panel menu item.
 	*/
@@ -118,12 +122,10 @@ private:
 	//AIMenuItemHandle fEmptyPanelControlBarMenuItemHandle;
 	
 	ASErr SetIcon();
-
-	ASErr AddWidgets();
-	
+	ASErr AddWidgets();	
 	ASErr AddWidgetsToControlBar();
-
 	AIPanelPlatformWindow hDlg;
+
 #ifdef WIN_ENV
 	//Panel related
 	/*
