@@ -15,6 +15,7 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QWidget>
@@ -27,8 +28,9 @@ class Ui_MyQTUIClass
 public:
     QWidget *centralWidget;
     QGridLayout *gridLayout;
-    GLContainer *widget;
     QTextEdit *textEdit;
+    QListWidget *listWidget;
+    GLContainer *widget;
 
     void setupUi(QMainWindow *MyQTUIClass)
     {
@@ -42,28 +44,23 @@ public:
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        textEdit = new QTextEdit(centralWidget);
+        textEdit->setObjectName(QStringLiteral("textEdit"));
+        textEdit->setMaximumSize(QSize(250, 16777215));
+
+        gridLayout->addWidget(textEdit, 1, 0, 1, 1);
+
+        listWidget = new QListWidget(centralWidget);
+        listWidget->setObjectName(QStringLiteral("listWidget"));
+        listWidget->setMaximumSize(QSize(250, 16777215));
+
+        gridLayout->addWidget(listWidget, 0, 0, 1, 1);
+
         widget = new GLContainer(centralWidget);
         widget->setObjectName(QStringLiteral("widget"));
         widget->setAutoFillBackground(false);
 
-        gridLayout->addWidget(widget, 0, 1, 1, 1);
-
-        textEdit = new QTextEdit(centralWidget);
-        textEdit->setObjectName(QStringLiteral("textEdit"));
-        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(textEdit->sizePolicy().hasHeightForWidth());
-        textEdit->setSizePolicy(sizePolicy);
-        textEdit->setMinimumSize(QSize(300, 0));
-        textEdit->setMaximumSize(QSize(300, 16777215));
-        QFont font;
-        font.setFamily(QStringLiteral("Courier New"));
-        font.setPointSize(7);
-        textEdit->setFont(font);
-        textEdit->setReadOnly(true);
-
-        gridLayout->addWidget(textEdit, 0, 0, 1, 1);
+        gridLayout->addWidget(widget, 0, 1, 3, 1);
 
         MyQTUIClass->setCentralWidget(centralWidget);
 
