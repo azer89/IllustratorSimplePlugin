@@ -676,6 +676,8 @@ ASErr EmptyPanelPlugin::ShutdownPlugin(SPInterfaceMessage *message)
 {
 	AIErr error = kNoErr;
 
+	//sAIUser->MessageAlert(ai::UnicodeString("shutdown"));
+
 	// added by Reza
 	//error = sAITimer->SetTimerActive(timerHandle, false);
 
@@ -732,7 +734,6 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 		my_qt_window->show();
 		my_qt_window->setFocus();	// should call this or the window will be hidden behind
 		my_qt_app->exec();
-		//sAIDocument->RedrawDocument();
 		//}
 		//}
 	}
@@ -770,60 +771,69 @@ void EmptyPanelPlugin::UpdateMenu(AIBoolean isVisible, ItemType item)
 
 ASErr EmptyPanelPlugin::Notify(AINotifierMessage *message)
 {
-	//->MessageAlert(ai::UnicodeString(message->type));
-
 	AIErr result = kNoErr;
-	if(strcmp(message->type, kAIApplicationShutdownNotifier) == 0)
-	{		
-		/*if(fPanel)
-		{
-		#ifdef WIN_ENV
-			
-			AIPanelPlatformWindow panelPlatfromWindow = NULL;
-			result = sAIPanel->GetPlatformWindow(fPanel, panelPlatfromWindow);
-
-			if(panelPlatfromWindow)
-			{
-				RemovePropA(panelPlatfromWindow, "TPNL");
-				SetWindowLongPtr(panelPlatfromWindow, GWLP_WNDPROC, (LONG_PTR)(fDefaultWindProc));
-				DestroyWindow(panelPlatfromWindow);
-			}
-		#endif
-
-			result = sAIPanel->Destroy(fPanel);
-			fPanel = NULL;
-		}*/
-
-		/*
-		if(fPanelFlyoutMenu)
-		{
-			result = sAIPanelFlyoutMenu->Destroy(fPanelFlyoutMenu);
-			fPanelFlyoutMenu = NULL;
-		}
-		*/
-		/*
-		if (fControlBar != NULL)
-		{
-#ifdef WIN_ENV
-			AIControlBarPlatformWindow ctrlBarPlatformWindow = NULL;
-			
-			result = sAIControlBar->GetPlatformWindow(fControlBar, ctrlBarPlatformWindow);
-					
-			if(ctrlBarPlatformWindow)
-			{
-				
-				RemoveProp(ctrlBarPlatformWindow, L"PLUGINPTR");
-				SetWindowLongPtr(ctrlBarPlatformWindow, GWLP_WNDPROC, (LONG_PTR)(fDefCtrlBarWndProc));
-				DestroyWindow(ctrlBarPlatformWindow);
-			}
-#endif
-			result = sAIControlBar->Destroy(fControlBar);
-			fControlBar = NULL;
-		}
-		*/
+	if (strcmp(message->type, kAIApplicationShutdownNotifier) == 0)
+	{
 	}
 	return result;
 }
+
+//ASErr EmptyPanelPlugin::Notify(AINotifierMessage *message)
+//{
+//	//->MessageAlert(ai::UnicodeString(message->type));
+//
+//	AIErr result = kNoErr;
+//	if(strcmp(message->type, kAIApplicationShutdownNotifier) == 0)
+//	{		
+//		/*if(fPanel)
+//		{
+//		#ifdef WIN_ENV
+//			
+//			AIPanelPlatformWindow panelPlatfromWindow = NULL;
+//			result = sAIPanel->GetPlatformWindow(fPanel, panelPlatfromWindow);
+//
+//			if(panelPlatfromWindow)
+//			{
+//				RemovePropA(panelPlatfromWindow, "TPNL");
+//				SetWindowLongPtr(panelPlatfromWindow, GWLP_WNDPROC, (LONG_PTR)(fDefaultWindProc));
+//				DestroyWindow(panelPlatfromWindow);
+//			}
+//		#endif
+//
+//			result = sAIPanel->Destroy(fPanel);
+//			fPanel = NULL;
+//		}*/
+//
+//		/*
+//		if(fPanelFlyoutMenu)
+//		{
+//			result = sAIPanelFlyoutMenu->Destroy(fPanelFlyoutMenu);
+//			fPanelFlyoutMenu = NULL;
+//		}
+//		*/
+//		/*
+//		if (fControlBar != NULL)
+//		{
+//#ifdef WIN_ENV
+//			AIControlBarPlatformWindow ctrlBarPlatformWindow = NULL;
+//			
+//			result = sAIControlBar->GetPlatformWindow(fControlBar, ctrlBarPlatformWindow);
+//					
+//			if(ctrlBarPlatformWindow)
+//			{
+//				
+//				RemoveProp(ctrlBarPlatformWindow, L"PLUGINPTR");
+//				SetWindowLongPtr(ctrlBarPlatformWindow, GWLP_WNDPROC, (LONG_PTR)(fDefCtrlBarWndProc));
+//				DestroyWindow(ctrlBarPlatformWindow);
+//			}
+//#endif
+//			result = sAIControlBar->Destroy(fControlBar);
+//			fControlBar = NULL;
+//		}
+//		*/
+//	}
+//	return result;
+//}
 
 /*ASErr EmptyPanelPlugin::SetIcon()
 {
