@@ -682,6 +682,7 @@ ASErr EmptyPanelPlugin::ShutdownPlugin(SPInterfaceMessage *message)
 	//error = sAITimer->SetTimerActive(timerHandle, false);
 
 	// added by Reza
+	// Delete Qt window
 	if (my_qt_window)
 	{
 		my_qt_window->close();
@@ -689,6 +690,7 @@ ASErr EmptyPanelPlugin::ShutdownPlugin(SPInterfaceMessage *message)
 	}
 
 	// added by Reza
+	// Delete Qt instance
 	if (my_qt_app) 
 	{ 
 		my_qt_app->quit();
@@ -730,10 +732,10 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 		//if (!isShown) // dunno why it is !not
 		//{
 
-		// Note that I don't use QApplication.exec()
+		/* we show our UI*/
 		my_qt_window->show();
 		my_qt_window->setFocus();	// should call this or the window will be hidden behind
-		my_qt_app->exec();
+		my_qt_app->exec();			// Note that I don't use QApplication.exec()
 		//}
 		//}
 	}
