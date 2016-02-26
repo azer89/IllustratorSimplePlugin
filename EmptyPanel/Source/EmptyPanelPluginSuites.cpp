@@ -28,10 +28,11 @@ extern "C"
 	AIMenuSuite					*sAIMenu;
 	AIStringFormatUtilsSuite	*sAIStringFormatUtils;
 	AIControlBarSuite			*sAIControlBar;
-	AIDrawArtSuite				*sAIDrawArtSuite; // added by Reza
-	AIDocumentSuite				*sAIDocument;	// added by Reza
-	AITimerSuite				*sAITimer;	    // added by Reza
-	//AINotifierSuite			*sAINotifier;	// it's already is Suites.cpp
+	AIDrawArtSuite				*sAIDrawArtSuite;	// added by Reza
+	AISwatchListSuite			*sAISwatchList;
+	AIDocumentSuite				*sAIDocument;		// added by Reza
+	AITimerSuite				*sAITimer;			// added by Reza
+	//AINotifierSuite			*sAINotifier;		// it's already is Suites.cpp
 }
 
 ImportSuite		gImportSuites[] = {
@@ -44,9 +45,10 @@ ImportSuite		gImportSuites[] = {
 	kAIPanelFlyoutMenuSuite, kAIPanelFlyoutMenuSuiteVersion, &sAIPanelFlyoutMenu,
 	kAIStringFormatUtilsSuite, kAIStringFormatUtilsSuiteVersion, &sAIStringFormatUtils,
 	kAIControlBarSuite, kAIControlBarSuiteVersion, &sAIControlBar,
-	kAIDocumentSuite, kAIDocumentSuiteVersion, &sAIDocument,   // added by Reza
-	kAITimerSuite, kAITimerVersion, &sAITimer,				   // added by Reza
-	kAIDrawArtSuite, kAIDrawArtSuiteVersion, &sAIDrawArtSuite, // added by Reza
-	//kAINotifierSuite, kAINotifierVersion, &sAINotifier,	   // added by Reza
+	kAIDocumentSuite, kAIDocumentSuiteVersion, &sAIDocument,		// added by Reza
+	kAITimerSuite, kAITimerVersion, &sAITimer,						// added by Reza
+	kAIDrawArtSuite, kAIDrawArtSuiteVersion, &sAIDrawArtSuite,		// added by Reza
+	kAISwatchListSuite, kAISwatchListSuiteVersion, &sAISwatchList,	// added by Reza
+	//kAINotifierSuite, kAINotifierVersion, &sAINotifier,			// added by Reza
 	nil, 0, nil
 };

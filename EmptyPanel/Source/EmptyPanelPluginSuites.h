@@ -31,6 +31,7 @@
 #include "SPBlocks.h"
 #include "AIControlBar.h"
 #include "AIDrawArt.h"		// added by Reza
+#include "AISwatchList.h"
 
 #include "AIDocument.h"
 #include "AiTimer.h"
@@ -46,8 +47,11 @@ extern "C" AIMenuSuite				*sAIMenu;
 extern "C" AIStringFormatUtilsSuite *sAIStringFormatUtils;
 extern "C" SPBlocksSuite			*sSPBlocks;
 extern "C" AIControlBarSuite		*sAIControlBar;
-extern "C"  AIDrawArtSuite*			sAIDrawArtSuite; // added by Reza
-extern "C" AIDocumentSuite			*sAIDocument;	 // added by Reza
-extern "C" AITimerSuite				*sAITimer;       // added by Reza
+
+extern "C"  AIDrawArtSuite			*sAIDrawArtSuite; // reading drawing data
+extern "C"  AISwatchListSuite		*sAISwatchList;   // reading drawing data
+
+extern "C" AIDocumentSuite			*sAIDocument;	 // what is this I don't know
+extern "C" AITimerSuite				*sAITimer;       // for periodic timer
 
 #endif   // __EmptyPanelPluginSuites_H__

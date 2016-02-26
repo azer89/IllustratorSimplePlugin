@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EmptyPanel", "EmptyPanel\EmptyPanel.vcxproj", "{ECD023BE-AF04-4A28-B7BC-3DB578E5BBC2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B12702AD-ABFB-343A-A199-8E24837244A3} = {B12702AD-ABFB-343A-A199-8E24837244A3}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyQTUI", "MyQTUI\MyQTUI.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
 EndProject

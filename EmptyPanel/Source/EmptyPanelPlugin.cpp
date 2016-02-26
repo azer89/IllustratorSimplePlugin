@@ -744,18 +744,60 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 
 		AIDrawArtAGMPort port;
 		error = sAIDrawArtSuite->CreateImagePort(50, 50, &port.port);
-		if (error)
+
+		AIDrawColorData colorData;
+		AIColor color;
+		AISwatchRef swatchRef = sAISwatchList->GetSwatchByName(NULL, ai::UnicodeString("CMYK Red"));
+		error = sAISwatchList->GetAIColor(swatchRef, &color);
+		colorData.color = color;
+		colorData.output.port = port;
+		colorData.type = 2;
+		colorData.style = 0;
+		colorData.rect.bottom = 50;
+		colorData.rect.right = 50;
+		colorData.rect.left = 0;
+		colorData.rect.top = 0;
+		colorData.options = 0;
+		colorData.width = 0;
+
+		colorData.color = color;
+		colorData.output.port = port;
+
+		error = sAIDrawArtSuite->DrawColorSwatch(&colorData);
+
+		size_t length = 0;
+		ai::uint32* width = 0;
+		ai::uint32* height = 0;
+		const ai::uint8* pixelData = NULL;
+		error = sAIDrawArtSuite->GetImagePixelData(port.port, &pixelData, &length, width, height);
+		//std::vector<BYTE> buffer;
+		//length = length / 4; //When using individual values
+		for (size_t i = 0; i < length; i++)
 		{
-			sAIUser->MessageAlert(ai::UnicodeString("sAIDrawArtSuite->CreateImagePort(50, 50, &port.port)"));
+			// How to get the individual values
+			const ai::uint8* a = pixelData++;
+			const ai::uint8* r = pixelData++;	
+			const ai::uint8* g = pixelData++;
+			const ai::uint8* b = pixelData++;
+
+			//std::cout << a << " " << r << " " << g << " " << b << "\n";
+			//my_qt_window->GetTextEdit()->append(r + " " + g + " " + b);
+			// ai::uint32 hex = NULL;
+			// hex = (*a << 24) | (*r << 16) | (*g << 8) | *b;
+
+			//buffer.push_back(*pixelData);
+			pixelData++;
 		}
-		else
-		{
-			sAIUser->MessageAlert(ai::UnicodeString("OK !"));
-		}
+		//std::string encoded = base64Encode(buffer);
+		//encodedBitmap.assign(encoded);
+
 		//aisdk::check_ai_error(error);
-		
-		//}
-		//}
+		error = sAIDrawArtSuite->DestroyImagePort(port.port);
+		//aisdk::check_ai_error(error);
+
+		// Apparently this will give you error if you don't have an active document
+		if (error) { sAIUser->MessageAlert(ai::UnicodeString("Error !")); }
+		//else { sAIUser->MessageAlert(ai::UnicodeString("OK !")); }
 	}
 	
 	/*
