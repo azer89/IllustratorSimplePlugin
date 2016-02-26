@@ -18,6 +18,8 @@
 * radhitya@uwaterloo.ca
 */
 
+// sAIUser->MessageAlert(ai::UnicodeString("Reza Adhitya"));
+
 
 /**
  * Some important functions:
@@ -735,7 +737,23 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 		/* we show our UI*/
 		my_qt_window->show();
 		my_qt_window->setFocus();	// should call this or the window will be hidden behind
-		my_qt_app->exec();			// Note that I don't use QApplication.exec()
+		//my_qt_app->exec();			// Note that I don't use QApplication.exec()
+
+		// get pixels
+		// error = sAIDrawArtSuite->GetImagePixelData(port.port, &pixelData, &length, width, height);
+
+		AIDrawArtAGMPort port;
+		error = sAIDrawArtSuite->CreateImagePort(50, 50, &port.port);
+		if (error)
+		{
+			sAIUser->MessageAlert(ai::UnicodeString("sAIDrawArtSuite->CreateImagePort(50, 50, &port.port)"));
+		}
+		else
+		{
+			sAIUser->MessageAlert(ai::UnicodeString("OK !"));
+		}
+		//aisdk::check_ai_error(error);
+		
 		//}
 		//}
 	}
@@ -754,6 +772,70 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 
 	return error;
 }
+
+/*
+ASErr DrawArtPlugin::DrawAGMPort(std::string& encodedBitmap)
+{
+	ASErr error = kNoErr;
+
+	AISwatchRef swatchRef = sAISwatchList->GetSwatchByName(NULL, ai::UnicodeString("CMYK Red"));
+
+	AIDrawArtAGMPort port;
+	error = sAIDrawArtSuite->CreateImagePort(50, 50, &port.port);
+	aisdk::check_ai_error(error);
+
+	AIDrawColorData colorData;
+	AIColor color;
+	error = sAISwatchList->GetAIColor(swatchRef,&color);
+
+	colorData.color = color;
+	colorData.output.port = port;
+	colorData.type = 2;
+	colorData.style = 0;
+	colorData.rect.bottom = 50;
+	colorData.rect.right = 50;
+	colorData.rect.left =0;
+	colorData.rect.top = 0;
+	colorData.options = 0;
+	colorData.width = 0;
+
+	aisdk::check_ai_error(error);
+	colorData.color = color;
+	colorData.output.port = port;
+
+	error = sAIDrawArtSuite->DrawColorSwatch(&colorData);
+
+	aisdk::check_ai_error(error);
+	size_t length = 0;
+	ai::uint32* width = 0;
+	ai::uint32* height = 0;
+	const ai::uint8* pixelData = NULL;
+	error = sAIDrawArtSuite->GetImagePixelData(port.port, &pixelData, &length, width, height);
+	std::vector<BYTE> buffer;
+	//length = length / 4; //When using individual values
+	for(size_t i = 0; i < length ;i++)
+	{
+		// How to get the individual values
+		// const ai::uint8* a = pixelData++;
+		// const ai::uint8* r = pixelData++;
+		// const ai::uint8* g = pixelData++;
+		// const ai::uint8* b = pixelData++;
+		// ai::uint32 hex = NULL;
+		// hex = (*a << 24) | (*r << 16) | (*g << 8) | *b;
+
+		buffer.push_back(*pixelData);
+		pixelData++;
+	}
+	std::string encoded = base64Encode(buffer);
+	encodedBitmap.assign(encoded);
+
+	aisdk::check_ai_error(error);
+	error = sAIDrawArtSuite->DestroyImagePort(port.port);
+	aisdk::check_ai_error(error);
+	return error;
+}
+
+*/
 
 /*
 void EmptyPanelPlugin::UpdateMenu(AIBoolean isVisible, ItemType item)
