@@ -108,5 +108,11 @@
     <ClInclude Include="VertexDataHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ABox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ATriangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

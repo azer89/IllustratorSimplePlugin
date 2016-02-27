@@ -136,7 +136,9 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ABox.h" />
     <ClInclude Include="ALine.h" />
+    <ClInclude Include="ATriangle.h" />
     <ClInclude Include="AVector.h" />
     <ClInclude Include="GeneratedFiles\ui_myqtui.h" />
     <CustomBuild Include="GLWidget.h">

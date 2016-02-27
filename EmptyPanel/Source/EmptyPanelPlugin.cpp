@@ -772,6 +772,13 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 		error = sAIDrawArtSuite->GetImagePixelData(port.port, &pixelData, &length, width, height);
 		//std::vector<BYTE> buffer;
 		//length = length / 4; //When using individual values
+		//my_qt_window->GetTextEdit()->append("Length of data: " + QString::number(length));
+		//my_qt_window->GetTextEdit()->append("Width of data: " + QString::number(*width));
+		//my_qt_window->GetTextEdit()->append("Height of data: " + QString::number(*height));
+
+		std::vector<QColor> colorList;
+
+		/*
 		for (size_t i = 0; i < length; i++)
 		{
 			// How to get the individual values
@@ -779,6 +786,16 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 			const ai::uint8* r = pixelData++;	
 			const ai::uint8* g = pixelData++;
 			const ai::uint8* b = pixelData++;
+
+			int intR = (int)*r;
+			int intG = (int)*g;
+			int intB = (int)*b;
+			int intA = (int)*a;
+
+			colorList.push_back(QColor(intR, intG, intB, intA));
+
+			//int intR = *r;
+			//my_qt_window->GetTextEdit()->append(QString::number(intR));
 
 			//std::cout << a << " " << r << " " << g << " " << b << "\n";
 			//my_qt_window->GetTextEdit()->append(r + " " + g + " " + b);
@@ -788,6 +805,26 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 			//buffer.push_back(*pixelData);
 			pixelData++;
 		}
+		*/
+		for (size_t i = 0; i < length; i += 4)
+		{
+			const ai::uint8* a = pixelData++;
+			const ai::uint8* r = pixelData++;
+			const ai::uint8* g = pixelData++;
+			const ai::uint8* b = pixelData++;
+
+			int intR = (int)*r;
+			int intG = (int)*g;
+			int intB = (int)*b;
+			int intA = (int)*a;
+
+			colorList.push_back(QColor(intR, intG, intB, intA));
+		}
+
+		my_qt_window->SendData(50, 50, colorList);
+
+
+		//my_qt_window->GetTextEdit()->append("Length of colorList: " + QString::number(colorList.size()));
 		//std::string encoded = base64Encode(buffer);
 		//encodedBitmap.assign(encoded);
 

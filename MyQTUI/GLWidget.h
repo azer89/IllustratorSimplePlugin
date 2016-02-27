@@ -7,124 +7,144 @@
 #include <QOpenGLBuffer>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
-#include <QTextEdit>
 
+/*
 #include "AVector.h"
 #include "ALine.h"
+#include "ATriangle.h"
+#include "ABox.h"
+*/
 #include "VertexData.h"
 #include "VertexDataHelper.h"
 
 /**
 * Reza Adhitya Saputra
 * radhitya@uwaterloo.ca
+* February 2016
 */
+
+// forward declaration
+struct AVector;
+struct ALine;
+struct ATriangle;
+struct ABox;
 
 class GLWidget : public QGLWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
 private:
-	// ~~~ this is a dummy image ~~~
+	// image
 	QImage _imgOriginal;
 	QImage _imgGL;
 	GLuint _imgID;
 
-	VertexDataHelper* _vDataHelper;
+	// boxes
+	std::vector<ABox> _boxes;
+	QOpenGLBuffer               _boxVbo;
+	QOpenGLVertexArrayObject    _boxVao;
+	//std::vector<ALine>  _boxLines;
+	//QOpenGLBuffer               _boxLinesVbo;
+	//QOpenGLVertexArrayObject    _boxLinesVao;
 
-	bool   _isMouseDown;
-	float  _zoomFactor;
-	QPoint _scrollOffset;
-
-	// image size
-	int _img_width;
-	int _img_height;
-
-	float _slice;
-
-	// shader
-	QOpenGLShaderProgram* _shaderProgram;
-
-	// points
-	std::vector<AVector>     _points;
-	QOpenGLBuffer            _pointsVbo;
-	QOpenGLVertexArrayObject _pointsVao;
-
-	// lines
-	QOpenGLBuffer            _linesVbo;
-	QOpenGLVertexArrayObject _linesVao;
-
-	// for rendering
-	int        _mvpMatrixLocation;
-	int        _colorLocation;
-	int        _vertexLocation;
-	int        _use_color_location;
-	QMatrix4x4 _perspMatrix;
-	QMatrix4x4 _transformMatrix;
-
-private:
-	void CreateCurve(); // remove this
-	void PaintCurve(); // remove this
-	void BuildCurveVertexData(); // remove this
-
-	void SaveToSvg();
-
-protected:
-	// qt event
-	bool event(QEvent * event);
-	// init opengl
-	void initializeGL();
-	// draw
-	void paintGL();
-
-	void resizeGL(int width, int height);
-
-public:
-	QTextEdit* textEdit;
-
-public:
-
-	// constructor
-	GLWidget(QGLFormat format, QWidget *parent = 0);
-	// destructor
-	~GLWidget();
-
+	// triangles
+	std::vector<ATriangle> _triangles;
+	QOpenGLBuffer               _triangleVbo;
+	QOpenGLVertexArrayObject    _triangleVao;
 	
 
-	//void SetText(QTextEdit *textEdit) { this }
 
-	QSize GetCanvasSize() { return QSize(_img_width, _img_height); }
+    VertexDataHelper* _vDataHelper;
 
-	void AddSlice();
-	void RemoveSlice();
+    bool   _isMouseDown;
+    float  _zoomFactor;
+    QPoint _scrollOffset;
 
-	// zoom in handle
-	void ZoomIn();
-	// zoom out handle
-	void ZoomOut();
-	// set zoom value
-	void SetZoom(int val){ this->_zoomFactor = val; }
-	// get zoom value
-	float GetZoomFactor() { return this->_zoomFactor; }
+    // image size
+    int _img_width;
+    int _img_height;
 
-	// set horizontal scroll position
-	void HorizontalScroll(int val);
-	// set vertical scroll position
-	void VerticalScroll(int val);
-	// get scroll position (horizontal and vertical)
-	QPoint GetScrollOffset() { return this->_scrollOffset; }
+    float _slice;
 
-	// mouse press
-	void mousePressEvent(int x, int y);
-	// mouse move
-	void mouseMoveEvent(int x, int y);
-	// mouse release
-	void mouseReleaseEvent(int x, int y);
-	// mouse double click
-	void mouseDoubleClick(int x, int y);
+    // shader
+    QOpenGLShaderProgram* _shaderProgram;
 
-signals:
-	// send message to UI (bottom left)
-	void QtSendMessage(QString msg);
+    // points
+    std::vector<AVector>     _points;
+    QOpenGLBuffer            _pointsVbo;
+    QOpenGLVertexArrayObject _pointsVao;
+
+    // lines
+    QOpenGLBuffer            _linesVbo;
+    QOpenGLVertexArrayObject _linesVao;
+
+    // for rendering
+    int        _mvpMatrixLocation;
+    int        _colorLocation;
+    int        _vertexLocation;
+    int        _use_color_location;
+    QMatrix4x4 _perspMatrix;
+    QMatrix4x4 _transformMatrix;
+
+private:
+    void CreateCurve(); // remove this
+    void PaintCurve(); // remove this
+    void BuildCurveVertexData(); // remove this
+
+    void SaveToSvg();
+	
+	void SetImage(QString img);
+
+public:
+	void SetImage(int width, int height, std::vector<QColor> colorList);
+
+
+protected:
+    // qt event
+    bool event( QEvent * event );
+    // init opengl
+    void initializeGL();
+    // draw
+    void paintGL();
+
+    void resizeGL(int width, int height);
+
+public:
+
+    // constructor
+    GLWidget( QGLFormat format, QWidget *parent = 0);
+    // destructor
+    ~GLWidget();
+
+    QSize GetCanvasSize() { return QSize(_img_width, _img_height); }
+
+    void AddSlice();
+    void RemoveSlice();
+
+    // zoom in handle
+    void ZoomIn();
+    // zoom out handle
+    void ZoomOut();
+    // set zoom value
+    void SetZoom(int val){this->_zoomFactor = val;}
+    // get zoom value
+    float GetZoomFactor() { return this->_zoomFactor; }
+
+    // set horizontal scroll position
+    void HorizontalScroll(int val);
+    // set vertical scroll position
+    void VerticalScroll(int val);
+    // get scroll position (horizontal and vertical)
+    QPoint GetScrollOffset() {return this->_scrollOffset;}
+
+    // mouse press
+    void mousePressEvent(int x, int y);
+    // mouse move
+    void mouseMoveEvent(int x, int y);
+    // mouse release
+    void mouseReleaseEvent(int x, int y);
+    // mouse double click
+    void mouseDoubleClick(int x, int y);
 };
 
 #endif // GLWIDGET_H

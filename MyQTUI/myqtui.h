@@ -9,6 +9,8 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_myqtui.h"
 
+#include <vector>
+
 class MyQTUI : public QMainWindow
 {
 	Q_OBJECT
@@ -18,6 +20,8 @@ public:
 	~MyQTUI();
 
 	QTextEdit* GetTextEdit() { return ui.textEdit; }
+
+	void SendData(int width, int height, std::vector<QColor> colorList);
 
 private:
 	Ui::MyQTUIClass ui;
