@@ -9,11 +9,14 @@
 #include <QGLFormat>
 #include <QSvgGenerator>
 
+// for forward declaration
 #include "AVector.h"
 #include "ALine.h"
 #include "ATriangle.h"
 #include "ABox.h"
 #include "VertexData.h"
+#include "VertexDataHelper.h"
+
 #include "SystemParams.h"
 
 /**
@@ -21,7 +24,6 @@
 * radhitya@uwaterloo.ca
 * February 2016
 */
-
 
 GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
     QGLWidget(format, parent),
@@ -32,7 +34,8 @@ GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
     _img_height(50),
     _slice(8),
     _shaderProgram(0),
-	_imgID(0)
+	_imgID(0),
+	_isGLInitialized(false)
 {
 	//SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.png");
 }
@@ -45,11 +48,17 @@ GLWidget::~GLWidget()
 
 void GLWidget::initializeGL()
 {
-	std::cout << "Initialize GL\n";
+	//textEdit->append("Init begins !");
+	//std::cout << "Initialize GL\n";
 	//SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.png");
 
     QGLFormat glFormat = QGLWidget::format();
-    if (!glFormat.sampleBuffers()) { std::cerr << "Could not enable sample buffers." << std::endl; return; }
+    if (!glFormat.sampleBuffers()) 
+	{ 
+		//std::cerr << "Could not enable sample buffers." << std::endl; 
+		textEdit->append("Could not enable sample buffers.");
+		return; 
+	}
 
     glShadeModel(GL_SMOOTH);
 
@@ -60,13 +69,25 @@ void GLWidget::initializeGL()
 
     _shaderProgram = new QOpenGLShaderProgram();
     if (!_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, SystemParams::v_shader_file.c_str()))
-        { std::cerr << "Cannot load vertex shader." << std::endl; return; }
+    { 
+		//std::cerr << "Cannot load vertex shader." << std::endl; 
+		textEdit->append("Cannot load vertex shader.");
+		return; 
+	}
 
     if (!_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, SystemParams::f_shader_file.c_str()))
-        { std::cerr << "Cannot load fragment shader." << std::endl; return; }
+    { 
+		//std::cerr << "Cannot load fragment shader." << std::endl; 
+		textEdit->append("Cannot load fragment shader.");
+		return; 
+	}
 
     if ( !_shaderProgram->link() )
-        { std::cerr << "Cannot link shaders." << std::endl; return; }
+    { 
+		//std::cerr << "Cannot link shaders." << std::endl; 
+		textEdit->append("Cannot link shaders.");
+		return; 
+	}
 
     _shaderProgram->bind();
     _mvpMatrixLocation = _shaderProgram->uniformLocation("mvpMatrix");
@@ -81,6 +102,7 @@ void GLWidget::initializeGL()
 
     //SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.jpg");
     //SetImage(":/laughing_man.jpg");
+	SetImage(_snapshot_width, _snapshot_height, _colorList);
 
 	// a box
 	_boxes.push_back(ABox(AVector(0, 0), 
@@ -94,7 +116,9 @@ void GLWidget::initializeGL()
 	_triangles.push_back(ATriangle(AVector(1, 1), AVector(25, 25), AVector(1, 50)));
 	_vDataHelper->BuildTrianglesVertexData(_triangles, &_triangleVbo, &_triangleVao, QVector3D(1.0, 0.25, 0.25));
 
-
+	// don't remove this
+	textEdit->append("OpenGL is initialized");
+	_isGLInitialized = true;
 }
 
 bool GLWidget::event( QEvent * event )
@@ -300,8 +324,30 @@ void GLWidget::PaintCurve()
 #define my_min(a,b) ((a)<(b) ? (a) : (b))
 #define my_max(a,b) ((a)>(b) ? (a) : (b))
 
+/*
+void SetData(int width, int height, std::vector<QColor> colorList);
+
+private:
+int _snapshot_width;
+int _snapshot_height;
+std::vector<QColor> colorList;
+*/
+void GLWidget::SetData(int width, int height, std::vector<QColor> colorList)
+{
+	this->_snapshot_width  = width;
+	this->_snapshot_height = height;
+	this->_colorList        = colorList;
+}
+
 void GLWidget::SetImage(int width, int height, std::vector<QColor> colorList)
 {
+	// BUG !!!
+	//if (!_isGLInitialized)
+	//{
+	//	textEdit->append("force!");
+	//	this->initializeGL();
+	//}
+
 	/*
 	textEdit->append("width :" + QString::number(width));
 	textEdit->append("height :" + QString::number(height));
@@ -371,10 +417,10 @@ void GLWidget::SetImage(int width, int height, std::vector<QColor> colorList)
 	{
 		for (int y = 0; y < this->_img_height; y++)
 		{
-			int idx = x + y * this->_img_width;
-			QColor col = colorList[idx];
+			//int idx = x + y * this->_img_width;
+			//QColor col = colorList[idx];
 			//QColor col = QColor(0, 255, 0, 255);
-			//QColor col = QColor(rand() % 255, rand() % 255, rand() % 255, 255);
+			QColor col = QColor(rand() % 255, rand() % 255, rand() % 255, 255);
 			_imgOriginal.setPixel(x, y, col.rgba());
 		}
 	}
@@ -393,11 +439,21 @@ void GLWidget::SetImage(int width, int height, std::vector<QColor> colorList)
 
 	_imgID = 0;
 
+	glBindTexture(GL_TEXTURE_2D, 0); // I just want to make sure...
+	glEnable(GL_TEXTURE_2D); // should I have this ?
+
 	// BUG !!!
 	//while (_imgID == 0)
 	//{
 	glGenTextures(1, &_imgID);
 	//}
+
+	if (!_imgID)
+	{
+		//glGetError 1282 ???
+		textEdit->append("glGetError :" + QString::number(glGetError()));
+	}
+
 	glBindTexture(GL_TEXTURE_2D, _imgID);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -405,7 +461,8 @@ void GLWidget::SetImage(int width, int height, std::vector<QColor> colorList)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _imgGL.width(), _imgGL.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, _imgGL.bits());
 
-	textEdit->append("_imgID :" + QString::number(_imgID));
+	glDisable(GL_TEXTURE_2D);  // should I have this ?
+	//textEdit->append("_imgID :" + QString::number(_imgID));
 }
 
 void GLWidget::SetImage(QString img)

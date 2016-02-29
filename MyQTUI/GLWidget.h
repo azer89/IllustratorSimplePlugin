@@ -17,8 +17,8 @@
 
 #include <QTextEdit>
 
-#include "VertexData.h"
-#include "VertexDataHelper.h"
+//#include "VertexData.h"
+//#include "VertexDataHelper.h"
 
 /**
 * Reza Adhitya Saputra
@@ -31,15 +31,19 @@ struct AVector;
 struct ALine;
 struct ATriangle;
 struct ABox;
+struct VertexData;
+class VertexDataHelper;
 
 class GLWidget : public QGLWidget
 {
     Q_OBJECT
 
 public:
-	QTextEdit* textEdit;
+	QTextEdit* textEdit;	
 
 private:
+	bool _isGLInitialized;
+
 	// image
 	QImage _imgOriginal;
 	QImage _imgGL;
@@ -49,16 +53,11 @@ private:
 	std::vector<ABox> _boxes;
 	QOpenGLBuffer               _boxVbo;
 	QOpenGLVertexArrayObject    _boxVao;
-	//std::vector<ALine>  _boxLines;
-	//QOpenGLBuffer               _boxLinesVbo;
-	//QOpenGLVertexArrayObject    _boxLinesVao;
 
 	// triangles
 	std::vector<ATriangle> _triangles;
 	QOpenGLBuffer               _triangleVbo;
 	QOpenGLVertexArrayObject    _triangleVao;
-	
-
 
     VertexDataHelper* _vDataHelper;
 
@@ -92,35 +91,20 @@ private:
     QMatrix4x4 _perspMatrix;
     QMatrix4x4 _transformMatrix;
 
-private:
-    void CreateCurve(); // remove this
-    void PaintCurve(); // remove this
-    void BuildCurveVertexData(); // remove this
-
-    void SaveToSvg();
-	
-	void SetImage(QString img);
+	int _snapshot_width; 
+	int _snapshot_height; 
+	std::vector<QColor> _colorList;
 
 public:
-	void SetImage(int width, int height, std::vector<QColor> colorList);
-
-
-protected:
-    // qt event
-    bool event( QEvent * event );
-    // init opengl
-    void initializeGL();
-    // draw
-    void paintGL();
-
-    void resizeGL(int width, int height);
-
-public:
-
     // constructor
     GLWidget( QGLFormat format, QWidget *parent = 0);
     // destructor
     ~GLWidget();
+
+	void SetImage(int width, int height, std::vector<QColor> colorList);
+	void SetData(int width, int height, std::vector<QColor> colorList);
+
+	bool IsInitialized() { return _isGLInitialized; };
 
     QSize GetCanvasSize() { return QSize(_img_width, _img_height); }
 
@@ -151,6 +135,26 @@ public:
     void mouseReleaseEvent(int x, int y);
     // mouse double click
     void mouseDoubleClick(int x, int y);
+
+// Protected Functions
+protected:
+	// qt event
+	bool event(QEvent * event);
+	// init opengl
+	void initializeGL();
+	// draw
+	void paintGL();
+
+	void resizeGL(int width, int height);
+
+// Private Functions
+private:
+	void CreateCurve();			 // remove this
+	void PaintCurve();			 // remove this
+	void BuildCurveVertexData(); // remove this
+	void SaveToSvg();
+	void SetImage(QString img);
+
 };
 
 #endif // GLWIDGET_H
