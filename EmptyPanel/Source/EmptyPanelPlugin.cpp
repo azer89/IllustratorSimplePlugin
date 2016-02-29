@@ -734,10 +734,7 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 		//if (!isShown) // dunno why it is !not
 		//{
 
-		/* we show our UI*/
-		my_qt_window->show();
-		my_qt_window->setFocus();	// should call this or the window will be hidden behind
-		//my_qt_app->exec();			// Note that I don't use QApplication.exec()
+		
 
 		// get pixels
 		// error = sAIDrawArtSuite->GetImagePixelData(port.port, &pixelData, &length, width, height);
@@ -763,6 +760,7 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 		colorData.color = color;
 		colorData.output.port = port;
 
+		// THIS ONE !
 		error = sAIDrawArtSuite->DrawColorSwatch(&colorData);
 
 		size_t length = 0;
@@ -770,71 +768,41 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 		ai::uint32* height = 0;
 		const ai::uint8* pixelData = NULL;
 		error = sAIDrawArtSuite->GetImagePixelData(port.port, &pixelData, &length, width, height);
-		//std::vector<BYTE> buffer;
-		//length = length / 4; //When using individual values
-		//my_qt_window->GetTextEdit()->append("Length of data: " + QString::number(length));
-		//my_qt_window->GetTextEdit()->append("Width of data: " + QString::number(*width));
-		//my_qt_window->GetTextEdit()->append("Height of data: " + QString::number(*height));
+
 
 		std::vector<QColor> colorList;
 
-		/*
+		length = length / 4;
 		for (size_t i = 0; i < length; i++)
 		{
 			// How to get the individual values
 			const ai::uint8* a = pixelData++;
-			const ai::uint8* r = pixelData++;	
-			const ai::uint8* g = pixelData++;
-			const ai::uint8* b = pixelData++;
-
-			int intR = (int)*r;
-			int intG = (int)*g;
-			int intB = (int)*b;
-			int intA = (int)*a;
-
-			colorList.push_back(QColor(intR, intG, intB, intA));
-
-			//int intR = *r;
-			//my_qt_window->GetTextEdit()->append(QString::number(intR));
-
-			//std::cout << a << " " << r << " " << g << " " << b << "\n";
-			//my_qt_window->GetTextEdit()->append(r + " " + g + " " + b);
-			// ai::uint32 hex = NULL;
-			// hex = (*a << 24) | (*r << 16) | (*g << 8) | *b;
-
-			//buffer.push_back(*pixelData);
-			pixelData++;
-		}
-		*/
-		for (size_t i = 0; i < length; i += 4)
-		{
-			const ai::uint8* a = pixelData++;
 			const ai::uint8* r = pixelData++;
 			const ai::uint8* g = pixelData++;
 			const ai::uint8* b = pixelData++;
+			
 
-			int intR = (int)*r;
-			int intG = (int)*g;
-			int intB = (int)*b;
-			int intA = (int)*a;
+			int rInt = QString::number(*r).toInt();
+			int gInt = QString::number(*g).toInt();
+			int bInt = QString::number(*b).toInt();
+			int aInt = QString::number(*a).toInt();
 
-			colorList.push_back(QColor(intR, intG, intB, intA));
+
+			colorList.push_back(QColor(rInt, gInt, bInt, aInt));
 		}
 
 		my_qt_window->SendData(50, 50, colorList);
 
-
-		//my_qt_window->GetTextEdit()->append("Length of colorList: " + QString::number(colorList.size()));
-		//std::string encoded = base64Encode(buffer);
-		//encodedBitmap.assign(encoded);
+		/* we show our UI*/
+		my_qt_window->show();
+		my_qt_window->setFocus();	// should call this or the window will be hidden behind
+		//my_qt_app->exec();			// Note that I don't use QApplication.exec()
 
 		//aisdk::check_ai_error(error);
 		error = sAIDrawArtSuite->DestroyImagePort(port.port);
-		//aisdk::check_ai_error(error);
 
 		// Apparently this will give you error if you don't have an active document
 		if (error) { sAIUser->MessageAlert(ai::UnicodeString("Error !")); }
-		//else { sAIUser->MessageAlert(ai::UnicodeString("OK !")); }
 	}
 	
 	/*

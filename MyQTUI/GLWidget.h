@@ -14,6 +14,9 @@
 #include "ATriangle.h"
 #include "ABox.h"
 */
+
+#include <QTextEdit>
+
 #include "VertexData.h"
 #include "VertexDataHelper.h"
 
@@ -32,6 +35,9 @@ struct ABox;
 class GLWidget : public QGLWidget
 {
     Q_OBJECT
+
+public:
+	QTextEdit* textEdit;
 
 private:
 	// image

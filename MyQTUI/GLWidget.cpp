@@ -22,10 +22,6 @@
 * February 2016
 */
 
-// Todo:
-// https://github.com/azer89/IslamicStarPatterns/blob/master/PatternGenerator.h
-// https://github.com/azer89/IslamicStarPatterns/blob/master/PatternGenerator.cpp
-
 
 GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
     QGLWidget(format, parent),
@@ -35,7 +31,8 @@ GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
     _img_width(50),
     _img_height(50),
     _slice(8),
-    _shaderProgram(0)
+    _shaderProgram(0),
+	_imgID(0)
 {
 	//SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.png");
 }
@@ -120,6 +117,8 @@ void GLWidget::paintGL()
     int current_width = width();
     int current_height = height();
 
+	//SetImage(":/laughing_man.jpg");
+
     // Set orthographic Matrix
     QMatrix4x4 orthoMatrix;
 
@@ -148,18 +147,21 @@ void GLWidget::paintGL()
 	}
 
 	// A box
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, _imgID);
-	if (_boxVao.isCreated())
+	if (_imgID)
 	{
-		//_shaderProgram->setUniformValue(_use_color_location, (GLfloat)1.0);
-		_shaderProgram->setUniformValue(_use_color_location, (GLfloat)0.0);
-		_boxVao.bind();
-		glDrawArrays(GL_QUADS, 0, _boxes.size() * 4);
-		_boxVao.release();
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, _imgID);
+		if (_boxVao.isCreated())
+		{
+			//_shaderProgram->setUniformValue(_use_color_location, (GLfloat)1.0);
+			_shaderProgram->setUniformValue(_use_color_location, (GLfloat)0.0);
+			_boxVao.bind();
+			glDrawArrays(GL_QUADS, 0, _boxes.size() * 4);
+			_boxVao.release();
+		}
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glDisable(GL_TEXTURE_2D);
 	}
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glDisable(GL_TEXTURE_2D);
 }
 
 // Mouse is pressed
@@ -300,33 +302,32 @@ void GLWidget::PaintCurve()
 
 void GLWidget::SetImage(int width, int height, std::vector<QColor> colorList)
 {
+	/*
+	textEdit->append("width :" + QString::number(width));
+	textEdit->append("height :" + QString::number(height));
+	textEdit->append("colorList size :" + QString::number(colorList.size()));
+
 	bool isLoaded = true;
 	_imgOriginal = QImage(width, height, QImage::Format_RGB32);
-
-
-	if (isLoaded)
-	{
-		std::cout << "image OK\n";
-	}
-	else
-	{
-		std::cout << "image error\n";
-	}
 
 	// size
 	this->_img_width = _imgOriginal.width();
 	this->_img_height = _imgOriginal.height();
 
-	for (int x = 0; x < this->_img_width; x++)
+	textEdit->append("_img_width :" + QString::number(this->_img_width));
+	textEdit->append("_img_height :" + QString::number(this->_img_height));
+
+	for (int x = 0; x < width; x++)
 	{
-		for (int y = 0; y < this->_img_height; y++)
+		for (int y = 0; y < height; y++)
 		{
-			QColor col = colorList[x + y * this->_img_width];
+			//int idx = x + y * this->_img_width;
+			//QColor col = colorList[idx];
+			QColor col = QColor(0, 0, 0, 255);
 			_imgOriginal.setPixel(x, y, col.rgba());
 		}
 	}
 
-
 	// calculating power-of-two (pow) size
 	int xpow = (int)std::pow(2.0, std::ceil(std::log10((double)_img_width) / std::log10(2.0)));
 	int ypow = (int)std::pow(2.0, std::ceil(std::log10((double)_img_height) / std::log10(2.0)));
@@ -346,24 +347,71 @@ void GLWidget::SetImage(int width, int height, std::vector<QColor> colorList)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _imgGL.width(), _imgGL.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, _imgGL.bits());
+	*/
+
+	textEdit->append("width :" + QString::number(width));
+	textEdit->append("height :" + QString::number(height));
+	textEdit->append("colorList size :" + QString::number(colorList.size()));
+
+	bool isLoaded = true;
+	_imgOriginal = QImage(width, height, QImage::Format_RGB32);
+
+	// size
+	this->_img_width = _imgOriginal.width();
+	this->_img_height = _imgOriginal.height();
+
+	//bool isLoaded = true;
+	//_imgOriginal = QImage(50, 50, QImage::Format_RGB32);
+
+	// size
+	//this->_img_width = _imgOriginal.width();
+	//this->_img_height = _imgOriginal.height();
+
+	for (int x = 0; x < this->_img_width; x++)
+	{
+		for (int y = 0; y < this->_img_height; y++)
+		{
+			int idx = x + y * this->_img_width;
+			QColor col = colorList[idx];
+			//QColor col = QColor(0, 255, 0, 255);
+			//QColor col = QColor(rand() % 255, rand() % 255, rand() % 255, 255);
+			_imgOriginal.setPixel(x, y, col.rgba());
+		}
+	}
+
+	// calculating power-of-two (pow) size
+	int xpow = (int)std::pow(2.0, std::ceil(std::log10((double)_img_width) / std::log10(2.0)));
+	int ypow = (int)std::pow(2.0, std::ceil(std::log10((double)_img_height) / std::log10(2.0)));
+
+	xpow = my_max(xpow, ypow);	// the texture should be square too
+	xpow = my_min(xpow, 1024);	// shrink if the size is too big
+	ypow = xpow;
+
+	// transform the image to square pow size
+	_imgGL = _imgOriginal.scaled(xpow, ypow, Qt::IgnoreAspectRatio);
+	_imgGL = QGLWidget::convertToGLFormat(_imgGL);
+
+	_imgID = 0;
+
+	// BUG !!!
+	//while (_imgID == 0)
+	//{
+	glGenTextures(1, &_imgID);
+	//}
+	glBindTexture(GL_TEXTURE_2D, _imgID);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _imgGL.width(), _imgGL.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, _imgGL.bits());
+
+	textEdit->append("_imgID :" + QString::number(_imgID));
 }
 
 void GLWidget::SetImage(QString img)
 {
-	//this->Reset();
-	//bool isLoaded = _imgOriginal.load(img);
 	bool isLoaded = true;
 	_imgOriginal = QImage(50, 50, QImage::Format_RGB32);
-
-
-	if (isLoaded)
-	{
-		std::cout << "image OK\n";
-	}
-	else
-	{
-		std::cout << "image error\n";
-	}
 
 	// size
 	this->_img_width = _imgOriginal.width();
@@ -373,10 +421,11 @@ void GLWidget::SetImage(QString img)
 	{
 		for (int y = 0; y < this->_img_height; y++)
 		{
-			_imgOriginal.setPixel(x, y, QColor(255, 150, 150, 255).rgba());
+			//QColor col = QColor(0, 255, 0, 255);
+			QColor col = QColor(rand() % 255, rand() % 255, rand() % 255, 255);
+			_imgOriginal.setPixel(x, y, col.rgba());
 		}
 	}
-
 
 	// calculating power-of-two (pow) size
 	int xpow = (int)std::pow(2.0, std::ceil(std::log10((double)_img_width) / std::log10(2.0)));
@@ -397,15 +446,6 @@ void GLWidget::SetImage(QString img)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _imgGL.width(), _imgGL.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, _imgGL.bits());
-	//glBindTexture(GL_TEXTURE_2D, 0);
-
-	//this->updateGL(); // Update !
-
-	//std::cout << _imgID << "\n";
-
-	// delete these two lines
-	//this->_img_width = 20;
-	//this->_img_height = 20;
 }
 
 
