@@ -18,8 +18,7 @@
 * radhitya@uwaterloo.ca
 */
 
-// sAIUser->MessageAlert(ai::UnicodeString("Reza Adhitya"));
-
+// sAIUser->MessageAlert(ai::UnicodeString("Your message here"));
 
 /**
  * Some important functions:
@@ -98,12 +97,10 @@ EmptyPanelPlugin::EmptyPanelPlugin(SPPluginRef pluginRef)
 	//#endif
 }
 
-/*
-static void flyoutMenuPreVisFunc(AIPanelRef inPanel)
+/*static void flyoutMenuPreVisFunc(AIPanelRef inPanel)
 {
 	//sAIUser->MessageAlert(ai::UnicodeString("pre visiblity"));
-}
-*/
+}*/
 
 void PanelFlyoutMenuProc(AIPanelRef inPanel, ai::uint32 itemID)
 {
@@ -168,8 +165,7 @@ void PanelStateChangedNotifyProc(AIPanelRef inPanel, ai::int16 newState)
 	case 3:
 		prefSize.height = prefSize.width = 700;
 		break;
-	}
-	
+	}	
 	err = sAIPanel->SetPreferredSizes(inPanel, prefSize);
 }
 */
@@ -227,9 +223,9 @@ ASErr EmptyPanelPlugin::Message(char *caller, char *selector, void *message)
 	// kCallerAITimer
 	if (strcmp(caller, kCallerAITimer) == 0)
 	{
-		//sAIUser->MessageAlert(ai::UnicodeString("Timer YOLO"));
+		//sAIUser->MessageAlert(ai::UnicodeString("Timer"));
 		//error = TimerInAction(message);
-		//my_qt_window->GetTextEdit()->append("timer");
+		//my_qt_window->GetTextEdit()->append("Timer");
 	}
 
 	return error;
@@ -247,6 +243,7 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 	if (err)
 		return err;
 		
+	// don't delete
 	// Timer, it is not used
 	//err = sAITimer->AddTimer(message->d.self, "Time for Timer", kTicksPerSecond, &timerHandle);
 	
@@ -274,14 +271,12 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 				"EmptyPanel...", 
 				&fAboutPluginMenu);
 	*/
-	if (error)
-		return error;
+	if (error) { return error; }
 
 	// Add menu item
 	error = sAIMenu->AddMenuItemZString(fPluginRef, "<Plugin>", kOtherPalettesMenuGroup, ZREF("<Plugin>"),
 										kMenuItemNoOptions, &fEmptyPanelPanelMenuItemHandle);
-	if (error)
-		return error;
+	if (error) { return error; }
 
 	/*
 	fPanelFlyoutMenu = NULL;
@@ -678,8 +673,7 @@ ASErr EmptyPanelPlugin::ShutdownPlugin(SPInterfaceMessage *message)
 {
 	AIErr error = kNoErr;
 
-	//sAIUser->MessageAlert(ai::UnicodeString("shutdown"));
-
+	// don't delete
 	// added by Reza
 	//error = sAITimer->SetTimerActive(timerHandle, false);
 
@@ -732,9 +726,7 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 		//error = sAIPanel->Show(fPanel, !isShown);
 
 		//if (!isShown) // dunno why it is !not
-		//{
-
-		
+		//{		
 
 		// get pixels
 		// error = sAIDrawArtSuite->GetImagePixelData(port.port, &pixelData, &length, width, height);
@@ -769,7 +761,6 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 		const ai::uint8* pixelData = NULL;
 		error = sAIDrawArtSuite->GetImagePixelData(port.port, &pixelData, &length, width, height);
 
-
 		std::vector<QColor> colorList;
 
 		length = length / 4;
@@ -780,15 +771,11 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 			const ai::uint8* r = pixelData++;
 			const ai::uint8* g = pixelData++;
 			const ai::uint8* b = pixelData++;
-			
 
-			int rInt = QString::number(*r).toInt();
-			int gInt = QString::number(*g).toInt();
-			int bInt = QString::number(*b).toInt();
-			int aInt = QString::number(*a).toInt();
-
-
-			colorList.push_back(QColor(rInt, gInt, bInt, aInt));
+			colorList.push_back(QColor(QString::number(*r).toInt(), 
+									   QString::number(*g).toInt(), 
+									   QString::number(*b).toInt(), 
+									   QString::number(*a).toInt()));
 		}
 
 		my_qt_window->SendData(50, 50, colorList);
@@ -796,15 +783,36 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 		/* we show our UI*/
 		my_qt_window->show();
 		my_qt_window->setFocus();	// should call this or the window will be hidden behind
-		//my_qt_app->exec();			// Note that I don't use QApplication.exec()
+		//my_qt_app->exec();		// Note that I don't use QApplication.exec()
 
-		//aisdk::check_ai_error(error);
 		error = sAIDrawArtSuite->DestroyImagePort(port.port);
 
 		// Apparently this will give you error if you don't have an active document
 		if (error) { sAIUser->MessageAlert(ai::UnicodeString("Error !")); }
-	}
-	
+
+		/* SAVE IMAGE*/
+		// takes too long and png file can't be read
+		/*
+		ASErr result;
+		AIActionParamValueRef valueParameterBlock = NULL;
+		ActionDialogStatus dialogStatus = kDialogOff;
+
+		result = sAIActionManager->AINewActionParamValue(&valueParameterBlock);
+		if (valueParameterBlock)
+		{
+			// see AIDocumentation.h 
+			result = sAIActionManager->AIActionSetString(valueParameterBlock, 'name', "D:\\Code\\IllustratorSimplePlugin\\MyQTUI\\image.png");
+			result = sAIActionManager->AIActionSetString(valueParameterBlock, 'frmt', "Adobe PNG Format");
+			result = sAIActionManager->AIActionSetString(valueParameterBlock, 'extn', "png");
+			result = sAIActionManager->PlayActionEvent("adobe_exportDocument", dialogStatus, valueParameterBlock);
+			result = sAIActionManager->AIDeleteActionParamValue(valueParameterBlock);
+		}
+		*/
+
+
+
+
+	}	
 	/*
 	else if (message->menuItem == fEmptyPanelControlBarMenuItemHandle)
 	{
@@ -816,8 +824,16 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 		}
 	}
 	*/
-
 	return error;
+}
+
+ASErr EmptyPanelPlugin::Notify(AINotifierMessage *message)
+{
+	AIErr result = kNoErr;
+	if (strcmp(message->type, kAIApplicationShutdownNotifier) == 0)
+	{
+	}
+	return result;
 }
 
 /*
@@ -881,7 +897,6 @@ ASErr DrawArtPlugin::DrawAGMPort(std::string& encodedBitmap)
 	aisdk::check_ai_error(error);
 	return error;
 }
-
 */
 
 /*
@@ -900,14 +915,6 @@ void EmptyPanelPlugin::UpdateMenu(AIBoolean isVisible, ItemType item)
 }
 */
 
-ASErr EmptyPanelPlugin::Notify(AINotifierMessage *message)
-{
-	AIErr result = kNoErr;
-	if (strcmp(message->type, kAIApplicationShutdownNotifier) == 0)
-	{
-	}
-	return result;
-}
 
 //ASErr EmptyPanelPlugin::Notify(AINotifierMessage *message)
 //{

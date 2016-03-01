@@ -8,17 +8,8 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 
-/*
-#include "AVector.h"
-#include "ALine.h"
-#include "ATriangle.h"
-#include "ABox.h"
-*/
-
 #include <QTextEdit>
 
-//#include "VertexData.h"
-//#include "VertexDataHelper.h"
 
 /**
 * Reza Adhitya Saputra
@@ -91,6 +82,7 @@ private:
     QMatrix4x4 _perspMatrix;
     QMatrix4x4 _transformMatrix;
 
+	// this is for Illustrator snapshot
 	int _snapshot_width; 
 	int _snapshot_height; 
 	std::vector<QColor> _colorList;

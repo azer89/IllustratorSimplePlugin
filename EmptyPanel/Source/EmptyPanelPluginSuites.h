@@ -31,7 +31,8 @@
 #include "SPBlocks.h"
 #include "AIControlBar.h"
 #include "AIDrawArt.h"		// added by Reza
-#include "AISwatchList.h"
+#include "AISwatchList.h"	// added by Reza
+#include "AIActionManager.h"
 
 #include "AIDocument.h"
 #include "AiTimer.h"
@@ -53,5 +54,7 @@ extern "C"  AISwatchListSuite		*sAISwatchList;   // reading drawing data
 
 extern "C" AIDocumentSuite			*sAIDocument;	 // what is this I don't know
 extern "C" AITimerSuite				*sAITimer;       // for periodic timer
+
+extern "C" AIActionManagerSuite		*sAIActionManager;
 
 #endif   // __EmptyPanelPluginSuites_H__

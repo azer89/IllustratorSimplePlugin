@@ -22,6 +22,8 @@ public:
 	QTextEdit* GetTextEdit() { return ui.textEdit; }
 
 	void SendData(int width, int height, std::vector<QColor> colorList);
+
+	// delete this
 	void Refresh();
 
 private:

@@ -37,7 +37,6 @@ GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
 	_imgID(0),
 	_isGLInitialized(false)
 {
-	//SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.png");
 }
 
 GLWidget::~GLWidget()
@@ -48,9 +47,6 @@ GLWidget::~GLWidget()
 
 void GLWidget::initializeGL()
 {
-	//textEdit->append("Init begins !");
-	//std::cout << "Initialize GL\n";
-	//SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.png");
 
     QGLFormat glFormat = QGLWidget::format();
     if (!glFormat.sampleBuffers()) 
@@ -102,6 +98,7 @@ void GLWidget::initializeGL()
 
     //SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.jpg");
     //SetImage(":/laughing_man.jpg");
+	// Set snapshot
 	SetImage(_snapshot_width, _snapshot_height, _colorList);
 
 	// a box
@@ -109,7 +106,6 @@ void GLWidget::initializeGL()
 						  AVector(0, this->_img_width), 
 						  AVector(this->_img_height, 0),
 						  AVector(this->_img_height, this->_img_width)));
-	//_vDataHelper->BuildQuadsVertexData(_boxes, &_boxVbo, &_boxVao, QVector3D(0, 0.75, 0.75));
 	_vDataHelper->BuildQuadsVertexData(_boxes, &_boxVbo, &_boxVao);
 
 	// a triangle
@@ -126,7 +122,6 @@ bool GLWidget::event( QEvent * event )
     return QGLWidget::event(event);
 }
 
-
 // This is an override function from Qt but I can't find its purpose
 void GLWidget::resizeGL(int width, int height)
 {
@@ -140,8 +135,6 @@ void GLWidget::paintGL()
 
     int current_width = width();
     int current_height = height();
-
-	//SetImage(":/laughing_man.jpg");
 
     // Set orthographic Matrix
     QMatrix4x4 orthoMatrix;
@@ -324,14 +317,6 @@ void GLWidget::PaintCurve()
 #define my_min(a,b) ((a)<(b) ? (a) : (b))
 #define my_max(a,b) ((a)>(b) ? (a) : (b))
 
-/*
-void SetData(int width, int height, std::vector<QColor> colorList);
-
-private:
-int _snapshot_width;
-int _snapshot_height;
-std::vector<QColor> colorList;
-*/
 void GLWidget::SetData(int width, int height, std::vector<QColor> colorList)
 {
 	this->_snapshot_width  = width;
@@ -341,17 +326,9 @@ void GLWidget::SetData(int width, int height, std::vector<QColor> colorList)
 
 void GLWidget::SetImage(int width, int height, std::vector<QColor> colorList)
 {
-	// BUG !!!
-	//if (!_isGLInitialized)
-	//{
-	//	textEdit->append("force!");
-	//	this->initializeGL();
-	//}
-
-	/*
-	textEdit->append("width :" + QString::number(width));
-	textEdit->append("height :" + QString::number(height));
-	textEdit->append("colorList size :" + QString::number(colorList.size()));
+	//textEdit->append("width :" + QString::number(width));
+	//textEdit->append("height :" + QString::number(height));
+	//textEdit->append("colorList size :" + QString::number(colorList.size()));
 
 	bool isLoaded = true;
 	_imgOriginal = QImage(width, height, QImage::Format_RGB32);
@@ -359,59 +336,6 @@ void GLWidget::SetImage(int width, int height, std::vector<QColor> colorList)
 	// size
 	this->_img_width = _imgOriginal.width();
 	this->_img_height = _imgOriginal.height();
-
-	textEdit->append("_img_width :" + QString::number(this->_img_width));
-	textEdit->append("_img_height :" + QString::number(this->_img_height));
-
-	for (int x = 0; x < width; x++)
-	{
-		for (int y = 0; y < height; y++)
-		{
-			//int idx = x + y * this->_img_width;
-			//QColor col = colorList[idx];
-			QColor col = QColor(0, 0, 0, 255);
-			_imgOriginal.setPixel(x, y, col.rgba());
-		}
-	}
-
-	// calculating power-of-two (pow) size
-	int xpow = (int)std::pow(2.0, std::ceil(std::log10((double)_img_width) / std::log10(2.0)));
-	int ypow = (int)std::pow(2.0, std::ceil(std::log10((double)_img_height) / std::log10(2.0)));
-
-	xpow = my_max(xpow, ypow);	// the texture should be square too
-	xpow = my_min(xpow, 1024);	// shrink if the size is too big
-	ypow = xpow;
-
-	// transform the image to square pow size
-	_imgGL = _imgOriginal.scaled(xpow, ypow, Qt::IgnoreAspectRatio);
-	_imgGL = QGLWidget::convertToGLFormat(_imgGL);
-
-	glGenTextures(1, &_imgID);
-	glBindTexture(GL_TEXTURE_2D, _imgID);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _imgGL.width(), _imgGL.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, _imgGL.bits());
-	*/
-
-	textEdit->append("width :" + QString::number(width));
-	textEdit->append("height :" + QString::number(height));
-	textEdit->append("colorList size :" + QString::number(colorList.size()));
-
-	bool isLoaded = true;
-	_imgOriginal = QImage(width, height, QImage::Format_RGB32);
-
-	// size
-	this->_img_width = _imgOriginal.width();
-	this->_img_height = _imgOriginal.height();
-
-	//bool isLoaded = true;
-	//_imgOriginal = QImage(50, 50, QImage::Format_RGB32);
-
-	// size
-	//this->_img_width = _imgOriginal.width();
-	//this->_img_height = _imgOriginal.height();
 
 	for (int x = 0; x < this->_img_width; x++)
 	{
@@ -440,13 +364,9 @@ void GLWidget::SetImage(int width, int height, std::vector<QColor> colorList)
 	_imgID = 0;
 
 	glBindTexture(GL_TEXTURE_2D, 0); // I just want to make sure...
-	glEnable(GL_TEXTURE_2D); // should I have this ?
+	//glEnable(GL_TEXTURE_2D); // should I have this ?
 
-	// BUG !!!
-	//while (_imgID == 0)
-	//{
 	glGenTextures(1, &_imgID);
-	//}
 
 	if (!_imgID)
 	{
@@ -461,7 +381,7 @@ void GLWidget::SetImage(int width, int height, std::vector<QColor> colorList)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _imgGL.width(), _imgGL.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, _imgGL.bits());
 
-	glDisable(GL_TEXTURE_2D);  // should I have this ?
+	//glDisable(GL_TEXTURE_2D);  // should I have this ?
 	//textEdit->append("_imgID :" + QString::number(_imgID));
 }
 

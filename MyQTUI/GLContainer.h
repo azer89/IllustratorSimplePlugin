@@ -1,12 +1,9 @@
 #ifndef GLCONTAINER_H
 #define GLCONTAINER_H
 
-//#include "stdafx.h"
 #include <QAbstractScrollArea>
 
-//#include "GLWidget.h"
 class GLWidget;
-
 
 /**
 * Reza Adhitya Saputra

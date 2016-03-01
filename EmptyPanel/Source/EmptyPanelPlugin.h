@@ -30,11 +30,6 @@
 // Qt (Forward Declaration)
 class QApplication;
 class MyQTUI;
-/*
-#include <iostream>
-#include "myqtui.h"
-#include <QtWidgets/QApplication>
-*/
 
 /*
 #ifdef WIN_ENV
@@ -61,9 +56,6 @@ class MyQTUI;
 #endif
 */
 
-Plugin *AllocatePlugin(SPPluginRef pluginRef);
-void FixupReload(Plugin *plugin);
-
 /*
 enum ItemType {
 	PANEL,
@@ -71,8 +63,12 @@ enum ItemType {
 };
 */
 
+Plugin *AllocatePlugin(SPPluginRef pluginRef);
+void FixupReload(Plugin *plugin);
+
 class EmptyPanelPlugin : public Plugin
 {
+// added by Reza
 // Qt
 public:
 	QApplication* my_qt_app;
@@ -85,7 +81,8 @@ public:
 	
 	virtual ASErr StartupPlugin(SPInterfaceMessage *message); 
 	virtual ASErr ShutdownPlugin(SPInterfaceMessage *message); 
-	virtual ASErr Message(char *caller, char *selector, void *message);	// added by Reza
+	// added by Reza
+	virtual ASErr Message(char *caller, char *selector, void *message);	
 
 	// added by Reza
 	ASErr TimerInAction(void *message);
@@ -96,8 +93,8 @@ public:
 
 	FIXUP_VTABLE_EX(EmptyPanelPlugin, Plugin);
 
-private:
-	
+private:	
+	// added by Reza
 	AITimerHandle timerHandle;
 
 	/* Handle for menu item in Window > Third Party Panel menu item. */
