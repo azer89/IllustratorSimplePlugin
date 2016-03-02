@@ -791,7 +791,8 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 		if (error) { sAIUser->MessageAlert(ai::UnicodeString("Error !")); }
 
 		/* SAVE IMAGE*/
-		// takes too long and png file can't be read
+		// Takes too long and png file can't be read
+		// The code is from here: https://forums.adobe.com/thread/320685?tstart=0
 		/*
 		ASErr result;
 		AIActionParamValueRef valueParameterBlock = NULL;
