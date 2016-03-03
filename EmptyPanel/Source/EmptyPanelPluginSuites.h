@@ -32,6 +32,7 @@
 #include "AIControlBar.h"
 #include "AIDrawArt.h"		// added by Reza
 #include "AISwatchList.h"	// added by Reza
+#include "AIDataFilter.h"
 #include "AIActionManager.h"
 
 #include "AIDocument.h"
@@ -54,6 +55,7 @@ extern "C"  AISwatchListSuite		*sAISwatchList;   // reading drawing data
 
 extern "C" AIDocumentSuite			*sAIDocument;	 // what is this I don't know
 extern "C" AITimerSuite				*sAITimer;       // for periodic timer
+extern "C" AIDataFilterSuite		*sAIDataFilter;  // for writing png ?
 
 extern "C" AIActionManagerSuite		*sAIActionManager;
 

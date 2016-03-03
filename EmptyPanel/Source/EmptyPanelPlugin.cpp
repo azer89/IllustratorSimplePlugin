@@ -792,7 +792,7 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 
 		/* SAVE IMAGE*/
 		// Takes too long and png file can't be read
-		// The code is from here: https://forums.adobe.com/thread/320685?tstart=0
+		// The code is from here: https://forums.adobe.com/thread/915322?tstart=0
 		/*
 		ASErr result;
 		AIActionParamValueRef valueParameterBlock = NULL;
@@ -809,6 +809,57 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 			result = sAIActionManager->AIDeleteActionParamValue(valueParameterBlock);
 		}
 		*/
+
+		AIErr result = kNoErr;
+		AIDataFilter* dstFilter = 0;
+		AIDataFilter* filter = 0;
+		ai::UnicodeString file("file.png");   //file path c
+		ai::FilePath fileP(file);
+
+		/*
+		try
+		{
+
+			result = sAIDataFilter->NewFileDataFilter(fileP, "write", 'prw', 'PNGf', &filter);
+			aisdk::check_ai_error(result);
+
+			result = sAIDataFilter->LinkDataFilter(dstFilter, filter);
+			aisdk::check_ai_error(result);
+
+			dstFilter = filter;
+
+			// still to be configured, with your own values!!
+			AIImageOptPNGParams2 params;
+			params.versionOneSuiteParams.interlaced = ;
+			params.versionOneSuiteParams.numberOfColors = ;
+			params.versionOneSuiteParams.transparentIndex = ;
+			params.versionOneSuiteParams.resolution = ;
+			params.versionOneSuiteParams.outAlpha = ;
+			params.versionOneSuiteParams.outWidth = ;
+			params.versionOneSuiteParams.outHeight = ;
+			params.antialias = ;
+
+			// A cropping box for the art. If empty or degenerate, do not crop. 
+			params.cropBox = ;
+			params.backgroundIsTransparent = ;
+
+			result = sAIImageOpt->MakePNG24(art, dstFilter, params, MyRasterizeProgressProc);
+			aisdk::check_ai_error(result);
+
+			if (dstFilter)
+			{
+				result = sAIDataFilter->UnlinkDataFilter(dstFilter, &dstFilter);
+				aisdk::check_ai_error(result);
+			}
+		}
+		catch (ai::Error& ex)
+		{
+			//Handle error
+		}
+		*/
+		//return result;
+
+
 
 
 

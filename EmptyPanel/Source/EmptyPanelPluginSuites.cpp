@@ -33,24 +33,26 @@ extern "C"
 	AIDocumentSuite				*sAIDocument;		// added by Reza
 	AITimerSuite				*sAITimer;			// added by Reza
 	AIActionManagerSuite		*sAIActionManager;	// added by Reza
+	AIDataFilterSuite			*sAIDataFilter;
 	//AINotifierSuite			*sAINotifier;		// it's already is Suites.cpp
 }
 
 ImportSuite		gImportSuites[] = {
-	kAIArtSuite, kAIArtSuiteVersion, &sAIArt,
-	kAIMatchingArtSuite, kAIMatchingArtSuiteVersion, &sAIMatchingArt,
-	kAIUnicodeStringSuite, kAIUnicodeStringSuiteVersion, &sAIUnicodeString,
-	kSPBlocksSuite,	kSPBlocksSuiteVersion,	&sSPBlocks,
-	kAIPanelSuite, kAIPanelSuiteVersion, &sAIPanel,
-	kAIMenuSuite, kAIMenuSuiteVersion, &sAIMenu,
-	kAIPanelFlyoutMenuSuite, kAIPanelFlyoutMenuSuiteVersion, &sAIPanelFlyoutMenu,
+	kAIArtSuite,			   kAIArtSuiteVersion,				 &sAIArt,
+	kAIMatchingArtSuite,	   kAIMatchingArtSuiteVersion,	     &sAIMatchingArt,
+	kAIUnicodeStringSuite,	   kAIUnicodeStringSuiteVersion,	 &sAIUnicodeString,
+	kSPBlocksSuite,			   kSPBlocksSuiteVersion,			 &sSPBlocks,
+	kAIPanelSuite,			   kAIPanelSuiteVersion,			 &sAIPanel,
+	kAIMenuSuite,			   kAIMenuSuiteVersion,				 &sAIMenu,
+	kAIPanelFlyoutMenuSuite,   kAIPanelFlyoutMenuSuiteVersion,   &sAIPanelFlyoutMenu,
 	kAIStringFormatUtilsSuite, kAIStringFormatUtilsSuiteVersion, &sAIStringFormatUtils,
-	kAIControlBarSuite, kAIControlBarSuiteVersion, &sAIControlBar,
-	kAIDocumentSuite, kAIDocumentSuiteVersion, &sAIDocument,		   // added by Reza
-	kAITimerSuite, kAITimerVersion, &sAITimer,						   // added by Reza
-	kAIDrawArtSuite, kAIDrawArtSuiteVersion, &sAIDrawArtSuite,		   // added by Reza
-	kAISwatchListSuite, kAISwatchListSuiteVersion, &sAISwatchList,	   // added by Reza
-	kAIActionManagerSuite, kAIActionManagerVersion, &sAIActionManager, // added by Reza
-	//kAINotifierSuite, kAINotifierVersion, &sAINotifier,			   // added by Reza
+	kAIControlBarSuite,		   kAIControlBarSuiteVersion,		 &sAIControlBar,
+	kAIDocumentSuite,		   kAIDocumentSuiteVersion,			 &sAIDocument,				// added by Reza
+	kAITimerSuite,			   kAITimerVersion,					 &sAITimer,					// added by Reza
+	kAIDrawArtSuite,		   kAIDrawArtSuiteVersion,			 &sAIDrawArtSuite,		    // added by Reza
+	kAISwatchListSuite,		   kAISwatchListSuiteVersion,		 &sAISwatchList,			// added by Reza
+	kAIActionManagerSuite,	   kAIActionManagerVersion,			 &sAIActionManager,			// added by Reza
+	kAIDataFilterSuite,		   kAIDataFilterSuiteVersion,		 &sAIDataFilter,			// added by Reza
+	//kAINotifierSuite,        kAINotifierVersion,               &sAINotifier,			    // added by Reza
 	nil, 0, nil
 };
