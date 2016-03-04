@@ -22,18 +22,22 @@ extern "C"
 	AIArtSuite					*sAIArt;
 	AIMatchingArtSuite			*sAIMatchingArt;
 	AIUnicodeStringSuite		*sAIUnicodeString;
-	SPBlocksSuite				*sSPBlocks;
-	AIPanelSuite				*sAIPanel;
-	AIPanelFlyoutMenuSuite		*sAIPanelFlyoutMenu;
+	SPBlocksSuite				*sSPBlocks;	
 	AIMenuSuite					*sAIMenu;
 	AIStringFormatUtilsSuite	*sAIStringFormatUtils;
-	AIControlBarSuite			*sAIControlBar;
-	AIDrawArtSuite				*sAIDrawArtSuite;	// added by Reza
-	AISwatchListSuite			*sAISwatchList;		// added by Reza
-	AIDocumentSuite				*sAIDocument;		// added by Reza
-	AITimerSuite				*sAITimer;			// added by Reza
-	AIActionManagerSuite		*sAIActionManager;	// added by Reza
-	AIDataFilterSuite			*sAIDataFilter;		// added by Reza
+
+	//AIPanelSuite				*sAIPanel;
+	//AIPanelFlyoutMenuSuite	*sAIPanelFlyoutMenu;
+	//AIControlBarSuite			*sAIControlBar;
+
+	/* Added suites - Reza */
+	AIDrawArtSuite				*sAIDrawArtSuite;
+	AISwatchListSuite			*sAISwatchList;
+	AIDocumentSuite				*sAIDocument;
+	AITimerSuite				*sAITimer;
+	AIActionManagerSuite		*sAIActionManager;
+	AIDataFilterSuite			*sAIDataFilter;
+	AILayerSuite				*sAILayer;
 	//AINotifierSuite			*sAINotifier;		// it's already is Suites.cpp
 }
 
@@ -41,18 +45,20 @@ ImportSuite		gImportSuites[] = {
 	kAIArtSuite,			   kAIArtSuiteVersion,				 &sAIArt,
 	kAIMatchingArtSuite,	   kAIMatchingArtSuiteVersion,	     &sAIMatchingArt,
 	kAIUnicodeStringSuite,	   kAIUnicodeStringSuiteVersion,	 &sAIUnicodeString,
-	kSPBlocksSuite,			   kSPBlocksSuiteVersion,			 &sSPBlocks,
-	kAIPanelSuite,			   kAIPanelSuiteVersion,			 &sAIPanel,
-	kAIMenuSuite,			   kAIMenuSuiteVersion,				 &sAIMenu,
-	kAIPanelFlyoutMenuSuite,   kAIPanelFlyoutMenuSuiteVersion,   &sAIPanelFlyoutMenu,
+	kSPBlocksSuite,			   kSPBlocksSuiteVersion,			 &sSPBlocks,	
+	kAIMenuSuite,			   kAIMenuSuiteVersion,				 &sAIMenu,	
 	kAIStringFormatUtilsSuite, kAIStringFormatUtilsSuiteVersion, &sAIStringFormatUtils,
-	kAIControlBarSuite,		   kAIControlBarSuiteVersion,		 &sAIControlBar,
-	kAIDocumentSuite,		   kAIDocumentSuiteVersion,			 &sAIDocument,				// added by Reza
-	kAITimerSuite,			   kAITimerVersion,					 &sAITimer,					// added by Reza
-	kAIDrawArtSuite,		   kAIDrawArtSuiteVersion,			 &sAIDrawArtSuite,		    // added by Reza
-	kAISwatchListSuite,		   kAISwatchListSuiteVersion,		 &sAISwatchList,			// added by Reza
-	kAIActionManagerSuite,	   kAIActionManagerVersion,			 &sAIActionManager,			// added by Reza
-	kAIDataFilterSuite,		   kAIDataFilterSuiteVersion,		 &sAIDataFilter,			// added by Reza
-	//kAINotifierSuite,        kAINotifierVersion,               &sAINotifier,			    // added by Reza
+	//kAIPanelSuite,		   kAIPanelSuiteVersion,			 &sAIPanel,
+	//kAIPanelFlyoutMenuSuite, kAIPanelFlyoutMenuSuiteVersion,   &sAIPanelFlyoutMenu,
+	//kAIControlBarSuite,	   kAIControlBarSuiteVersion,		 &sAIControlBar,
+	
+	/* Added suites - Reza */
+	kAIDocumentSuite,		   kAIDocumentSuiteVersion,			 &sAIDocument,
+	kAITimerSuite,			   kAITimerVersion,					 &sAITimer,	
+	kAIDrawArtSuite,		   kAIDrawArtSuiteVersion,			 &sAIDrawArtSuite,
+	kAISwatchListSuite,		   kAISwatchListSuiteVersion,		 &sAISwatchList,
+	kAIActionManagerSuite,	   kAIActionManagerVersion,			 &sAIActionManager,
+	kAIDataFilterSuite,		   kAIDataFilterSuiteVersion,		 &sAIDataFilter,
+	kAILayerSuite,			   kAILayerSuiteVersion,			 &sAILayer,
 	nil, 0, nil
 };
