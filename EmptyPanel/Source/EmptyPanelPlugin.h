@@ -56,6 +56,9 @@ public:
 	// added by Reza
 	virtual ASErr Message(char *caller, char *selector, void *message);
 	ASErr TimerInAction(void *message);
+	ASErr DrawArtExample();
+	ASErr RenderDocument1();
+	ASErr RenderDocument2();
 
 	FIXUP_VTABLE_EX(EmptyPanelPlugin, Plugin);
 
@@ -64,7 +67,8 @@ private:
 	AITimerHandle timerHandle;
 
 	/* Handle for menu item in Window > Third Party Panel menu item. */
-	AIMenuItemHandle fEmptyPanelPanelMenuItemHandle;
+	//AIMenuItemHandle fEmptyPanelPanelMenuItemHandle;
+	AIMenuItemHandle _menuItemHandle;
 };
 
 #endif	// __EmptyPanelPlugin_H__
