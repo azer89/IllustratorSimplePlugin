@@ -41,6 +41,11 @@
 
 // Suite externs
 extern "C" AIArtSuite				*sAIArt;
+
+// This suite allows you to get lists of art objects that are currently selected, 
+// or that match specified criteria, from among all available art objects, 
+// or from artwork in a particular set of layers.
+
 extern "C" AIMatchingArtSuite		*sAIMatchingArt;
 extern "C" AIUnicodeStringSuite		*sAIUnicodeString;
 extern "C" AIPanelSuite				*sAIPanel;

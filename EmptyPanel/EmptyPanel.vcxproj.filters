@@ -34,6 +34,9 @@
     <ClCompile Include="..\common\source\Suites.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\illustratorapi\illustrator\IAIFilePath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\CustomEdit.h">

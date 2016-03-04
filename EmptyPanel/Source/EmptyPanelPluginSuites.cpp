@@ -29,11 +29,11 @@ extern "C"
 	AIStringFormatUtilsSuite	*sAIStringFormatUtils;
 	AIControlBarSuite			*sAIControlBar;
 	AIDrawArtSuite				*sAIDrawArtSuite;	// added by Reza
-	AISwatchListSuite			*sAISwatchList;
+	AISwatchListSuite			*sAISwatchList;		// added by Reza
 	AIDocumentSuite				*sAIDocument;		// added by Reza
 	AITimerSuite				*sAITimer;			// added by Reza
 	AIActionManagerSuite		*sAIActionManager;	// added by Reza
-	AIDataFilterSuite			*sAIDataFilter;
+	AIDataFilterSuite			*sAIDataFilter;		// added by Reza
 	//AINotifierSuite			*sAINotifier;		// it's already is Suites.cpp
 }
 

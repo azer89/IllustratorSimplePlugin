@@ -810,13 +810,15 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 		}
 		*/
 
+		// see this: https://github.com/mikeswanson/Ai2Canvas/blob/master/Source/Canvas.cpp
+
+		/*
 		AIErr result = kNoErr;
 		AIDataFilter* dstFilter = 0;
 		AIDataFilter* filter = 0;
 		ai::UnicodeString file("file.png");   //file path c
 		ai::FilePath fileP(file);
 
-		/*
 		try
 		{
 
@@ -858,12 +860,6 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 		}
 		*/
 		//return result;
-
-
-
-
-
-
 	}	
 	/*
 	else if (message->menuItem == fEmptyPanelControlBarMenuItemHandle)
