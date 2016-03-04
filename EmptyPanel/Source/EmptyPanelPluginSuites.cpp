@@ -38,6 +38,7 @@ extern "C"
 	AIActionManagerSuite		*sAIActionManager;
 	AIDataFilterSuite			*sAIDataFilter;
 	AILayerSuite				*sAILayer;
+	AIImageOptSuite			*sAIImageOpt;
 	//AINotifierSuite			*sAINotifier;		// it's already is Suites.cpp
 }
 
@@ -60,5 +61,6 @@ ImportSuite		gImportSuites[] = {
 	kAIActionManagerSuite,	   kAIActionManagerVersion,			 &sAIActionManager,
 	kAIDataFilterSuite,		   kAIDataFilterSuiteVersion,		 &sAIDataFilter,
 	kAILayerSuite,			   kAILayerSuiteVersion,			 &sAILayer,
+	kAIImageOptSuite, kAIImageOptSuiteVersion, &sAIImageOpt,
 	nil, 0, nil
 };

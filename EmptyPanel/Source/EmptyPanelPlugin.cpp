@@ -54,6 +54,8 @@
 
 #include "EmptyPanleID.h"
 
+#include <AIImageOptimization.h>
+
 //QT
 #include <QTextEdit>
 #include <iostream>
@@ -66,6 +68,19 @@ extern "C" SPBasicSuite*  sSPBasic;
 NSView* nibView = nil;
 NSView* controlPanelNibView = nil;
 #endif
+
+// stolen from http://blog.mikeswanson.com/ai2canvas
+AIBoolean ProgressProc(ai::int32 current, ai::int32 total);
+
+// stolen from http://blog.mikeswanson.com/ai2canvas
+// Outside of namespace
+// TODO: Fix this
+AIBoolean ProgressProc(ai::int32 current, ai::int32 total)
+{
+	(void)current;
+	(void)total;
+	return true;
+}
 
 Plugin *AllocatePlugin(SPPluginRef pluginRef)
 {
@@ -181,6 +196,7 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 	if (message->menuItem == _menuItemHandle)
 	{	
 		error = DrawArtExample();
+		error = RenderDocument2();
 
 		/* we show our UI*/
 		my_qt_window->show();
@@ -189,17 +205,7 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 
 		
 	}	
-	/*
-	else if (message->menuItem == fEmptyPanelControlBarMenuItemHandle)
-	{
-		if(fControlBar)
-		{
-			AIBoolean isShown = false;
-			error = sAIControlBar->IsShown(fControlBar,isShown);
-			error = sAIControlBar->Show(fControlBar, !isShown);
-		}
-	}
-	*/
+
 	return error;
 }
 
@@ -342,7 +348,118 @@ ASErr EmptyPanelPlugin::RenderDocument1()
 
 ASErr EmptyPanelPlugin::RenderDocument2()
 {
+	/*
+	Rules:
+		- Should exactly has one layer
+		- All paths are grouped
+	*/
+
+	ai::int32 layerCount = 0;
+
+	// How many layers in this document?
+	sAILayer->CountLayers(&layerCount);
+
+	int intLayerCount = layerCount;
+	my_qt_window->GetTextEdit()->append("Num of layers: " + QString::number(intLayerCount));
+	
+	/* only the first layer */
+	AILayerHandle layerHandle = 0;
+	sAILayer->GetNthLayer(0, &layerHandle);
+
+	/* Get the first art in this layer */
+	AIArtHandle artHandle = 0;
+	sAIArt->GetFirstArtOfLayer(layerHandle, &artHandle);
+
+	//if (artHandle)
+	//{
+	//	my_qt_window->GetTextEdit()->append("Getting an art");
+	//}
+
+	RasterizeArtToPNG(artHandle, "test.png");
+
 	return kNoErr;
+}
+
+// Given an art handle, rasterizes to a file at the given path
+// NOTE: While width and height are passed, the resulting file is often of a different size, which negatively affects positioning
+// See discussion thread: http://forums.adobe.com/thread/603776?tstart=0
+void EmptyPanelPlugin::RasterizeArtToPNG(AIArtHandle artHandle, const std::string& path)
+{
+	ai::FilePath filePath;
+	filePath.Set(ai::UnicodeString(path));
+
+	AIRealRect bounds;
+	sAIArt->GetArtBounds(artHandle, &bounds);
+	AIReal width = bounds.right - bounds.left;
+	AIReal height = bounds.top - bounds.bottom;
+
+	AIErr result = kNoErr;
+	AIDataFilter *dstFilter = NULL;
+	AIDataFilter *filter = NULL;
+	if (!result)
+		result = sAIDataFilter->NewFileDataFilter(filePath, "write", 'prw', 'PNGf', &filter);
+	if (!result) {
+		result = sAIDataFilter->LinkDataFilter(dstFilter, filter);
+		dstFilter = filter;
+	}
+
+	// Set PNG parameters
+	AIImageOptPNGParams2 params;
+	params.versionOneSuiteParams.interlaced = false;
+	params.versionOneSuiteParams.numberOfColors = 16777216;
+	params.versionOneSuiteParams.transparentIndex = 0;
+	//params.versionOneSuiteParams.resolution = 72.0f;
+	params.versionOneSuiteParams.resolution = 1000.0f;
+	params.versionOneSuiteParams.outAlpha = true;
+	params.versionOneSuiteParams.outWidth = (ASInt32)width;
+	params.versionOneSuiteParams.outHeight = (ASInt32)height;
+
+	//We assume that the basic resolution of illustrator is 72 dpi
+	AIReal resolutionRatio = 1.0f;
+	AIReal minDim = min(width, height) * resolutionRatio;
+	AIReal maxDim = max(width, height) * resolutionRatio;
+	AIReal ratio = 1;
+
+	if (minDim < 1)
+	{
+		ratio = 1 / minDim;
+		minDim *= ratio;
+		maxDim *= ratio;
+	}
+
+	if (maxDim > 65535)
+	{
+		ratio *= 65535 / maxDim;
+	}
+
+	//Here we tune the resolution parameter to comply to minRasterizationDimension and
+	//maxRasterizationDimension constraints
+	//We assume that the basic resolution of illustrator is 72 dpi
+	params.versionOneSuiteParams.resolution *= (AIFloat)ratio;
+
+	params.antialias = true;
+	/* A cropping box for the art. If empty or degenerate, do not crop. */
+	AIRealRect crop;
+	crop.left = 0.0f;
+	crop.top = 0.0f;
+	crop.right = 0.0f;
+	crop.bottom = 0.0f;
+	params.cropBox = crop;
+	params.backgroundIsTransparent = true;
+	/* When backgroundIsTransparent is false, rasterize against this matte color. */
+	/*params.matteColor.red = 1.0f;
+	params.matteColor.green = 1.0f;
+	params.matteColor.blue = 1.0f; */
+
+	// Make PNG
+	result = sAIImageOpt->MakePNG24(artHandle, dstFilter, params, ProgressProc);
+
+	if (dstFilter)
+	{
+		AIErr tmpresult = sAIDataFilter->UnlinkDataFilter(dstFilter, &dstFilter);
+		if (!result)
+			result = tmpresult;
+	}
 }
 
 ASErr EmptyPanelPlugin::Notify(AINotifierMessage *message)

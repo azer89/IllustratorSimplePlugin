@@ -35,15 +35,13 @@ Plugin *AllocatePlugin(SPPluginRef pluginRef);
 void FixupReload(Plugin *plugin);
 
 class EmptyPanelPlugin : public Plugin
-{
-// added by Reza
-// Qt
+{ 
+// Qt - added by Reza
 public:
 	QApplication* my_qt_app;
 	MyQTUI* my_qt_window;
 
 public:
-
 	EmptyPanelPlugin(SPPluginRef pluginRef);
 	virtual ~EmptyPanelPlugin() {}
 	
@@ -59,6 +57,7 @@ public:
 	ASErr DrawArtExample();
 	ASErr RenderDocument1();
 	ASErr RenderDocument2();
+	void RasterizeArtToPNG(AIArtHandle artHandle, const std::string& path);
 
 	FIXUP_VTABLE_EX(EmptyPanelPlugin, Plugin);
 
@@ -66,8 +65,6 @@ private:
 	// added by Reza
 	AITimerHandle timerHandle;
 
-	/* Handle for menu item in Window > Third Party Panel menu item. */
-	//AIMenuItemHandle fEmptyPanelPanelMenuItemHandle;
 	AIMenuItemHandle _menuItemHandle;
 };
 

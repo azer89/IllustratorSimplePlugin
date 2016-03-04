@@ -33,6 +33,7 @@
 #include "AIActionManager.h"
 #include "AIDocument.h"
 #include "AiTimer.h"
+#include "AIImageOptimization.h"
 
 /* not used */
 //#include "AIPanel.h"
@@ -62,6 +63,7 @@ extern "C" AIDocumentSuite			*sAIDocument;	  // what is this I don't know
 extern "C" AITimerSuite				*sAITimer;        // for periodic timer
 extern "C" AIDataFilterSuite		*sAIDataFilter;   // for writing png ?
 extern "C" AILayerSuite				*sAILayer;		  // handling layers
+extern "C" AIImageOptSuite			*sAIImageOpt;
 extern "C" AIActionManagerSuite		*sAIActionManager;
 
 #endif   // __EmptyPanelPluginSuites_H__
