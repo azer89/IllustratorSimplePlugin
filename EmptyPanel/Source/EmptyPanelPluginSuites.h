@@ -34,6 +34,7 @@
 #include "AIDocument.h"
 #include "AiTimer.h"
 #include "AIImageOptimization.h"
+#include "AIPath.h"
 
 /* not used */
 //#include "AIPanel.h"
@@ -57,8 +58,9 @@ extern "C" SPBlocksSuite			*sSPBlocks;
 /* Added suites - Reza */
 extern "C" AIArtSuite				*sAIArt;
 extern "C" AIMatchingArtSuite		*sAIMatchingArt;
-extern "C"  AIDrawArtSuite			*sAIDrawArtSuite; // reading drawing data
-extern "C"  AISwatchListSuite		*sAISwatchList;   // reading drawing data
+extern "C" AIDrawArtSuite			*sAIDrawArtSuite; // reading drawing data
+extern "C" AIPathSuite				*sAIPath;		  // reading path
+//extern "C" AISwatchListSuite		*sAISwatchList;   // reading drawing data
 extern "C" AIDocumentSuite			*sAIDocument;	  // what is this I don't know
 extern "C" AITimerSuite				*sAITimer;        // for periodic timer
 extern "C" AIDataFilterSuite		*sAIDataFilter;   // for writing png ?

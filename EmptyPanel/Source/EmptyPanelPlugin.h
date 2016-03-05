@@ -56,8 +56,9 @@ public:
 	ASErr TimerInAction(void *message);
 	ASErr DrawArtExample();
 	ASErr RenderDocument1();
-	ASErr RenderDocument2();
+	ASErr RenderDocument();
 	void RasterizeArtToPNG(AIArtHandle artHandle, const std::string& path);
+	void ParseCurve(AIArtHandle artHandle);
 
 	FIXUP_VTABLE_EX(EmptyPanelPlugin, Plugin);
 

@@ -196,15 +196,13 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 
 	if (message->menuItem == _menuItemHandle)
 	{	
-		error = DrawArtExample();
-		error = RenderDocument2();
+		//error = DrawArtExample();
+		error = RenderDocument();
 
 		/* we show our UI*/
 		my_qt_window->show();
 		my_qt_window->setFocus();	// should call this or the window will be hidden behind
-		//my_qt_app->exec();		// Note that I don't use QApplication.exec()		
-
-		
+		//my_qt_app->exec();		// Note that I don't use QApplication.exec()			
 	}	
 
 	return error;
@@ -213,7 +211,7 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 ASErr EmptyPanelPlugin::DrawArtExample()
 {
 	ASErr error = kNoErr;
-
+	/*
 	AIDrawArtAGMPort port;
 	error = sAIDrawArtSuite->CreateImagePort(50, 50, &port.port);
 
@@ -267,7 +265,7 @@ ASErr EmptyPanelPlugin::DrawArtExample()
 
 	// Apparently this will give you error if you don't have an active document
 	if (error) { sAIUser->MessageAlert(ai::UnicodeString("Error !")); }
-
+	*/
 	return error;
 }
 
@@ -347,7 +345,7 @@ ASErr EmptyPanelPlugin::RenderDocument1()
 	return kNoErr;
 }
 
-ASErr EmptyPanelPlugin::RenderDocument2()
+ASErr EmptyPanelPlugin::RenderDocument()
 {
 	/*
 	Rules:
@@ -478,6 +476,23 @@ void EmptyPanelPlugin::RasterizeArtToPNG(AIArtHandle artHandle, const std::strin
 		if (!result)
 			result = tmpresult;
 	}
+}
+
+/*
+Code is stolen from https://github.com/mikeswanson/Ai2Canvas
+*/
+void EmptyPanelPlugin::ParseCurve(AIArtHandle artHandle)
+{
+	// Is this a closed path?
+	AIBoolean pathClosed = false;
+	sAIPath->GetPathClosed(artHandle, &pathClosed);
+
+	// Get the path starting point
+	AIPathSegment segment;
+	sAIPath->GetPathSegments(artHandle, 0, 1, &segment);
+
+	// Remember the first segment, in case we have to create an extra segment to close the figure
+	AIPathSegment firstSegment = segment;
 }
 
 ASErr EmptyPanelPlugin::Notify(AINotifierMessage *message)

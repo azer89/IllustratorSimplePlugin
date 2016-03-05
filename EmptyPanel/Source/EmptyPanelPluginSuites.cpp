@@ -32,13 +32,14 @@ extern "C"
 
 	/* Added suites - Reza */
 	AIDrawArtSuite				*sAIDrawArtSuite;
-	AISwatchListSuite			*sAISwatchList;
+	AIPathSuite					*sAIPath;		  // reading path
+	//AISwatchListSuite			*sAISwatchList;
 	AIDocumentSuite				*sAIDocument;
 	AITimerSuite				*sAITimer;
 	AIActionManagerSuite		*sAIActionManager;
 	AIDataFilterSuite			*sAIDataFilter;
 	AILayerSuite				*sAILayer;
-	AIImageOptSuite			*sAIImageOpt;
+	AIImageOptSuite				*sAIImageOpt;
 	//AINotifierSuite			*sAINotifier;		// it's already is Suites.cpp
 }
 
@@ -57,7 +58,8 @@ ImportSuite		gImportSuites[] = {
 	kAIDocumentSuite,		   kAIDocumentSuiteVersion,			 &sAIDocument,
 	kAITimerSuite,			   kAITimerVersion,					 &sAITimer,	
 	kAIDrawArtSuite,		   kAIDrawArtSuiteVersion,			 &sAIDrawArtSuite,
-	kAISwatchListSuite,		   kAISwatchListSuiteVersion,		 &sAISwatchList,
+	//kAISwatchListSuite,	   kAISwatchListSuiteVersion,		 &sAISwatchList,
+	kAIPathSuite,			   kAIPathVersion,					 &sAIPath,
 	kAIActionManagerSuite,	   kAIActionManagerVersion,			 &sAIActionManager,
 	kAIDataFilterSuite,		   kAIDataFilterSuiteVersion,		 &sAIDataFilter,
 	kAILayerSuite,			   kAILayerSuiteVersion,			 &sAILayer,
