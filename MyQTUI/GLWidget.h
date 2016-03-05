@@ -93,6 +93,7 @@ public:
     // destructor
     ~GLWidget();
 
+	void SetImage(QString img);
 	void SetImage(int width, int height, std::vector<QColor> colorList);
 	void SetData(int width, int height, std::vector<QColor> colorList);
 
@@ -145,7 +146,7 @@ private:
 	void PaintCurve();			 // remove this
 	void BuildCurveVertexData(); // remove this
 	void SaveToSvg();
-	void SetImage(QString img);
+	
 
 };
 

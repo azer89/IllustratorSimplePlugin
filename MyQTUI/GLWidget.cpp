@@ -99,7 +99,8 @@ void GLWidget::initializeGL()
     //SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.jpg");
     //SetImage(":/laughing_man.jpg");
 	// Set snapshot
-	SetImage(_snapshot_width, _snapshot_height, _colorList);
+	//SetImage(_snapshot_width, _snapshot_height, _colorList);
+	SetImage(QString::fromStdString(SystemParams::temp_png_location));
 
 	// a box
 	_boxes.push_back(ABox(AVector(0, 0), 
@@ -387,13 +388,15 @@ void GLWidget::SetImage(int width, int height, std::vector<QColor> colorList)
 
 void GLWidget::SetImage(QString img)
 {
-	bool isLoaded = true;
-	_imgOriginal = QImage(50, 50, QImage::Format_RGB32);
+	//bool isLoaded = true;
+	//_imgOriginal = QImage(50, 50, QImage::Format_RGB32);
+	bool isLoaded = _imgOriginal.load(img);
 
 	// size
 	this->_img_width = _imgOriginal.width();
 	this->_img_height = _imgOriginal.height();
 
+	/*
 	for (int x = 0; x < this->_img_width; x++)
 	{
 		for (int y = 0; y < this->_img_height; y++)
@@ -402,7 +405,7 @@ void GLWidget::SetImage(QString img)
 			QColor col = QColor(rand() % 255, rand() % 255, rand() % 255, 255);
 			_imgOriginal.setPixel(x, y, col.rgba());
 		}
-	}
+	}*/
 
 	// calculating power-of-two (pow) size
 	int xpow = (int)std::pow(2.0, std::ceil(std::log10((double)_img_width) / std::log10(2.0)));

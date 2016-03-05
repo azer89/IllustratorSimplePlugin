@@ -61,6 +61,7 @@
 #include <iostream>
 #include "myqtui.h"
 #include <QtWidgets/QApplication>
+#include "SystemParams.h"
 
 extern "C" SPBasicSuite*  sSPBasic;
 
@@ -375,7 +376,7 @@ ASErr EmptyPanelPlugin::RenderDocument2()
 	//	my_qt_window->GetTextEdit()->append("Getting an art");
 	//}
 
-	RasterizeArtToPNG(artHandle, "test.png");
+	RasterizeArtToPNG(artHandle, SystemParams::temp_png_location);
 
 	return kNoErr;
 }
@@ -396,6 +397,11 @@ void EmptyPanelPlugin::RasterizeArtToPNG(AIArtHandle artHandle, const std::strin
 	sAIArt->GetArtBounds(artHandle, &bounds);
 	AIReal width = bounds.right - bounds.left;
 	AIReal height = bounds.top - bounds.bottom;
+
+	my_qt_window->GetTextEdit()->append("bounds.right: " + QString::number(bounds.right));
+	my_qt_window->GetTextEdit()->append("bounds.left: " + QString::number(bounds.left));
+	my_qt_window->GetTextEdit()->append("bounds.top: " + QString::number(bounds.top));
+	my_qt_window->GetTextEdit()->append("bounds.bottom: " + QString::number(bounds.bottom));
 
 	AIErr result = kNoErr;
 	AIDataFilter *dstFilter = NULL;

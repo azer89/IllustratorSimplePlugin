@@ -17,6 +17,7 @@ public:
 public:
     static std::string v_shader_file;
     static std::string f_shader_file;
+	static std::string temp_png_location;
 
 };
 
