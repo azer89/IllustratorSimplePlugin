@@ -398,11 +398,15 @@ void EmptyPanelPlugin::RasterizeArtToPNG(AIArtHandle artHandle, const std::strin
 	AIReal width = bounds.right - bounds.left;
 	AIReal height = bounds.top - bounds.bottom;
 
+	//my_qt_window->GetTextEdit()->append("width: " + QString::number(width));
+	//my_qt_window->GetTextEdit()->append("height: " + QString::number(height));
+
+	/*
 	my_qt_window->GetTextEdit()->append("bounds.right: " + QString::number(bounds.right));
 	my_qt_window->GetTextEdit()->append("bounds.left: " + QString::number(bounds.left));
 	my_qt_window->GetTextEdit()->append("bounds.top: " + QString::number(bounds.top));
 	my_qt_window->GetTextEdit()->append("bounds.bottom: " + QString::number(bounds.bottom));
-
+	*/
 	AIErr result = kNoErr;
 	AIDataFilter *dstFilter = NULL;
 	AIDataFilter *filter = NULL;
@@ -422,8 +426,8 @@ void EmptyPanelPlugin::RasterizeArtToPNG(AIArtHandle artHandle, const std::strin
 	params.versionOneSuiteParams.interlaced = false;
 	params.versionOneSuiteParams.numberOfColors = 16777216;
 	params.versionOneSuiteParams.transparentIndex = 0;
-	//params.versionOneSuiteParams.resolution = 72.0f;
-	params.versionOneSuiteParams.resolution = 1000.0f;
+	params.versionOneSuiteParams.resolution = 72.0f; // in DPI
+	//params.versionOneSuiteParams.resolution = 1000.0f;
 	params.versionOneSuiteParams.outAlpha = true;
 	params.versionOneSuiteParams.outWidth = (ASInt32)width;
 	params.versionOneSuiteParams.outHeight = (ASInt32)height;

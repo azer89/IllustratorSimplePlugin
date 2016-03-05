@@ -103,10 +103,10 @@ void GLWidget::initializeGL()
 	SetImage(QString::fromStdString(SystemParams::temp_png_location));
 
 	// a box
-	_boxes.push_back(ABox(AVector(0, 0), 
-						  AVector(0, this->_img_width), 
-						  AVector(this->_img_height, 0),
-						  AVector(this->_img_height, this->_img_width)));
+	_boxes.push_back(ABox(AVector(0, 0),
+						  AVector(0, this->_img_height),
+						  AVector(this->_img_width, 0),
+						  AVector(this->_img_width, this->_img_height)));
 	_vDataHelper->BuildQuadsVertexData(_boxes, &_boxVbo, &_boxVao);
 
 	// a triangle
