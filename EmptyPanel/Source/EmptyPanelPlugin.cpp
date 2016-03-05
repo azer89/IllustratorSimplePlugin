@@ -380,9 +380,13 @@ ASErr EmptyPanelPlugin::RenderDocument2()
 	return kNoErr;
 }
 
-// Given an art handle, rasterizes to a file at the given path
-// NOTE: While width and height are passed, the resulting file is often of a different size, which negatively affects positioning
-// See discussion thread: http://forums.adobe.com/thread/603776?tstart=0
+/*
+Code is stolen from https://github.com/mikeswanson/Ai2Canvas
+
+Given an art handle, rasterizes to a file at the given path
+NOTE: While width and height are passed, the resulting file is often of a different size, which negatively affects positioning
+See discussion thread: http://forums.adobe.com/thread/603776?tstart=0
+*/
 void EmptyPanelPlugin::RasterizeArtToPNG(AIArtHandle artHandle, const std::string& path)
 {
 	ai::FilePath filePath;
@@ -397,8 +401,12 @@ void EmptyPanelPlugin::RasterizeArtToPNG(AIArtHandle artHandle, const std::strin
 	AIDataFilter *dstFilter = NULL;
 	AIDataFilter *filter = NULL;
 	if (!result)
+	{
 		result = sAIDataFilter->NewFileDataFilter(filePath, "write", 'prw', 'PNGf', &filter);
-	if (!result) {
+	}
+
+	if (!result) 
+	{
 		result = sAIDataFilter->LinkDataFilter(dstFilter, filter);
 		dstFilter = filter;
 	}
