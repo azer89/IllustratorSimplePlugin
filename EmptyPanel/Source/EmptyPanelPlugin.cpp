@@ -228,6 +228,7 @@ ASErr EmptyPanelPlugin::RenderDocument()
 	//}
 
 	RasterizeArtToPNG(artHandle, SystemParams::temp_png_location);
+	RenderCurveGroup(artHandle);
 
 	return kNoErr;
 }
@@ -333,7 +334,35 @@ void EmptyPanelPlugin::RasterizeArtToPNG(AIArtHandle artHandle, const std::strin
 }
 
 /*
+141: void Canvas::RenderArt(AIArtHandle artHandle, unsigned int depth)
+960: void Canvas::RenderGroupArt(AIArtHandle artHandle, unsigned int depth)
+*/
+void EmptyPanelPlugin::RenderCurveGroup(AIArtHandle artHandle)
+{
+	// Get the first art element in the group
+	//AIArtHandle aArtHandle = nil;
+	//sAIArt->GetArtFirstChild(artHandle, &aArtHandle);
+
+	std::vector<AIArtHandle> artHandles;
+	do
+	{
+		my_qt_window->GetTextEdit()->append("one child");
+
+		// Add this art handle
+		artHandles.push_back(artHandle);
+
+		// Find the next sibling
+		sAIArt->GetArtSibling(artHandle, &artHandle);
+	} 
+	while (artHandle != nil);
+
+	my_qt_window->GetTextEdit()->append("number of child: " + QString::number(artHandles.size()));
+}
+
+/*
 Code is stolen from https://github.com/mikeswanson/Ai2Canvas
+1084: void Canvas::RenderPathArt(AIArtHandle artHandle, unsigned int depth)
+1136: void Canvas::RenderPathFigure(AIArtHandle artHandle, unsigned int depth)
 */
 void EmptyPanelPlugin::ParseCurve(AIArtHandle artHandle)
 {
@@ -347,6 +376,12 @@ void EmptyPanelPlugin::ParseCurve(AIArtHandle artHandle)
 
 	// Remember the first segment, in case we have to create an extra segment to close the figure
 	AIPathSegment firstSegment = segment;
+
+	// How many segments are in this path?
+	short segmentCount = 0;
+	sAIPath->GetPathSegmentCount(artHandle, &segmentCount);
+
+	my_qt_window->GetTextEdit()->append("segmentCount: " + QString::number(segmentCount));
 }
 
 // from original sample code
