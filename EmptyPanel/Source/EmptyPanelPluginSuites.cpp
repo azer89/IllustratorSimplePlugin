@@ -14,7 +14,6 @@
 //========================================================================================
 
 #include "EmptyPanelPluginSuites.h"
-
 #include "Suites.hpp"
 
 extern "C"
@@ -32,14 +31,14 @@ extern "C"
 
 	/* Added suites - Reza */
 	AIDrawArtSuite				*sAIDrawArtSuite;
-	AIPathSuite					*sAIPath;		  // reading path
-	//AISwatchListSuite			*sAISwatchList;
+	AIPathSuite					*sAIPath;		  // reading path	
 	AIDocumentSuite				*sAIDocument;
 	AITimerSuite				*sAITimer;
 	AIActionManagerSuite		*sAIActionManager;
 	AIDataFilterSuite			*sAIDataFilter;
 	AILayerSuite				*sAILayer;
 	AIImageOptSuite				*sAIImageOpt;
+	//AISwatchListSuite			*sAISwatchList;
 	//AINotifierSuite			*sAINotifier;		// it's already is Suites.cpp
 }
 
@@ -57,12 +56,12 @@ ImportSuite		gImportSuites[] = {
 	/* Added suites - Reza */
 	kAIDocumentSuite,		   kAIDocumentSuiteVersion,			 &sAIDocument,
 	kAITimerSuite,			   kAITimerVersion,					 &sAITimer,	
-	kAIDrawArtSuite,		   kAIDrawArtSuiteVersion,			 &sAIDrawArtSuite,
-	//kAISwatchListSuite,	   kAISwatchListSuiteVersion,		 &sAISwatchList,
+	kAIDrawArtSuite,		   kAIDrawArtSuiteVersion,			 &sAIDrawArtSuite,	
 	kAIPathSuite,			   kAIPathVersion,					 &sAIPath,
 	kAIActionManagerSuite,	   kAIActionManagerVersion,			 &sAIActionManager,
 	kAIDataFilterSuite,		   kAIDataFilterSuiteVersion,		 &sAIDataFilter,
 	kAILayerSuite,			   kAILayerSuiteVersion,			 &sAILayer,
-	kAIImageOptSuite, kAIImageOptSuiteVersion, &sAIImageOpt,
+	kAIImageOptSuite,		   kAIImageOptSuiteVersion,			 &sAIImageOpt,
+	//kAISwatchListSuite,	   kAISwatchListSuiteVersion,		 &sAISwatchList,
 	nil, 0, nil
 };

@@ -28,7 +28,7 @@
 
 /* Added suites - Reza */
 #include "AIDrawArt.h"
-#include "AISwatchList.h"	
+
 #include "AIDataFilter.h"
 #include "AIActionManager.h"
 #include "AIDocument.h"
@@ -40,6 +40,7 @@
 //#include "AIPanel.h"
 //#include "AIMenu.h"
 //#include "AIControlBar.h"
+//#include "AISwatchList.h"	
 
 /* moved to cpp */
 //#include "IllustratorSDK.h"
@@ -58,14 +59,14 @@ extern "C" SPBlocksSuite			*sSPBlocks;
 /* Added suites - Reza */
 extern "C" AIArtSuite				*sAIArt;
 extern "C" AIMatchingArtSuite		*sAIMatchingArt;
-extern "C" AIDrawArtSuite			*sAIDrawArtSuite; // reading drawing data
-extern "C" AIPathSuite				*sAIPath;		  // reading path
-//extern "C" AISwatchListSuite		*sAISwatchList;   // reading drawing data
-extern "C" AIDocumentSuite			*sAIDocument;	  // what is this I don't know
-extern "C" AITimerSuite				*sAITimer;        // for periodic timer
-extern "C" AIDataFilterSuite		*sAIDataFilter;   // for writing png ?
-extern "C" AILayerSuite				*sAILayer;		  // handling layers
-extern "C" AIImageOptSuite			*sAIImageOpt;
-extern "C" AIActionManagerSuite		*sAIActionManager;
+extern "C" AIDrawArtSuite			*sAIDrawArtSuite;   // reading drawing data
+extern "C" AIPathSuite				*sAIPath;		    // reading path
+extern "C" AIDocumentSuite			*sAIDocument;	    // what is this I don't know
+extern "C" AITimerSuite				*sAITimer;          // for periodic timer
+extern "C" AIDataFilterSuite		*sAIDataFilter;     // png
+extern "C" AILayerSuite				*sAILayer;		    // handling layers
+extern "C" AIImageOptSuite			*sAIImageOpt;		// png
+extern "C" AIActionManagerSuite		*sAIActionManager;	// safe file
+//extern "C" AISwatchListSuite		*sAISwatchList;   // ???
 
 #endif   // __EmptyPanelPluginSuites_H__

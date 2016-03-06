@@ -22,12 +22,8 @@
 #define __EmptyPanelPlugin_H__
 
 #include "Plugin.hpp"
-//#include "AIPanel.h"
-//#include "AIControlBar.h"
-//#include "SDKDef.h"
-//#include "SDKAboutPluginsHelper.h"
 
-// Qt (Forward Declaration)
+// Qt (Forward Declaration) - added by Reza
 class QApplication;
 class MyQTUI;
 
@@ -51,21 +47,18 @@ public:
 	ASErr GoMenuItem(AIMenuMessage *message);
 	ASErr Notify(AINotifierMessage *message);
 
+	FIXUP_VTABLE_EX(EmptyPanelPlugin, Plugin);	// I don't know what is this
+
 	// added by Reza
 	virtual ASErr Message(char *caller, char *selector, void *message);
 	ASErr TimerInAction(void *message);
-	ASErr DrawArtExample();
-	ASErr RenderDocument1();
 	ASErr RenderDocument();
 	void RasterizeArtToPNG(AIArtHandle artHandle, const std::string& path);
 	void ParseCurve(AIArtHandle artHandle);
 
-	FIXUP_VTABLE_EX(EmptyPanelPlugin, Plugin);
-
 private:	
 	// added by Reza
 	AITimerHandle timerHandle;
-
 	AIMenuItemHandle _menuItemHandle;
 };
 
