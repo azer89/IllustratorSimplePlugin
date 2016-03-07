@@ -340,21 +340,27 @@ void EmptyPanelPlugin::RasterizeArtToPNG(AIArtHandle artHandle, const std::strin
 void EmptyPanelPlugin::RenderCurveGroup(AIArtHandle artHandle)
 {
 	// Get the first art element in the group
-	//AIArtHandle aArtHandle = nil;
-	//sAIArt->GetArtFirstChild(artHandle, &aArtHandle);
+	AIArtHandle aArtHandle = nil;
+	sAIArt->GetArtFirstChild(artHandle, &aArtHandle);
 
 	std::vector<AIArtHandle> artHandles;
 	do
 	{
-		my_qt_window->GetTextEdit()->append("one child");
+		//my_qt_window->GetTextEdit()->append("one child");
+		// get name
+		// AIAPI AIErr(* 	GetArtName )(AIArtHandle art, ai::UnicodeString &name, ASBoolean *isDefaultName)
+		ai::UnicodeString artName;
+		AIBoolean isDefaultName = false;
+		sAIArt->GetArtName(aArtHandle, artName, &isDefaultName);
+		my_qt_window->GetTextEdit()->append("art name: " + QString::fromStdString(artName.as_UTF8()));
 
 		// Add this art handle
-		artHandles.push_back(artHandle);
+		artHandles.push_back(aArtHandle);
 
 		// Find the next sibling
-		sAIArt->GetArtSibling(artHandle, &artHandle);
+		sAIArt->GetArtSibling(aArtHandle, &aArtHandle);
 	} 
-	while (artHandle != nil);
+	while (aArtHandle != nil);
 
 	my_qt_window->GetTextEdit()->append("number of child: " + QString::number(artHandles.size()));
 }
