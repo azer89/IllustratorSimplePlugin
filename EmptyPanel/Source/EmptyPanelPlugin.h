@@ -54,8 +54,8 @@ public:
 	ASErr TimerInAction(void *message);
 	ASErr RenderDocument();
 	void RasterizeArtToPNG(AIArtHandle artHandle, const std::string& path);
-	void RenderCurveGroup(AIArtHandle artHandle);
-	void ParseCurve(AIArtHandle artHandle);
+	void RenderPathGroup(AIArtHandle artHandle);
+	void ParsePath(AIArtHandle artHandle);
 
 private:	
 	// added by Reza

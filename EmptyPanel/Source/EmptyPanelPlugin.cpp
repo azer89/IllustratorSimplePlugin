@@ -202,8 +202,8 @@ ASErr EmptyPanelPlugin::RenderDocument()
 {
 	/*
 	Rules:
-		- Should exactly has one layer
-		- All paths are grouped
+		- Should exactly has one layer (TBD...)
+		- All paths are in a single layer
 	*/
 
 	ai::int32 layerCount = 0;
@@ -213,6 +213,7 @@ ASErr EmptyPanelPlugin::RenderDocument()
 
 	int intLayerCount = layerCount;
 	my_qt_window->GetTextEdit()->append("Num of layers: " + QString::number(intLayerCount));
+	my_qt_window->GetTextEdit()->append("   ");
 	
 	/* only the first layer */
 	AILayerHandle layerHandle = 0;
@@ -222,15 +223,76 @@ ASErr EmptyPanelPlugin::RenderDocument()
 	AIArtHandle artHandle = 0;
 	sAIArt->GetFirstArtOfLayer(layerHandle, &artHandle);
 
-	//if (artHandle)
-	//{
-	//	my_qt_window->GetTextEdit()->append("Getting an art");
-	//}
-
 	RasterizeArtToPNG(artHandle, SystemParams::temp_png_location);
-	RenderCurveGroup(artHandle);
+	RenderPathGroup(artHandle);
 
 	return kNoErr;
+}
+
+/*
+Input should be a LAYER
+*/
+void EmptyPanelPlugin::RenderPathGroup(AIArtHandle artHandle)
+{
+	// Get the first art element in the group
+	AIArtHandle aArtHandle = nil;
+	sAIArt->GetArtFirstChild(artHandle, &aArtHandle);
+
+	std::vector<AIArtHandle> artHandles;
+	do
+	{
+
+		ParsePath(aArtHandle);
+
+		// Add this art handle
+		artHandles.push_back(aArtHandle);
+
+		// Find the next sibling
+		sAIArt->GetArtSibling(aArtHandle, &aArtHandle);
+	} 
+	while (aArtHandle != nil);
+
+	//my_qt_window->GetTextEdit()->append("number of child: " + QString::number(artHandles.size()));
+}
+
+/*
+Code is stolen from https://github.com/mikeswanson/Ai2Canvas
+This function parses a single path art
+*/
+void EmptyPanelPlugin::ParsePath(AIArtHandle artHandle)
+{
+	// get art name
+	ai::UnicodeString artName;
+	AIBoolean isDefaultName = false;
+	sAIArt->GetArtName(artHandle, artName, &isDefaultName);
+	my_qt_window->GetTextEdit()->append("art name: " + QString::fromStdString(artName.as_UTF8()));
+
+	// get art type
+	short artType = 0;
+	sAIArt->GetArtType(artHandle, &artType);
+	//my_qt_window->GetTextEdit()->append("art type: " + QString::number(artType));
+	if (artType == kPathArt)
+	{
+		// is closed ?
+		AIBoolean pathClosed = false;
+		sAIPath->GetPathClosed(artHandle, &pathClosed);
+		//if (pathClosed) { my_qt_window->GetTextEdit()->append("a closed path !"); }
+
+		// number of segments
+		short segmentCount = 0;
+		sAIPath->GetPathSegmentCount(artHandle, &segmentCount);
+		my_qt_window->GetTextEdit()->append("segmentCount: " + QString::number(segmentCount));
+		my_qt_window->GetTextEdit()->append("   ");
+	}
+
+	/*
+	// Get the path starting point
+	AIPathSegment segment;
+	sAIPath->GetPathSegments(artHandle, 0, 1, &segment);
+
+	// Remember the first segment, in case we have to create an extra segment to close the figure
+	AIPathSegment firstSegment = segment;
+	*/
 }
 
 /*
@@ -253,7 +315,7 @@ void EmptyPanelPlugin::RasterizeArtToPNG(AIArtHandle artHandle, const std::strin
 	/*
 	my_qt_window->GetTextEdit()->append("width: " + QString::number(width));
 	my_qt_window->GetTextEdit()->append("height: " + QString::number(height));
-	
+
 	my_qt_window->GetTextEdit()->append("bounds.right: " + QString::number(bounds.right));
 	my_qt_window->GetTextEdit()->append("bounds.left: " + QString::number(bounds.left));
 	my_qt_window->GetTextEdit()->append("bounds.top: " + QString::number(bounds.top));
@@ -268,7 +330,7 @@ void EmptyPanelPlugin::RasterizeArtToPNG(AIArtHandle artHandle, const std::strin
 		result = sAIDataFilter->NewFileDataFilter(filePath, "write", 'prw', 'PNGf', &filter);
 	}
 
-	if (!result) 
+	if (!result)
 	{
 		result = sAIDataFilter->LinkDataFilter(dstFilter, filter);
 		dstFilter = filter;
@@ -331,118 +393,6 @@ void EmptyPanelPlugin::RasterizeArtToPNG(AIArtHandle artHandle, const std::strin
 		if (!result)
 			result = tmpresult;
 	}
-}
-
-/*
-Input should be a LAYER
-*/
-void EmptyPanelPlugin::RenderCurveGroup(AIArtHandle artHandle)
-{
-	// Get the first art element in the group
-	AIArtHandle aArtHandle = nil;
-	sAIArt->GetArtFirstChild(artHandle, &aArtHandle);
-
-	//my_qt_window->GetTextEdit()->append("kGroupArt: " + QString::number(kGroupArt));
-	//my_qt_window->GetTextEdit()->append("kPathArt: " + QString::number(kPathArt));
-
-	std::vector<AIArtHandle> artHandles;
-	do
-	{
-		/*
-		ai::UnicodeString artName;
-		AIBoolean isDefaultName = false;
-		sAIArt->GetArtName(aArtHandle, artName, &isDefaultName);
-		my_qt_window->GetTextEdit()->append("art name: " + QString::fromStdString(artName.as_UTF8()));
-		*/
-
-		/*
-		short type = 0;
-		sAIArt->GetArtType(artHandle, &type);
-		my_qt_window->GetTextEdit()->append("art type: " + QString::number(type));
-		if (type == kPathArt)
-		{
-			my_qt_window->GetTextEdit()->append("a path !");
-		}
-		*/
-
-		/*
-		// Is this a closed path?
-		AIBoolean pathClosed = false;
-		sAIPath->GetPathClosed(artHandle, &pathClosed);
-		if (pathClosed)
-		{
-			my_qt_window->GetTextEdit()->append("path is closed !!! !");
-		}
-		*/
-
-		// How many segments are in this path?
-		/*short segmentCount = 0;
-		sAIPath->GetPathSegmentCount(artHandle, &segmentCount);
-		my_qt_window->GetTextEdit()->append("segmentCount: " + QString::number(segmentCount));
-		*/
-
-		ParseCurve(aArtHandle);
-
-		// Add this art handle
-		artHandles.push_back(aArtHandle);
-
-		// Find the next sibling
-		sAIArt->GetArtSibling(aArtHandle, &aArtHandle);
-	} 
-	while (aArtHandle != nil);
-
-	my_qt_window->GetTextEdit()->append("number of child: " + QString::number(artHandles.size()));
-}
-
-/*
-Code is stolen from https://github.com/mikeswanson/Ai2Canvas
-1084: void Canvas::RenderPathArt(AIArtHandle artHandle, unsigned int depth)
-1136: void Canvas::RenderPathFigure(AIArtHandle artHandle, unsigned int depth)
-*/
-void EmptyPanelPlugin::ParseCurve(AIArtHandle artHandle)
-{
-	ai::UnicodeString artName;
-	AIBoolean isDefaultName = false;
-	sAIArt->GetArtName(artHandle, artName, &isDefaultName);
-	my_qt_window->GetTextEdit()->append("art name: " + QString::fromStdString(artName.as_UTF8()));
-
-	// child ?
-	//AIArtHandle cArtHandle = nil;
-	//sAIArt->GetArtFirstChild(artHandle, &cArtHandle);
-	short type = 0;
-	sAIArt->GetArtType(artHandle, &type);
-	my_qt_window->GetTextEdit()->append("art type: " + QString::number(type));
-	if (type == kPathArt)
-	{
-		//my_qt_window->GetTextEdit()->append("a path !");
-		AIBoolean pathClosed = false;
-		sAIPath->GetPathClosed(artHandle, &pathClosed);
-		if (pathClosed) { my_qt_window->GetTextEdit()->append("a closed path !"); }
-
-		short segmentCount = 0;
-		sAIPath->GetPathSegmentCount(artHandle, &segmentCount);
-		my_qt_window->GetTextEdit()->append("segmentCount: " + QString::number(segmentCount));
-		my_qt_window->GetTextEdit()->append("   ");
-	}
-
-	/*
-	// Is this a closed path?
-	AIBoolean pathClosed = false;
-	sAIPath->GetPathClosed(artHandle, &pathClosed);
-
-	// Get the path starting point
-	AIPathSegment segment;
-	sAIPath->GetPathSegments(artHandle, 0, 1, &segment);
-
-	// Remember the first segment, in case we have to create an extra segment to close the figure
-	AIPathSegment firstSegment = segment;
-
-	// How many segments are in this path?
-	short segmentCount = 0;
-	sAIPath->GetPathSegmentCount(artHandle, &segmentCount);
-
-	my_qt_window->GetTextEdit()->append("segmentCount: " + QString::number(segmentCount));
-	*/
 }
 
 // from original sample code
