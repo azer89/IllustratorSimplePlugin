@@ -21,7 +21,12 @@
 #ifndef __EmptyPanelPlugin_H__
 #define __EmptyPanelPlugin_H__
 
+// Illustrator API plugin, do not edit, do not remove
 #include "Plugin.hpp"
+
+// Custom
+#include <vector>
+#include "APath.h"
 
 // Qt (Forward Declaration) - added by Reza
 class QApplication;
@@ -34,8 +39,9 @@ class EmptyPanelPlugin : public Plugin
 { 
 // Qt - added by Reza
 public:
-	QApplication* my_qt_app;
-	MyQTUI* my_qt_window;
+	QApplication* _my_qt_app;
+	MyQTUI* _my_qt_window;
+	std::vector<APath> _paths;
 
 public:
 	EmptyPanelPlugin(SPPluginRef pluginRef);

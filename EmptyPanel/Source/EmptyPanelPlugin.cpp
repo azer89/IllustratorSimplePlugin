@@ -19,7 +19,7 @@
 */
 
 // sAIUser->MessageAlert(ai::UnicodeString("Your message here"));
-// my_qt_window->GetTextEdit()->append("Your message here");
+// _my_qt_window->GetTextEdit()->append("Your message here");
 
 /**
  * Some important functions:
@@ -92,8 +92,8 @@ void FixupReload(Plugin *plugin)
 
 EmptyPanelPlugin::EmptyPanelPlugin(SPPluginRef pluginRef)
 	: Plugin(pluginRef),
-	my_qt_app(0),
-	my_qt_window(0)
+	_my_qt_app(0),
+	_my_qt_window(0)
 {
 	//strncpy(fPluginName, kEmptyPanelPluginName, kMaxStringLength);
 }
@@ -138,9 +138,9 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 	// About QApplication: http://doc.qt.io/qt-5/qapplication.html
 	char *my_argv[] = { "program name", "arg1", "arg2", NULL };
 	int my_argc = sizeof(my_argv) / sizeof(char*) - 1;
-	my_qt_app = new QApplication (my_argc, my_argv);
-	my_qt_window = new MyQTUI();
-	//my_qt_app->exec();
+	_my_qt_app = new QApplication (my_argc, my_argv);
+	_my_qt_window = new MyQTUI();
+	//_my_qt_app->exec();
 
 	AINotifierHandle appShutDownNotifier;
 	error = sAINotifier->AddNotifier(fPluginRef, "AI Application Shutdown Notifier", kAIApplicationShutdownNotifier, &appShutDownNotifier);
@@ -165,18 +165,18 @@ ASErr EmptyPanelPlugin::ShutdownPlugin(SPInterfaceMessage *message)
 
 	// added by Reza
 	// Delete Qt window
-	if (my_qt_window)
+	if (_my_qt_window)
 	{
-		my_qt_window->close();
-		delete my_qt_window;
+		_my_qt_window->close();
+		delete _my_qt_window;
 	}
 
 	// added by Reza
 	// Delete Qt instance
-	if (my_qt_app) 
+	if (_my_qt_app) 
 	{ 
-		my_qt_app->quit();
-		delete my_qt_app; 
+		_my_qt_app->quit();
+		delete _my_qt_app; 
 	}	
 
 	return kNoErr;
@@ -191,29 +191,30 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 		error = RenderDocument();
 
 		/* we show our UI*/
-		my_qt_window->show();
-		my_qt_window->setFocus();	// should call this or the window will be hidden behind
-		//my_qt_app->exec();		// Note that I don't use QApplication.exec()			
+		_my_qt_window->show();
+		_my_qt_window->setFocus();	// should call this or the window will be hidden behind
+		//_my_qt_app->exec();		// Note that I don't use QApplication.exec()			
 	}	
 	return error;
 }
 
+/*
+Rules:
+- Should exactly has one layer (TBD...)
+- All paths are in a single layer
+*/
 ASErr EmptyPanelPlugin::RenderDocument()
 {
-	/*
-	Rules:
-		- Should exactly has one layer (TBD...)
-		- All paths are in a single layer
-	*/
+	/* Clear data */
+	this->_paths.clear();
 
+	/* How many layers in this document? */
 	ai::int32 layerCount = 0;
-
-	// How many layers in this document?
+	
 	sAILayer->CountLayers(&layerCount);
-
 	int intLayerCount = layerCount;
-	my_qt_window->GetTextEdit()->append("Num of layers: " + QString::number(intLayerCount));
-	my_qt_window->GetTextEdit()->append("   ");
+	_my_qt_window->GetTextEdit()->append("Num of layers: " + QString::number(intLayerCount));
+	_my_qt_window->GetTextEdit()->append("   ");
 	
 	/* only the first layer */
 	AILayerHandle layerHandle = 0;
@@ -223,6 +224,7 @@ ASErr EmptyPanelPlugin::RenderDocument()
 	AIArtHandle artHandle = 0;
 	sAIArt->GetFirstArtOfLayer(layerHandle, &artHandle);
 
+	/* Fun things */
 	RasterizeArtToPNG(artHandle, SystemParams::temp_png_location);
 	RenderPathGroup(artHandle);
 
@@ -252,7 +254,8 @@ void EmptyPanelPlugin::RenderPathGroup(AIArtHandle artHandle)
 	} 
 	while (aArtHandle != nil);
 
-	//my_qt_window->GetTextEdit()->append("number of child: " + QString::number(artHandles.size()));
+	//_my_qt_window->GetTextEdit()->append("number of child: " + QString::number(artHandles.size()));
+	_my_qt_window->GetTextEdit()->append("number of paths: " + QString::number(_paths.size()));
 }
 
 /*
@@ -265,7 +268,7 @@ void EmptyPanelPlugin::ParsePath(AIArtHandle artHandle)
 	ai::UnicodeString artName;
 	AIBoolean isDefaultName = false;
 	sAIArt->GetArtName(artHandle, artName, &isDefaultName);
-	my_qt_window->GetTextEdit()->append("art name: " + QString::fromStdString(artName.as_UTF8()));
+	_my_qt_window->GetTextEdit()->append("art name: " + QString::fromStdString(artName.as_UTF8()));
 
 	// get art type
 	short artType = 0;
@@ -273,6 +276,9 @@ void EmptyPanelPlugin::ParsePath(AIArtHandle artHandle)
 	//my_qt_window->GetTextEdit()->append("art type: " + QString::number(artType));
 	if (artType == kPathArt)
 	{
+		// Create your own Path
+		APath aPath(true);
+
 		// is closed ?
 		AIBoolean pathClosed = false;
 		sAIPath->GetPathClosed(artHandle, &pathClosed);
@@ -281,18 +287,35 @@ void EmptyPanelPlugin::ParsePath(AIArtHandle artHandle)
 		// number of segments
 		short segmentCount = 0;
 		sAIPath->GetPathSegmentCount(artHandle, &segmentCount);
-		my_qt_window->GetTextEdit()->append("segmentCount: " + QString::number(segmentCount));
-		my_qt_window->GetTextEdit()->append("   ");
-	}
+		_my_qt_window->GetTextEdit()->append("segmentCount: " + QString::number(segmentCount));		
 
-	/*
-	// Get the path starting point
-	AIPathSegment segment;
-	sAIPath->GetPathSegments(artHandle, 0, 1, &segment);
+		/* Get the path starting point */
+		AIPathSegment segment;
+		sAIPath->GetPathSegments(artHandle, 0, 1, &segment);
+		/* Remember the first segment, in case we have to create an extra segment to close the figure */
+		AIPathSegment firstSegment = segment;
 
-	// Remember the first segment, in case we have to create an extra segment to close the figure
-	AIPathSegment firstSegment = segment;
-	*/
+		// Track the last out point
+		// y is negative ?
+		AIPathSegment previousSegment = segment;
+		//_my_qt_window->GetTextEdit()->append("x: " + QString::number(previousSegment.p.h) + " y: " + QString::number(-previousSegment.p.v));
+		aPath.points.push_back(AVector(previousSegment.p.h, -previousSegment.p.v));
+
+		// Loop through each segment
+		for (short segmentIndex = 1; segmentIndex < segmentCount; segmentIndex++)
+		{
+			sAIPath->GetPathSegments(artHandle, segmentIndex, 1, &segment);
+			//RenderSegment(previousSegment, segment, depth);
+			previousSegment = segment;
+			// y is negative ?
+			//_my_qt_window->GetTextEdit()->append("x: " + QString::number(previousSegment.p.h) + " y: " + QString::number(-previousSegment.p.v));
+			aPath.points.push_back(AVector(previousSegment.p.h, -previousSegment.p.v));
+		}
+		
+		_paths.push_back(aPath);
+
+		_my_qt_window->GetTextEdit()->append("   ");
+	}	
 }
 
 /*

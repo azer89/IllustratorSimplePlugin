@@ -114,5 +114,8 @@
     <ClInclude Include="ATriangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="APath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
