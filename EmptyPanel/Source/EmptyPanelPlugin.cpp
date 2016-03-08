@@ -334,8 +334,7 @@ void EmptyPanelPlugin::RasterizeArtToPNG(AIArtHandle artHandle, const std::strin
 }
 
 /*
-141: void Canvas::RenderArt(AIArtHandle artHandle, unsigned int depth)
-960: void Canvas::RenderGroupArt(AIArtHandle artHandle, unsigned int depth)
+Input should be a LAYER
 */
 void EmptyPanelPlugin::RenderCurveGroup(AIArtHandle artHandle)
 {
@@ -343,16 +342,46 @@ void EmptyPanelPlugin::RenderCurveGroup(AIArtHandle artHandle)
 	AIArtHandle aArtHandle = nil;
 	sAIArt->GetArtFirstChild(artHandle, &aArtHandle);
 
+	//my_qt_window->GetTextEdit()->append("kGroupArt: " + QString::number(kGroupArt));
+	//my_qt_window->GetTextEdit()->append("kPathArt: " + QString::number(kPathArt));
+
 	std::vector<AIArtHandle> artHandles;
 	do
 	{
-		//my_qt_window->GetTextEdit()->append("one child");
-		// get name
-		// AIAPI AIErr(* 	GetArtName )(AIArtHandle art, ai::UnicodeString &name, ASBoolean *isDefaultName)
+		/*
 		ai::UnicodeString artName;
 		AIBoolean isDefaultName = false;
 		sAIArt->GetArtName(aArtHandle, artName, &isDefaultName);
 		my_qt_window->GetTextEdit()->append("art name: " + QString::fromStdString(artName.as_UTF8()));
+		*/
+
+		/*
+		short type = 0;
+		sAIArt->GetArtType(artHandle, &type);
+		my_qt_window->GetTextEdit()->append("art type: " + QString::number(type));
+		if (type == kPathArt)
+		{
+			my_qt_window->GetTextEdit()->append("a path !");
+		}
+		*/
+
+		/*
+		// Is this a closed path?
+		AIBoolean pathClosed = false;
+		sAIPath->GetPathClosed(artHandle, &pathClosed);
+		if (pathClosed)
+		{
+			my_qt_window->GetTextEdit()->append("path is closed !!! !");
+		}
+		*/
+
+		// How many segments are in this path?
+		/*short segmentCount = 0;
+		sAIPath->GetPathSegmentCount(artHandle, &segmentCount);
+		my_qt_window->GetTextEdit()->append("segmentCount: " + QString::number(segmentCount));
+		*/
+
+		ParseCurve(aArtHandle);
 
 		// Add this art handle
 		artHandles.push_back(aArtHandle);
@@ -372,6 +401,31 @@ Code is stolen from https://github.com/mikeswanson/Ai2Canvas
 */
 void EmptyPanelPlugin::ParseCurve(AIArtHandle artHandle)
 {
+	ai::UnicodeString artName;
+	AIBoolean isDefaultName = false;
+	sAIArt->GetArtName(artHandle, artName, &isDefaultName);
+	my_qt_window->GetTextEdit()->append("art name: " + QString::fromStdString(artName.as_UTF8()));
+
+	// child ?
+	//AIArtHandle cArtHandle = nil;
+	//sAIArt->GetArtFirstChild(artHandle, &cArtHandle);
+	short type = 0;
+	sAIArt->GetArtType(artHandle, &type);
+	my_qt_window->GetTextEdit()->append("art type: " + QString::number(type));
+	if (type == kPathArt)
+	{
+		//my_qt_window->GetTextEdit()->append("a path !");
+		AIBoolean pathClosed = false;
+		sAIPath->GetPathClosed(artHandle, &pathClosed);
+		if (pathClosed) { my_qt_window->GetTextEdit()->append("a closed path !"); }
+
+		short segmentCount = 0;
+		sAIPath->GetPathSegmentCount(artHandle, &segmentCount);
+		my_qt_window->GetTextEdit()->append("segmentCount: " + QString::number(segmentCount));
+		my_qt_window->GetTextEdit()->append("   ");
+	}
+
+	/*
 	// Is this a closed path?
 	AIBoolean pathClosed = false;
 	sAIPath->GetPathClosed(artHandle, &pathClosed);
@@ -388,6 +442,7 @@ void EmptyPanelPlugin::ParseCurve(AIArtHandle artHandle)
 	sAIPath->GetPathSegmentCount(artHandle, &segmentCount);
 
 	my_qt_window->GetTextEdit()->append("segmentCount: " + QString::number(segmentCount));
+	*/
 }
 
 // from original sample code
