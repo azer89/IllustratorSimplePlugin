@@ -47,7 +47,7 @@ GLWidget::~GLWidget()
 
 void GLWidget::initializeGL()
 {
-
+	/* OpenGL format */
     QGLFormat glFormat = QGLWidget::format();
     if (!glFormat.sampleBuffers()) 
 	{ 
@@ -56,13 +56,14 @@ void GLWidget::initializeGL()
 		return; 
 	}
 
+	/* Stuff I forget what their purposes are */
     glShadeModel(GL_SMOOTH);
-
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor( 1.0, 1.0, 1.0, 1.0 );
     glEnable(GL_DEPTH_TEST);
 
+	/* Shaders */
     _shaderProgram = new QOpenGLShaderProgram();
     if (!_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, SystemParams::v_shader_file.c_str()))
     { 
@@ -70,37 +71,36 @@ void GLWidget::initializeGL()
 		textEdit->append("Cannot load vertex shader.");
 		return; 
 	}
-
     if (!_shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, SystemParams::f_shader_file.c_str()))
     { 
 		//std::cerr << "Cannot load fragment shader." << std::endl; 
 		textEdit->append("Cannot load fragment shader.");
 		return; 
 	}
-
     if ( !_shaderProgram->link() )
     { 
 		//std::cerr << "Cannot link shaders." << std::endl; 
 		textEdit->append("Cannot link shaders.");
 		return; 
 	}
-
     _shaderProgram->bind();
     _mvpMatrixLocation = _shaderProgram->uniformLocation("mvpMatrix");
     _colorLocation = _shaderProgram->attributeLocation("vertexColor");
     _vertexLocation = _shaderProgram->attributeLocation("vert");
     _use_color_location = _shaderProgram->uniformLocation("use_color");
 
+	/* for VBO and VAO */
     _vDataHelper = new VertexDataHelper(_shaderProgram);
 
-    CreateCurve();
-    BuildCurveVertexData();
+	// comment these
+    //CreateCurve();
+    //BuildCurveVertexData();
 
-    //SetImage("D:\\Code\\QtOpenGLCanvas33\\laughing_man.jpg");
-    //SetImage(":/laughing_man.jpg");
-	// Set snapshot
-	//SetImage(_snapshot_width, _snapshot_height, _colorList);
-	SetImage(QString::fromStdString(SystemParams::temp_png_location));
+	//SetImage(QString::fromStdString(SystemParams::temp_png_location));
+	if (!_pathsVao.isCreated() && _paths.size() > 0)
+	{
+		InitializePaths();
+	}
 
 	// a box
 	_boxes.push_back(ABox(AVector(0, 0),
@@ -138,8 +138,8 @@ void GLWidget::paintGL()
     int current_height = height();
 
     // Set orthographic Matrix
+	// the y axis is flipped because the origin is at the top-left corner
     QMatrix4x4 orthoMatrix;
-
     orthoMatrix.ortho(0.0 +  _scrollOffset.x(),
                       (float)current_width +  _scrollOffset.x(),
                       (float)current_height + _scrollOffset.y(),
@@ -152,6 +152,17 @@ void GLWidget::paintGL()
     transformMatrix.scale(_zoomFactor);
 
     _shaderProgram->setUniformValue(_mvpMatrixLocation, orthoMatrix * transformMatrix);
+
+	if (_pathsDataSize > 0)
+	{
+		//std::cout << "draw paths\n";
+		_shaderProgram->setUniformValue(_use_color_location, (GLfloat)1.0);
+
+		glLineWidth(5.0f);
+		_pathsVao.bind();
+		glDrawArrays(GL_LINES, 0, _pathsDataSize);
+		_pathsVao.release();
+	}
 
     PaintCurve();
 
@@ -323,6 +334,26 @@ void GLWidget::SetData(int width, int height, std::vector<QColor> colorList)
 	this->_snapshot_width  = width;
 	this->_snapshot_height = height;
 	this->_colorList        = colorList;
+}
+
+void GLWidget::SetPaths(std::vector<APath> paths)
+{
+	this->_paths = paths;
+}
+
+void GLWidget::InitializePaths()
+{
+	// add colors
+	for (size_t a = 0; a < _paths.size(); a++)
+	{
+		double rCol = ((double)rand() / (RAND_MAX));
+		double gCol = ((double)rand() / (RAND_MAX));
+		double bCol = ((double)rand() / (RAND_MAX));
+		_pathsColors.push_back(QVector3D(rCol, gCol, bCol));
+	}
+	_pathsDataSize = _vDataHelper->BuildPathsVertexData(_paths, &_pathsVbo, &_pathsVao, _pathsColors);
+
+	this->repaint();
 }
 
 void GLWidget::SetImage(int width, int height, std::vector<QColor> colorList)

@@ -256,6 +256,7 @@ void EmptyPanelPlugin::RenderPathGroup(AIArtHandle artHandle)
 
 	//_my_qt_window->GetTextEdit()->append("number of child: " + QString::number(artHandles.size()));
 	_my_qt_window->GetTextEdit()->append("number of paths: " + QString::number(_paths.size()));
+	_my_qt_window->SetPaths(_paths);
 }
 
 /*

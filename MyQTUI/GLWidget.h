@@ -10,6 +10,8 @@
 
 #include <QTextEdit>
 
+#include "APath.h"
+
 
 /**
 * Reza Adhitya Saputra
@@ -34,6 +36,13 @@ public:
 
 private:
 	bool _isGLInitialized;
+
+	// multiple paths
+	size_t					 _pathsDataSize;
+	std::vector<QVector3D>	 _pathsColors;
+	std::vector<APath>		 _paths;
+	QOpenGLBuffer            _pathsVbo;
+	QOpenGLVertexArrayObject _pathsVao;
 
 	// image
 	QImage _imgOriginal;
@@ -96,6 +105,8 @@ public:
 	void SetImage(QString img);
 	void SetImage(int width, int height, std::vector<QColor> colorList);
 	void SetData(int width, int height, std::vector<QColor> colorList);
+	void SetPaths(std::vector<APath> paths);
+	void InitializePaths();
 
 	bool IsInitialized() { return _isGLInitialized; };
 

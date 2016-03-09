@@ -17,6 +17,8 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QMenuBar>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QWidget>
 #include "GLContainer.h"
@@ -26,18 +28,29 @@ QT_BEGIN_NAMESPACE
 class Ui_MyQTUIClass
 {
 public:
+    QAction *actionSave;
+    QAction *actionLoad;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     QTextEdit *textEdit;
     QListWidget *listWidget;
     GLContainer *widget;
+    QMenuBar *menuBar;
+    QMenu *menuFile;
 
     void setupUi(QMainWindow *MyQTUIClass)
     {
         if (MyQTUIClass->objectName().isEmpty())
             MyQTUIClass->setObjectName(QStringLiteral("MyQTUIClass"));
         MyQTUIClass->resize(1200, 600);
+        QIcon icon;
+        icon.addFile(QStringLiteral(":/icon.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        MyQTUIClass->setWindowIcon(icon);
         MyQTUIClass->setAutoFillBackground(false);
+        actionSave = new QAction(MyQTUIClass);
+        actionSave->setObjectName(QStringLiteral("actionSave"));
+        actionLoad = new QAction(MyQTUIClass);
+        actionLoad->setObjectName(QStringLiteral("actionLoad"));
         centralWidget = new QWidget(MyQTUIClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout = new QGridLayout(centralWidget);
@@ -63,6 +76,17 @@ public:
         gridLayout->addWidget(widget, 0, 1, 3, 1);
 
         MyQTUIClass->setCentralWidget(centralWidget);
+        menuBar = new QMenuBar(MyQTUIClass);
+        menuBar->setObjectName(QStringLiteral("menuBar"));
+        menuBar->setGeometry(QRect(0, 0, 1200, 31));
+        menuFile = new QMenu(menuBar);
+        menuFile->setObjectName(QStringLiteral("menuFile"));
+        MyQTUIClass->setMenuBar(menuBar);
+
+        menuBar->addAction(menuFile->menuAction());
+        menuFile->addSeparator();
+        menuFile->addAction(actionSave);
+        menuFile->addAction(actionLoad);
 
         retranslateUi(MyQTUIClass);
 
@@ -72,6 +96,9 @@ public:
     void retranslateUi(QMainWindow *MyQTUIClass)
     {
         MyQTUIClass->setWindowTitle(QApplication::translate("MyQTUIClass", "Awesome Window", 0));
+        actionSave->setText(QApplication::translate("MyQTUIClass", "Save", 0));
+        actionLoad->setText(QApplication::translate("MyQTUIClass", "Load", 0));
+        menuFile->setTitle(QApplication::translate("MyQTUIClass", "File", 0));
     } // retranslateUi
 
 };
