@@ -20,4 +20,5 @@
 *.opensdf
 *.sdf
 *.aip
-temp.png
+*.png
+*.jpg
