@@ -93,7 +93,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.\Source;.\Resources;..\common\includes;..\illustratorapi\adm;..\illustratorapi\ate;..\illustratorapi\illustrator;..\illustratorapi\illustrator\actions;..\illustratorapi\pica_sp;..\illustratorapi\illustrator\legacy;C:\Qt\Qt5.5.1\5.5\msvc2013\include;C:\Qt\Qt5.5.1\5.5\msvc2013\include\QtCore;C:\Qt\Qt5.5.1\5.5\msvc2013\include\QtGui;C:\Qt\Qt5.5.1\5.5\msvc2013\include\QtOpenGL;C:\Qt\Qt5.5.1\5.5\msvc2013\include\QtWidgets;C:\Qt\Qt5.5.1\5.5\msvc2013\include\QtSvg;C:\Qt\Qt5.5.1\5.5\msvc2013\include\QtXml;D:\Code\IllustratorSimplePlugin\MyQTUI;D:\Code\IllustratorSimplePlugin\MyQTUI\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Source;.\Resources;..\common\includes;..\illustratorapi\adm;..\illustratorapi\ate;..\illustratorapi\illustrator;..\illustratorapi\illustrator\actions;..\illustratorapi\pica_sp;..\illustratorapi\illustrator\legacy;C:\Qt\Qt5.5.1\5.5\msvc2013\include;C:\Qt\Qt5.5.1\5.5\msvc2013\include\QtCore;C:\Qt\Qt5.5.1\5.5\msvc2013\include\QtGui;C:\Qt\Qt5.5.1\5.5\msvc2013\include\QtOpenGL;C:\Qt\Qt5.5.1\5.5\msvc2013\include\QtWidgets;C:\Qt\Qt5.5.1\5.5\msvc2013\include\QtSvg;C:\Qt\Qt5.5.1\5.5\msvc2013\include\QtXml;D:\Code\IllustratorSimplePlugin\MyQTAI;D:\Code\IllustratorSimplePlugin\MyQTAI\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;WIN_ENV;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -131,12 +131,12 @@
       <ImportLibrary>./EmptyPanel.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
-      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5OpenGLd.lib;opengl32.lib;glu32.lib;Qt5Svgd.lib;Qt5Widgetsd.lib;Qt5Xmld.lib;MyQTUI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5OpenGLd.lib;opengl32.lib;glu32.lib;Qt5Svgd.lib;Qt5Widgetsd.lib;Qt5Xmld.lib;MyQTAI.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Qt\Qt5.5.1\5.5\msvc2013\lib;D:\Code\IllustratorSimplePlugin\Win32\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>copy "..\output\win\$(Platform)\$(Configuration)\EmptyPanel.aip" "C:\Program Files (x86)\Adobe\Adobe Illustrator CS6\Plug-ins\EmptyPanel.aip";
-copy "D:\Code\IllustratorSimplePlugin\Win32\Debug\MyQTUI.lib" "C:\Program Files (x86)\Adobe\Adobe Illustrator CS6\Plug-ins\MyQTUI.lib";</Command>
+copy "D:\Code\IllustratorSimplePlugin\Win32\Debug\MyQTAI.lib" "C:\Program Files (x86)\Adobe\Adobe Illustrator CS6\Plug-ins\MyQTAI.lib";</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

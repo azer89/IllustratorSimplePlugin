@@ -11,8 +11,8 @@ SystemParams::SystemParams()
 }
 
 // not using qrc
-std::string SystemParams::v_shader_file = "D:\\Code\\IllustratorSimplePlugin\\MyQTUI\\shader.vert";
-std::string SystemParams::f_shader_file = "D:\\Code\\IllustratorSimplePlugin\\MyQTUI\\shader.frag";
+std::string SystemParams::v_shader_file = "D:\\Code\\IllustratorSimplePlugin\\MyQTAI\\shader.vert";
+std::string SystemParams::f_shader_file = "D:\\Code\\IllustratorSimplePlugin\\MyQTAI\\shader.frag";
 std::string SystemParams::temp_png_location = "D:\\Code\\IllustratorSimplePlugin\\temp.png";
 
 // using qrc

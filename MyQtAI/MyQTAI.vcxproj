@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
     <Keyword>Qt4VSv1.0</Keyword>
+    <ProjectName>MyQTAI</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -61,7 +62,7 @@
       <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5OpenGLd.lib;opengl32.lib;glu32.lib;Qt5Svgd.lib;Qt5Widgetsd.lib;Qt5Xmld.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "D:\Code\IllustratorSimplePlugin\Win32\Debug\MyQTUI.lib" "C:\Program Files (x86)\Adobe\Adobe Illustrator CS6\Plug-ins\MyQTUI.lib";</Command>
+      <Command>copy "D:\Code\IllustratorSimplePlugin\Win32\Debug\MyQTAI.lib" "C:\Program Files (x86)\Adobe\Adobe Illustrator CS6\Plug-ins\MyQTAI.lib";</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
