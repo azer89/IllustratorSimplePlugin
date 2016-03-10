@@ -3,6 +3,8 @@
 #include "GLWidget.h"
 #include "SystemParams.h"
 
+#include <QFileDialog>
+
 /**
 * Reza Adhitya Saputra
 * radhitya@uwaterloo.ca
@@ -55,12 +57,30 @@ void MyQTUI::SendData(int width, int height, std::vector<QColor> colorList)
 
 void MyQTUI::LoadFileAction()
 {
-	std::cout << "LoadFileAction\n";
+	//std::cout << "LoadFileAction\n";
+
+	QString qFilename = QFileDialog::getOpenFileName(this, "Open Path");
+	if (qFilename.isEmpty()) { return; }
+	std::string  strFilename = qFilename.toStdString();
+
+	// LoadPath
+	ui.widget->GetGLWidget()->LoadPath(strFilename);
 }
 
 void MyQTUI::SaveFileAction()
 {
-	std::cout << "SaveFileAction\n";
+	//std::cout << "SaveFileAction\n";
+
+	QString qFilename = QFileDialog::getSaveFileName(this, "Save Path");
+	if (qFilename.isEmpty()) return;
+	std::string saveFilename = qFilename.toStdString();
+
+
+	ui.widget->GetGLWidget()->SaveCurrentPaths(saveFilename);
+	//std::cout << saveFilename << "\n";
+	//QtDisplayMessage(qFilename);
+
+	
 }
 
 void MyQTUI::QtDisplayMessage(QString msg)

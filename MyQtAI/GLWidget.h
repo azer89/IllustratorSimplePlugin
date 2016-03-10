@@ -25,7 +25,10 @@ struct ALine;
 struct ATriangle;
 struct ABox;
 struct VertexData;
+
+// forward declaration
 class VertexDataHelper;
+class PathIO;
 
 class GLWidget : public QGLWidget
 {
@@ -60,6 +63,7 @@ private:
 	QOpenGLVertexArrayObject    _triangleVao;
 
     VertexDataHelper* _vDataHelper;
+	PathIO* _pathIO;
 
     bool   _isMouseDown;
     float  _zoomFactor;
@@ -107,6 +111,9 @@ public:
 	void SetData(int width, int height, std::vector<QColor> colorList);
 	void SetPaths(std::vector<APath> paths);
 	void InitializePaths();
+	void SaveCurrentPaths(std::string filename);
+	void LoadPath(std::string filename);
+
 
 	bool IsInitialized() { return _isGLInitialized; };
 

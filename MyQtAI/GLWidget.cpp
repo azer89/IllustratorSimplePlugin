@@ -16,6 +16,7 @@
 #include "ABox.h"
 #include "VertexData.h"
 #include "VertexDataHelper.h"
+#include "PathIO.h"
 
 #include "SystemParams.h"
 
@@ -28,6 +29,7 @@
 GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
     QGLWidget(format, parent),
     _vDataHelper(0),
+	_pathIO(0),
     _isMouseDown(false),
     _zoomFactor(10.0),
     _img_width(50),
@@ -41,8 +43,9 @@ GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
 
 GLWidget::~GLWidget()
 {
-    if(_vDataHelper) delete _vDataHelper;
-    if(_shaderProgram) delete _shaderProgram;
+	if (_vDataHelper)	{ delete _vDataHelper; }
+	if (_pathIO)		{ delete _pathIO; }
+	if (_shaderProgram) { delete _shaderProgram; }
 }
 
 void GLWidget::initializeGL()
@@ -91,6 +94,7 @@ void GLWidget::initializeGL()
 
 	/* for VBO and VAO */
     _vDataHelper = new VertexDataHelper(_shaderProgram);
+	_pathIO = new PathIO();
 
 	// comment these
     //CreateCurve();
@@ -334,6 +338,18 @@ void GLWidget::SetData(int width, int height, std::vector<QColor> colorList)
 	this->_snapshot_width  = width;
 	this->_snapshot_height = height;
 	this->_colorList        = colorList;
+}
+
+void GLWidget::SaveCurrentPaths(std::string filename)
+{
+	_pathIO->SavePath(_paths, filename);
+}
+
+void GLWidget::LoadPath(std::string filename)
+{
+	_paths = _pathIO->LoadPath(filename);
+	InitializePaths();
+	this->repaint();
 }
 
 void GLWidget::SetPaths(std::vector<APath> paths)
