@@ -225,8 +225,27 @@ ASErr EmptyPanelPlugin::RenderDocument()
 	sAIArt->GetFirstArtOfLayer(layerHandle, &artHandle);
 
 	/* Fun things */
-	RasterizeArtToPNG(artHandle, SystemParams::temp_png_location);
+	//RasterizeArtToPNG(artHandle, SystemParams::temp_png_location);
 	RenderPathGroup(artHandle);
+
+
+	// get the dimension of the document
+	// http://pgdesigner.blog91.fc2.com/category1-2.html
+	/*
+	AIRealRect docBounds;
+	sAIDocument->GetDocumentMaxArtboardBounds(&docBounds);
+	_my_qt_window->GetTextEdit()->append("bounds.right: " + QString::number(docBounds.right));
+	_my_qt_window->GetTextEdit()->append("bounds.left: " + QString::number(docBounds.left));
+	_my_qt_window->GetTextEdit()->append("bounds.top: " + QString::number(docBounds.top));
+	_my_qt_window->GetTextEdit()->append("bounds.bottom: " + QString::number(docBounds.bottom));
+	*/
+
+	AIDocumentSetup setup;
+	sAIDocument->GetDocumentSetup(&setup);
+	float docWitdh = setup.width;
+	float docHeight = setup.height;
+	_my_qt_window->GetTextEdit()->append("width: " + QString::number(docWitdh));
+	_my_qt_window->GetTextEdit()->append("height: " + QString::number(docHeight));
 
 	return kNoErr;
 }
