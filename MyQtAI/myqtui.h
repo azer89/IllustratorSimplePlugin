@@ -25,6 +25,10 @@ public:
 
 	void SendData(int width, int height, std::vector<QColor> colorList);
 	void SetPaths(std::vector<APath> paths);
+	void SetCanvasWidthHeight(float w, float h)
+	{
+		ui.widget->SetCanvasWidthHeight(w, h);
+	}
 
 	// delete this
 	void Refresh();

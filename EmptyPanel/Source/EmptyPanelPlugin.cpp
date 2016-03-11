@@ -246,6 +246,7 @@ ASErr EmptyPanelPlugin::RenderDocument()
 	float docHeight = setup.height;
 	_my_qt_window->GetTextEdit()->append("width: " + QString::number(docWitdh));
 	_my_qt_window->GetTextEdit()->append("height: " + QString::number(docHeight));
+	_my_qt_window->SetCanvasWidthHeight(docWitdh, docHeight);
 
 	return kNoErr;
 }

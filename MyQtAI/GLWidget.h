@@ -114,6 +114,12 @@ public:
 	void SaveCurrentPaths(std::string filename);
 	void LoadPath(std::string filename);
 
+	void SetCanvasWidthHeight(float w, float h)
+	{
+		this->_img_width = w;
+		this->_img_height = h;
+	}
+
 
 	bool IsInitialized() { return _isGLInitialized; };
 

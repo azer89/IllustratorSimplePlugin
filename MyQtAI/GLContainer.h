@@ -29,6 +29,8 @@ public:
     // set up scrolls (vertical and horizontal)
     void SetScrolls();
 
+	void SetCanvasWidthHeight(float w, float h);
+
 
 protected:
     // global event

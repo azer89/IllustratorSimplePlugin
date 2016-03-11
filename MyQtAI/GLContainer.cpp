@@ -54,6 +54,13 @@ GLContainer::GLContainer(QWidget *parent) :
     this->_justInitialized = true;
 }
 
+void GLContainer::SetCanvasWidthHeight(float w, float h)
+{
+	this->_glWidget->SetCanvasWidthHeight(w, h);
+	UpdateViewport(true);
+	//SetScrolls(); // error ???
+}
+
 void GLContainer::UpdateViewport(bool putInMiddle)
 {
     QSize barSize = QSize(this->width() - _sWidth, this->height() - _sHeight);
@@ -194,7 +201,7 @@ void GLContainer::SetScrolls()
 
     _prevZoomFactor = 1.0f;
 
-    std::cout << "SetScrolls\n";
+    //std::cout << "SetScrolls\n";
 
     // nasty code here...
     bool shouldZoom = true;
@@ -213,9 +220,9 @@ void GLContainer::SetScrolls()
         double zoomFactor = _glWidget->GetZoomFactor();
 
         if((double)this->width()  < (double)imgSize.width() * zoomFactor ||  (double)this->height() < (double)imgSize.height() *zoomFactor)
-        { _glWidget->ZoomOut(); }
+			{ _glWidget->ZoomOut(); }
         else
-        { shouldZoom = false; }
+			{ shouldZoom = false; }
 
     }
     while (shouldZoom);

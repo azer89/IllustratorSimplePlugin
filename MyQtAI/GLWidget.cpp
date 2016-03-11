@@ -31,7 +31,7 @@ GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
     _vDataHelper(0),
 	_pathIO(0),
     _isMouseDown(false),
-    _zoomFactor(10.0),
+    _zoomFactor(1.0),
     _img_width(50),
     _img_height(50),
     _slice(8),
