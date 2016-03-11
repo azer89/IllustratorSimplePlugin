@@ -37,6 +37,11 @@ PathIO::~PathIO()
 {
 }
 
+/* 
+One path per line
+format:
+	x0 y0 x1 y1 x2 y2...
+*/
 void PathIO::SavePath(std::vector<APath> paths, std::string filename)
 {
 	std::ofstream f;
@@ -57,6 +62,11 @@ void PathIO::SavePath(std::vector<APath> paths, std::string filename)
 	f.close();
 }
 
+/*
+One path per line
+format:
+x0 y0 x1 y1 x2 y2...
+*/
 std::vector<APath> PathIO::LoadPath(std::string filename)
 {
 	std::vector<APath> paths;
