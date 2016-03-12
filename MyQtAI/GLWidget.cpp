@@ -100,6 +100,7 @@ void GLWidget::initializeGL()
     //CreateCurve();
     //BuildCurveVertexData();
 
+	// You want image or the actual path ?
 	//SetImage(QString::fromStdString(SystemParams::temp_png_location));
 	if (!_pathsVao.isCreated() && _paths.size() > 0)
 	{
@@ -113,9 +114,9 @@ void GLWidget::initializeGL()
 						  AVector(this->_img_width, this->_img_height)));
 	_vDataHelper->BuildQuadsVertexData(_boxes, &_boxVbo, &_boxVao);
 
-	// a triangle
-	_triangles.push_back(ATriangle(AVector(1, 1), AVector(25, 25), AVector(1, 50)));
-	_vDataHelper->BuildTrianglesVertexData(_triangles, &_triangleVbo, &_triangleVao, QVector3D(1.0, 0.25, 0.25));
+	// an example how to render a triangle
+	//_triangles.push_back(ATriangle(AVector(1, 1), AVector(25, 25), AVector(1, 50)));
+	//_vDataHelper->BuildTrianglesVertexData(_triangles, &_triangleVbo, &_triangleVao, QVector3D(1.0, 0.25, 0.25));
 
 	// don't remove this
 	textEdit->append("OpenGL is initialized");

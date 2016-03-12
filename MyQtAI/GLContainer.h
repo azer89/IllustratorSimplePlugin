@@ -29,6 +29,7 @@ public:
     // set up scrolls (vertical and horizontal)
     void SetScrolls();
 
+	//void LoadPath(std::string filename);
 	void SetCanvasWidthHeight(float w, float h);
 
 
@@ -79,7 +80,7 @@ private:
     bool _scrollMoved;
     bool _justInitialized;
 
-private:
+public:
     // update opengl viewport
     void UpdateViewport(bool putInMiddle = false);
 

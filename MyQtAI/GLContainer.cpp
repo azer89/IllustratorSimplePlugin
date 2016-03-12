@@ -54,6 +54,12 @@ GLContainer::GLContainer(QWidget *parent) :
     this->_justInitialized = true;
 }
 
+/*
+void GLContainer::LoadPath(std::string filename)
+{
+}
+*/
+
 void GLContainer::SetCanvasWidthHeight(float w, float h)
 {
 	this->_glWidget->SetCanvasWidthHeight(w, h);
