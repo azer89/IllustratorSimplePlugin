@@ -65,8 +65,7 @@ void MyQTUI::LoadFileAction()
 
 	// LoadPath
 	ui.widget->GetGLWidget()->LoadPath(strFilename);
-
-
+	ui.widget->UpdateViewport(true);
 }
 
 void MyQTUI::SaveFileAction()

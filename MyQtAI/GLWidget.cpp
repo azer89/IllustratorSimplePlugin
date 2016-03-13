@@ -32,8 +32,8 @@ GLWidget::GLWidget(QGLFormat format, QWidget *parent) :
 	_pathIO(0),
     _isMouseDown(false),
     _zoomFactor(1.0),
-    _img_width(50),
-    _img_height(50),
+    _img_width(500),
+    _img_height(500),
     _slice(8),
     _shaderProgram(0),
 	_imgID(0),
@@ -351,6 +351,8 @@ void GLWidget::LoadPath(std::string filename)
 	_paths = _pathIO->LoadPath(filename);
 	InitializePaths();
 	this->repaint();
+
+	std::cout << this->_img_width << " " << this->_img_height << "\n";
 }
 
 void GLWidget::SetPaths(std::vector<APath> paths)
