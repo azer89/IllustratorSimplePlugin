@@ -19,11 +19,18 @@
 */
 
 /*
-mouse click:
-	https://forums.adobe.com/message/4297109#4297109
+I don't know why these are in the comment....
+mouse click: https://forums.adobe.com/message/4297109#4297109
+or see this keyboard hook on Scriptographer: https://github.com/scriptographer/scriptographer/blob/master/src/native/plugin/ScriptographerPlugin.h
+*/
 
-or see this keyboard hook on Scriptographer:
-	https://github.com/scriptographer/scriptographer/blob/master/src/native/plugin/ScriptographerPlugin.h
+/*
+
+Important files are:
+	EmptyPanelPlugin.h
+	EmptyPanelPlugin.cpp
+	EmptyPanelPluginSuites.h
+	EmptyPanelPluginSuites.cpp
 */
 
 #include "Plugin.hpp"
@@ -51,7 +58,7 @@ extern "C"
 extern Plugin *AllocatePlugin(SPPluginRef pluginRef);
 extern void FixupReload(Plugin *plugin);
 
-
+/* Main function*/
 extern "C" ASAPI ASErr PluginMain(char* caller, char* selector, void* message)
 {
 	ASErr error = kNoErr;
@@ -144,3 +151,6 @@ extern "C" ASAPI ASErr PluginMain(char* caller, char* selector, void* message)
 	
 	return error;
 }
+
+
+
