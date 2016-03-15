@@ -18,7 +18,7 @@ struct APath
 public:
 	std::vector<AVector> points;
 	bool isClosed;
-	// float thickness;
+	// float thickness;	// do I need this ?
 
 	// Constructor #1
 	APath()

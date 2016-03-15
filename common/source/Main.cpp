@@ -38,9 +38,9 @@ Important files are:
 #include <string.h>
 #include <stdio.h>
 
-#include <iostream>
-#include "myqtui.h"
-#include <QtWidgets/QApplication>
+#include <iostream>					// added
+#include "myqtui.h"					// added
+#include <QtWidgets/QApplication>	// added
 
 #ifndef NDEBUG
 #ifdef MAC_ENV
@@ -50,10 +50,7 @@ Important files are:
 #endif
 #endif
 
-extern "C"
-{
-	SPBasicSuite *sSPBasic;
-}
+extern "C" { SPBasicSuite *sSPBasic; }
 
 extern Plugin *AllocatePlugin(SPPluginRef pluginRef);
 extern void FixupReload(Plugin *plugin);
@@ -118,8 +115,10 @@ extern "C" ASAPI ASErr PluginMain(char* caller, char* selector, void* message)
 			// call us, so protect against this situation.
 			if (plugin->SuitesAcquired())
 			{
+				// this is important, the plugin will trigger the Message function
+				// when something is happening
 				error = plugin->Message(caller, selector, message);
-				std::cout << "Messsage\n";
+				//std::cout << "Messsage\n";
 			}
 			else
 				error = kNoErr;
