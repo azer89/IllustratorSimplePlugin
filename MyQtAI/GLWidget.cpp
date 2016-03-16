@@ -202,12 +202,8 @@ void GLWidget::paintGL()
 void GLWidget::mousePressEvent(int x, int y)
 {
     _isMouseDown = true;
-
-    double dx = x + _scrollOffset.x();
-    dx /= _zoomFactor;
-
-    double dy = y + _scrollOffset.y();
-    dy /= _zoomFactor;
+	double dx = (x + _scrollOffset.x()) / _zoomFactor;
+	double dy = (y + _scrollOffset.y()) / _zoomFactor;
 
     this->repaint();
 }
@@ -215,11 +211,8 @@ void GLWidget::mousePressEvent(int x, int y)
 // Mouse is moved
 void GLWidget::mouseMoveEvent(int x, int y)
 {
-    double dx = x + _scrollOffset.x();
-    dx /= _zoomFactor;
-
-    double dy = y + _scrollOffset.y();
-    dy /= _zoomFactor;
+	double dx = (x + _scrollOffset.x()) / _zoomFactor;
+	double dy = (y + _scrollOffset.y()) / _zoomFactor;
 
     // your stuff
 
@@ -231,11 +224,8 @@ void GLWidget::mouseMoveEvent(int x, int y)
 void GLWidget::mouseReleaseEvent(int x, int y)
 {
     _isMouseDown = false;
-    double dx = x + _scrollOffset.x();
-    dx /= _zoomFactor;
-
-    double dy = y + _scrollOffset.y();
-    dy /= _zoomFactor;
+	double dx = (x + _scrollOffset.x()) / _zoomFactor;
+	double dy = (y + _scrollOffset.y()) / _zoomFactor;
 
     // your stuff
 
@@ -244,11 +234,8 @@ void GLWidget::mouseReleaseEvent(int x, int y)
 
 void GLWidget::mouseDoubleClick(int x, int y)
 {
-    double dx = x + _scrollOffset.x();
-    dx /= _zoomFactor;
-
-    double dy = y + _scrollOffset.y();
-    dy /= _zoomFactor;
+	double dx = (x + _scrollOffset.x()) / _zoomFactor;
+	double dy = (y + _scrollOffset.y()) / _zoomFactor;
 
     // your stuff
 
