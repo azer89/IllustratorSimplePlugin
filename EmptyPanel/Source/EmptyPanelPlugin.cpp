@@ -149,7 +149,11 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 	//AIErr error = kNoErr;
 
 	// Add menu item
-	error = sAIMenu->AddMenuItemZString(fPluginRef, "<Plugin>", kOtherPalettesMenuGroup, ZREF("<Plugin>"), kMenuItemNoOptions, &_menuItemHandle);
+	error = sAIMenu->AddMenuItemZString(fPluginRef, "<Plugin>", kOtherPalettesMenuGroup, ZREF("[1 - Plugin]"), kMenuItemNoOptions, &_menuItemHandle);
+	if (error) { return error; }
+
+	// _grabItemHandle
+	error = sAIMenu->AddMenuItemZString(fPluginRef, "<Plugin>", kOtherPalettesMenuGroup, ZREF("[2 - Grab Data from Qt]"), kMenuItemNoOptions, &_grabItemHandle);
 	if (error) { return error; }
 
 	return error;
@@ -195,6 +199,10 @@ ASErr EmptyPanelPlugin::GoMenuItem(AIMenuMessage *message)
 		_my_qt_window->setFocus();	// should call this or the window will be hidden behind
 		//_my_qt_app->exec();		// Note that I don't use QApplication.exec()			
 	}	
+	else if (message->menuItem == _grabItemHandle)
+	{
+		sAIUser->MessageAlert(ai::UnicodeString("Your message here"));
+	}
 	return error;
 }
 

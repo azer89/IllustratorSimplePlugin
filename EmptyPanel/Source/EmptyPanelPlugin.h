@@ -66,7 +66,8 @@ public:
 private:	
 	// added by Reza
 	AITimerHandle timerHandle;
-	AIMenuItemHandle _menuItemHandle;
+	AIMenuItemHandle _menuItemHandle; // for displaying Qt window
+	AIMenuItemHandle _grabItemHandle; // grabbing data from QT
 };
 
 #endif	// __EmptyPanelPlugin_H__
