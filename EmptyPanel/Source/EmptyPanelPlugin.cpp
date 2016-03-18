@@ -149,11 +149,11 @@ ASErr EmptyPanelPlugin::StartupPlugin(SPInterfaceMessage *message)
 	//AIErr error = kNoErr;
 
 	// Add menu item
-	error = sAIMenu->AddMenuItemZString(fPluginRef, "<Plugin>", kOtherPalettesMenuGroup, ZREF("[1 - Plugin]"), kMenuItemNoOptions, &_menuItemHandle);
+	error = sAIMenu->AddMenuItemZString(fPluginRef, "[1 - Plugin]", kOtherPalettesMenuGroup, ZREF("[1 - Plugin]"), kMenuItemNoOptions, &_menuItemHandle);
 	if (error) { return error; }
 
 	// _grabItemHandle
-	error = sAIMenu->AddMenuItemZString(fPluginRef, "<Plugin>", kOtherPalettesMenuGroup, ZREF("[2 - Grab Data from Qt]"), kMenuItemNoOptions, &_grabItemHandle);
+	error = sAIMenu->AddMenuItemZString(fPluginRef, "[2 - Grab Data from Qt]", kOtherPalettesMenuGroup, ZREF("[2 - Grab Data from Qt]"), kMenuItemNoOptions, &_grabItemHandle);
 	if (error) { return error; }
 
 	return error;
