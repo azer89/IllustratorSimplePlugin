@@ -13,6 +13,12 @@
 //  
 //========================================================================================
 
+
+/**
+* Reza Adhitya Saputra
+* radhitya@uwaterloo.ca
+*/
+
 #ifndef __EmptyPanelPluginSuites_H__
 #define __EmptyPanelPluginSuites_H__
 

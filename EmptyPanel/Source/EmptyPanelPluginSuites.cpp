@@ -13,6 +13,12 @@
 //  
 //========================================================================================
 
+
+/**
+* Reza Adhitya Saputra
+* radhitya@uwaterloo.ca
+*/
+
 #include "EmptyPanelPluginSuites.h"
 #include "Suites.hpp"
 
