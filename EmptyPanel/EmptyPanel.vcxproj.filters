@@ -48,9 +48,6 @@
     <ClInclude Include="Source\EmptyPanelPluginSuites.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EmptyPanleID.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\common\includes\Plugin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

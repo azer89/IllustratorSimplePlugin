@@ -302,7 +302,6 @@ copy "D:\Code\IllustratorSimplePlugin\Win32\Debug\MyQTAI.lib" "C:\Program Files 
     <ClInclude Include="Source\CustomEdit.h" />
     <ClInclude Include="Source\EmptyPanelPlugin.h" />
     <ClInclude Include="Source\EmptyPanelPluginSuites.h" />
-    <ClInclude Include="Source\EmptyPanleID.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource\EmptyPanel.rc" />
